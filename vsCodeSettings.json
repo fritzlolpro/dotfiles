@@ -1,188 +1,210 @@
 // Поместите параметры в этот файл, чтобы перезаписать параметры по умолчанию.
 {
-  "editor.wordWrap": "on",
-  "workbench.commandPalette.history": 500,
-  "workbench.editor.tabSizing": "shrink",
-  "files.trimTrailingWhitespace": true,
-  "typescript.validate.enable": false,
-  "typescript.format.enable": false,
-  "typescript.check.npmIsInstalled": false,
-  "typescript.tsc.autoDetect": "off",
-  "workbench.colorTheme": "Cobalt2",
-  "editor.multiCursorModifier": "ctrlCmd",
-  "editor.snippetSuggestions": "none",
-  "editor.formatOnPaste": false,
-  "html.format.enable": false,
-  "json.format.enable": false,
-  "javascript.format.enable": false,
-  "editor.autoIndent": false,
-  "git.ignoreMissingGitWarning": true,
-  "files.associations": {
-      "*.js": "javascriptreact"
-  },
-  "editor.acceptSuggestionOnCommitCharacter": false,
-  "window.zoomLevel": 0,
-  "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
-  "bracketPairColorizer.colorMode": "Independent",
-  "emmet.includeLanguages": {
-    "javascript": "javascriptreact"
-  },
-  "less.compile": {
-    "autoprefixer": "> 5%, last 2 versions, not ie 6-9"
-  },
-  "gitlens.currentLine.enabled": false,
-  "extensions.ignoreRecommendations": false,
-  "editor.formatOnSave": false,
-  "[javascript]": {
-     "editor.formatOnSave": false,
-  },
-  "[javascriptreact]": {
-     "editor.formatOnSave": false,
-  },
-  "[vue]": {
-     "editor.formatOnSave": false,
-  },
-  "eslint.autoFixOnSave": false,
-  "eslint.alwaysShowStatus": true,
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    {
-      "language": "vue",
-      "autoFix": true
+    "editor.wordWrap": "on",
+    "workbench.commandPalette.history": 100,
+    "files.trimTrailingWhitespace": true,
+    "typescript.validate.enable": false,
+    "typescript.format.enable": false,
+    "typescript.check.npmIsInstalled": false,
+    "typescript.tsc.autoDetect": "off",
+    "editor.multiCursorModifier": "ctrlCmd",
+    "editor.lightbulb.enabled": false,
+    "editor.snippetSuggestions": "none",
+    "html.format.enable": false,
+    "json.format.enable": false,
+    "javascript.format.enable": false,
+    "editor.autoIndent": "advanced",
+    "git.ignoreMissingGitWarning": true,
+    "files.associations": {
+      "*.js": "javascriptreact",
+      "*.vue": "vue"
     },
-    {
-      "language": "html",
-      "autoFix": true
-    }
-  ],
-  "vetur.format.defaultFormatter.js": "prettier",
-  "breadcrumbs.enabled": true,
-  "editor.formatOnType": false,
-  "emmet.showExpandedAbbreviation": "never",
-  "emmet.showAbbreviationSuggestions": false,
-  "javascript.implicitProjectConfig.checkJs": true,
-  "javascript.implicitProjectConfig.experimentalDecorators": true,
-  "gitlens.keymap": "alternate",
-  "gitlens.advanced.messages": {
-    "suppressShowKeyBindingsNotice": true
-  },
-  "editor.tabSize": 2,
-  "editor.detectIndentation": false,
-  "javascript.validate.enable": false,
-  "workbench.editor.enablePreviewFromQuickOpen": false,
-  "window.title": "${dirty} ${activeEditorMedium}${separator}${rootName}",
-  "files.eol": "\n",
-  "telemetry.enableTelemetry": false,
-  "breadcrumbs.filePath": "last",
-  "editor.fontFamily": "Operator Mono, Consolas, 'Courier New', monospace",
-  "editor.fontLigatures": true,
-  "editor.fontWeight": "300",
-  "editor.tokenColorCustomizations": {
-  "textMateRules": [
-    {
-      "scope": [
-        //following will be in italic
-        "comment",
-        "emphasis",
-        "entity.name.method.js",
-        "entity.name.class.js",
-        "entity.name.tag.doctype",
-        "entity.other.attribute-name",
-        "entity.other.attribute-name.tag.jade",
-        "entity.other.attribute-name.tag.pug",
-        "keyword",
-        "keyword.control",
-        "keyword.operator.comparison",
-        "keyword.control.flow.js",
-        "keyword.control.flow.ts",
-        "keyword.control.flow.tsx",
-        "keyword.control.ruby",
-        "keyword.control.module.ruby",
-        "keyword.control.class.ruby",
-        "keyword.control.def.ruby",
-        "keyword.control.loop.js",
-        "keyword.control.loop.ts",
-        "keyword.control.import.js",
-        "keyword.control.import.ts",
-        "keyword.control.import.tsx",
-        "keyword.control.from.js",
-        "keyword.control.from.ts",
-        "keyword.control.from.tsx",
-        "keyword.operator.expression.delete",
-        "keyword.operator.new",
-        "keyword.operator.expression",
-        "keyword.operator.cast",
-        "keyword.operator.relational",
-        "keyword.operator.sizeof",
-        "keyword.operator.logical.python",
-        "italic",
-        "markup.italic",
-        "markup.quote",
-        "markup.changed",
-        "markup.italic.markdown",
-        "markup.quote.markdown",
-        "markup.deleted.diff",
-        "markup.inserted.diff",
-        "meta.delimiter.period",
-        "meta.diff.header.git",
-        "meta.diff.header.from-file",
-        "meta.diff.header.to-file",
-        "meta.tag.sgml.doctype",
-        // "meta.var.expr",
-        "meta.class meta.method.declaration meta.var.expr storage.type.js",
-        "meta.decorator punctuation.decorator",
-        "meta.selector",
-        "punctuation.accessor",
-        "punctuation.definition.comment",
-        "punctuation.definition.template-expression.begin",
-        "punctuation.definition.template-expression.end",
-        "punctuation.section.embedded",
-        "quote",
-        "source.js constant.other.object.key.js string.unquoted.label.js",
-        "source.go keyword.package.go",
-        "source.go keyword.import.go",
-        "source.go keyword.function.go",
-        "source.go keyword.type.go",
-        "source.go keyword.struct.go",
-        "source.go keyword.interface.go",
-        "source.go keyword.const.go",
-        "source.go keyword.var.go",
-        "source.go keyword.map.go",
-        "source.go keyword.channel.go",
-        "source.go keyword.control.go",
-        "storage",
-        "storage.type",
-        "storage.modifier",
-        "storage.type.property.js",
-        "storage.type.property.ts",
-        "storage.type.property.tsx",
-        "tag.decorator.js entity.name.tag.js",
-        "tag.decorator.js",
-        "text.html.basic entity.other.attribute-name.html",
-        "text.html.basic entity.other.attribute-name",
-        "variable.language",
-        "variable.other.object.property"
-      ],
-      "settings": {
-        "fontStyle": "italic"
-      }
+    "editor.acceptSuggestionOnCommitCharacter": false,
+    "window.zoomLevel": 0,
+    "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+    "bracketPairColorizer.colorMode": "Independent",
+    "emmet.includeLanguages": {
+      "javascript": "javascriptreact",
+      "vue": "html"
     },
-    {
-      "scope": [
-        //following will be excluded from italics (VSCode has some defaults for italics)
-        "invalid",
-        "keyword.operator",
-        "constant.numeric.css",
-        "keyword.other.unit.px.css",
-        "constant.numeric.decimal.js",
-        "constant.numeric.json"
-      ],
-      "settings": {
-        "fontStyle": ""
+    "extensions.ignoreRecommendations": false,
+    "[javascript]": {
+      "editor.formatOnSave": false
+    },
+    "[javascriptreact]": {
+      "editor.formatOnSave": false
+    },
+    "[vue]": {
+      "editor.formatOnSave": false
+    },
+    "eslint.autoFixOnSave": false,
+    "eslint.alwaysShowStatus": true,
+    "eslint.validate": [
+      "javascript",
+      "javascriptreact",
+      {
+        "language": "vue",
+        "autoFix": true
+      },
+      {
+        "language": "html",
+        "autoFix": true
       }
-    }
-  ]
-},
-"editor.fontSize": 13
-}
+    ],
+    // "vetur.format.defaultFormatter.js": "prettier",
+    "breadcrumbs.enabled": true,
+    "editor.formatOnType": false,
+    "emmet.showExpandedAbbreviation": "never",
+    "emmet.showAbbreviationSuggestions": false,
+    "javascript.implicitProjectConfig.checkJs": true,
+    "javascript.implicitProjectConfig.experimentalDecorators": true,
+    "gitlens.keymap": "alternate",
+    "gitlens.advanced.messages": {
+      "suppressShowKeyBindingsNotice": true
+    },
+    "editor.tabSize": 2,
+    "editor.detectIndentation": false,
+    "javascript.validate.enable": false,
+    "workbench.editor.enablePreviewFromQuickOpen": false,
+    "window.title": "${dirty} ${activeEditorMedium}${separator}${rootName}",
+    "files.eol": "\n",
+    "telemetry.enableTelemetry": false,
+    "breadcrumbs.filePath": "last",
+    "editor.fontFamily": "Operator Mono, Consolas, 'Courier New', monospace",
+    "editor.fontLigatures": true,
+    "editor.fontWeight": "300",
+    "editor.tokenColorCustomizations": {
+      "textMateRules": [
+        {
+            "name": "Tag name",
+            "scope": "entity.name.tag",
+            "settings": {
+              // "foreground": "#229977",
+              "foreground": "#9B9C9D"
+            }
+        },
+        {
+          "scope": [
+            //following will be in italic
+            "comment",
+            "emphasis",
+            "entity.name.method.js",
+            "entity.name.class.js",
+            "entity.name.tag.doctype",
+            "entity.other.attribute-name",
+            "entity.other.attribute-name.tag.jade",
+            "entity.other.attribute-name.tag.pug",
+            "keyword",
+            "keyword.control",
+            "keyword.operator.comparison",
+            "keyword.control.flow.js",
+            "keyword.control.flow.ts",
+            "keyword.control.flow.tsx",
+            "keyword.control.ruby",
+            "keyword.control.module.ruby",
+            "keyword.control.class.ruby",
+            "keyword.control.def.ruby",
+            "keyword.control.loop.js",
+            "keyword.control.loop.ts",
+            "keyword.control.import.js",
+            "keyword.control.import.ts",
+            "keyword.control.import.tsx",
+            "keyword.control.from.js",
+            "keyword.control.from.ts",
+            "keyword.control.from.tsx",
+            "keyword.operator.expression.delete",
+            "keyword.operator.new",
+            "keyword.operator.expression",
+            "keyword.operator.cast",
+            "keyword.operator.relational",
+            "keyword.operator.sizeof",
+            "keyword.operator.logical.python",
+            "italic",
+            "markup.italic",
+            "markup.quote",
+            "markup.changed",
+            "markup.italic.markdown",
+            "markup.quote.markdown",
+            "markup.deleted.diff",
+            "markup.inserted.diff",
+            "meta.delimiter.period",
+            "meta.diff.header.git",
+            "meta.diff.header.from-file",
+            "meta.diff.header.to-file",
+            "meta.tag.sgml.doctype",
+            // "meta.var.expr",
+            "meta.class meta.method.declaration meta.var.expr storage.type.js",
+            "meta.decorator punctuation.decorator",
+            "meta.selector",
+            "punctuation.accessor",
+            "punctuation.definition.comment",
+            "punctuation.definition.template-expression.begin",
+            "punctuation.definition.template-expression.end",
+            "punctuation.section.embedded",
+            "quote",
+            "source.js constant.other.object.key.js string.unquoted.label.js",
+            "source.go keyword.package.go",
+            "source.go keyword.import.go",
+            "source.go keyword.function.go",
+            "source.go keyword.type.go",
+            "source.go keyword.struct.go",
+            "source.go keyword.interface.go",
+            "source.go keyword.const.go",
+            "source.go keyword.var.go",
+            "source.go keyword.map.go",
+            "source.go keyword.channel.go",
+            "source.go keyword.control.go",
+            "storage",
+            "storage.type",
+            "storage.modifier",
+            "storage.type.property.js",
+            "storage.type.property.ts",
+            "storage.type.property.tsx",
+            "tag.decorator.js entity.name.tag.js",
+            "tag.decorator.js",
+            "text.html.basic entity.other.attribute-name.html",
+            "text.html.basic entity.other.attribute-name",
+            "variable.language",
+            "variable.other.object.property"
+          ],
+          "settings": {
+            "fontStyle": "italic"
+          }
+        },
+        {
+          "scope": [
+            //following will be excluded from italics (VSCode has some defaults for italics)
+            "invalid",
+            "keyword.operator",
+            "constant.numeric.css",
+            "keyword.other.unit.px.css",
+            "constant.numeric.decimal.js",
+            "constant.numeric.json"
+          ],
+          "settings": {
+            "fontStyle": ""
+          }
+        }
+      ]
+    },
+    "numberedBookmarks.saveBookmarksInProject": true,
+    "workbench.colorTheme": "Cobalt2",
+    "editor.acceptSuggestionOnEnter": "smart",
+    "editor.suggest.localityBonus": true,
+    "editor.suggest.maxVisibleSuggestions": 15,
+    "editor.suggestSelection": "recentlyUsedByPrefix",
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "workbench.startupEditor": "newUntitledFile",
+    "search.exclude": {
+      "node_modules": true
+    },
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": false
+    },
+    "editor.maxTokenizationLineLength": 9000,
+    "files.maxMemoryForLargeFilesMB": 4096,
+    "workbench.editor.tabSizing": "shrink",
+    "workbench.editor.highlightModifiedTabs": true,
+    "editor.minimap.size": "fill",
+    "search.showLineNumbers": true
+  }
