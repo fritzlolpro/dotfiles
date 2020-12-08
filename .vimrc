@@ -67,6 +67,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
 Plug 'https://github.com/nvie/vim-togglemouse'
+Plug 'https://github.com/tpope/vim-surround'
 
 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 Plug 'zivyangll/git-blame.vim'
@@ -80,6 +81,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'flazz/vim-colorschemes'
 Plug 'MattesGroeger/vim-bookmarks'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'jiangmiao/auto-pairs'
 call plug#end()
 
 " Twins of word under cursor:
@@ -129,13 +131,15 @@ endfunction
 let g:rooter_cd_cmd="lcd"
 let g:rooter_manual_only = 1
 set autochdir
-
+let $FZF_DEFAULT_COMMAND = 'find .'
 " define a command which runs ripgrep in the root directory
 " as determined by rooter
-command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --glob '!node_modules/*' --no-heading --color=always --smart-case " . shellescape(<q-args>), 1,    fzf#vim#with_preview({"dir": FindRootDirectory()}))
+command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --glob '!node_modules/*' --no-heading --color=always --smart-case " . shellescape(<q-args>), 1,    fzf#vim#with_preview({"dir": FindRootDirectory(), 'options': '--delimiter : --nth 4..'}))
 
-
-command! ProjectFiles execute 'Files' s:find_git_root()
+let g:fzf_layout = { 'down': '~50%' }
+"let g:fzf_layout = { 'window': 'enew' }
+"let g:fzf_layout = { 'window':  { 'width': 0.2, 'height': 0.9, 'xoffset': 1 }}
+command! ProjectFiles execute 'GFiles' s:find_git_root()
 let projectDir = s:find_git_root()
 let g:Lf_RootMarkers = ['.project', '.root', '.svn', '.git']
 let g:Lf_WorkingDirectoryMode = 'Ac'
@@ -144,6 +148,7 @@ let g:Lf_RgConfig = [
         \ "--glob=!git/*",
         \ "--hidden",
     \ ]
+nmap <leader>pa :let @" = expand("%:p")<cr>
 nnoremap <silent> <Leader>rg :Rg <C-R><C-W><CR>
 nnoremap <leader>h :wincmd h<CR>
 nnoremap <leader>j :wincmd j<CR>
@@ -155,7 +160,7 @@ nnoremap <Leader><CR> :so ~/.vimrc<CR>
 nnoremap <Leader>ps :Leaderf rg<CR>
 nnoremap <leader>fg :Rg<CR>
 nnoremap <C-p> :ProjectFiles<CR>
-nnoremap <Leader>pf :Files<CR>
+nnoremap <Leader>pf :Files %:p:h<CR>
 nnoremap <Leader>+ :vertical resize +5<CR>
 nnoremap <Leader>- :vertical resize -5<CR>
 nnoremap <Leader>ee oif err != nil {<CR>log.Fatalf("%+v\n", err)<CR>}<CR><esc>kkI<esc>
@@ -299,4 +304,3 @@ function MyTabLine()
   endif
   return s
 endfunction
-
