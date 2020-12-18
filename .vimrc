@@ -44,7 +44,7 @@ set shortmess+=c
 
 set colorcolumn=120
 highlight ColorColumn ctermbg=0 guibg=lightgrey
-
+set diffopt+=vertical
 
 set pastetoggle=<F2>
 
@@ -54,6 +54,7 @@ nnoremap <silent> [q :cprevious<CR>
 nnoremap <silent> ]q :cnext<CR>
 
 call plug#begin('~/.vim/plugged')
+Plug 'alvan/vim-closetag'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'dominikduda/vim_current_word'
 Plug 'morhetz/gruvbox'
@@ -82,8 +83,54 @@ Plug 'flazz/vim-colorschemes'
 Plug 'MattesGroeger/vim-bookmarks'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'jiangmiao/auto-pairs'
+Plug 'https://github.com/AndrewRadev/tagalong.vim'
 call plug#end()
+" AUTOCLOSE TAGS
+"
+" filenames like *.xml, *.html, *.xhtml, ...
+" These are the file extensions where this plugin is enabled.
+"
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml'
 
+" filenames like *.xml, *.xhtml, ...
+" This will make the list of non-closing tags self-closing in the specified files.
+"
+"let g:closetag_xhtml_filenames = '*.xhtml,*.jsx'
+
+" filetypes like xml, html, xhtml, ...
+" These are the file types where this plugin is enabled.
+"
+let g:closetag_filetypes = 'jsx,html,xhtml,phtml'
+
+" filetypes like xml, xhtml, ...
+" This will make the list of non-closing tags self-closing in the specified files.
+"
+let g:closetag_xhtml_filetypes = 'xhtml,jsx'
+
+" integer value [0|1]
+" This will make the list of non-closing tags case-sensitive (e.g. `<Link>` will be closed while `<link>` won't.)
+"
+let g:closetag_emptyTags_caseSensitive = 1
+
+" dict
+" Disables auto-close if not in a "valid" region (based on filetype)
+"
+let g:closetag_regions = {
+    \ 'typescript.tsx': 'jsxRegion,tsxRegion',
+    \ 'javascript.jsx': 'jsxRegion',
+    \ }
+
+" Shortcut for closing tags, default is '>'
+"
+let g:closetag_shortcut = '>'
+
+" Add > at current position without closing the current tag, default is ''
+"
+let g:closetag_close_shortcut = '<leader>>'"
+"
+"
+"
+"--------------------------------
 " Twins of word under cursor:
 let g:vim_current_word#highlight_twins = 1
 " The word under cursor:
@@ -115,7 +162,7 @@ set background=dark
 if executable('rg')
     let g:rg_derive_root='true'
 endif
-
+vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 let loaded_matchparen = 1
 let mapleader = " "
 
@@ -161,7 +208,7 @@ nnoremap <Leader>ps :Leaderf rg<CR>
 nnoremap <leader>fg :Rg<CR>
 nnoremap <C-p> :ProjectFiles<CR>
 nnoremap <Leader>pf :Files %:p:h<CR>
-nnoremap <Leader>+ :vertical resize +5<CR>
+nnoremap <Leader>= :vertical resize +5<CR>
 nnoremap <Leader>- :vertical resize -5<CR>
 nnoremap <Leader>ee oif err != nil {<CR>log.Fatalf("%+v\n", err)<CR>}<CR><esc>kkI<esc>
 vnoremap J :m '>+1<CR>gv=gv
@@ -221,8 +268,8 @@ let g:coc_global_extensions = [
  nnoremap <leader>cr :CocRestart<CR>
 nmap <leader> ca <Plug>(coc-codeaction)
 " Sweet Sweet FuGITive
-nmap <leader>gh :diffget //3<CR>
-nmap <leader>gu :diffget //2<CR>
+nmap <leader>gf :diffget //3<CR>
+nmap <leader>gj :diffget //2<CR>
 nmap <leader>gs :G<CR>
 
 "move line under cursor with keys
