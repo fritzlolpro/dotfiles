@@ -1,0 +1,16 @@
+[volume]
+command=./volume
+#LABEL=♪
+LABEL=
+#LABEL=VOL
+interval=once
+signal=10
+#STEP=5%
+#MIXER=[determined automatically]
+#SCONTROL=[determined automatically]
+
+[ssid]
+command=./ssid
+INTERFACE=wlp6s0
+LABEL=
+interval=60
