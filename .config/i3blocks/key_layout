@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+LAYOUT_NAME=$(xkblayout-state print %n)
+
+echo "$LABEL $LAYOUT_NAME"
+echo "#FF5733" #color

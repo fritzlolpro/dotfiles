@@ -1,0 +1,30 @@
+#!/usr/bin/env perl
+
+use utf8;
+use strict;
+use warnings;
+# print utf-8 chars directly and redirect stderr to stdout
+binmode STDOUT, ':encoding(UTF-8)';
+*STDERR = *STDOUT;
+my $interface = $ENV{INTERFACE} || 'wlan0';
+
+#[[ ! -d /sys/class/net/"${INTERFACE}"/wireless || \
+#    "$(cat /sys/class/net/"$INTERFACE"/operstate)" = 'down' ]] && exit
+
+#------------------------------------------------------------------------
+
+#my $ssid=`iw $interface info `;
+my $ssid=`iw $interface info | awk '/ssid/ {\$1=""; print \$0}'`;
+
+#------------------------------------------------------------------------
+#------------------------------------------------------------------------
+
+my $quality=`nmcli dev wifi list | grep $ssid | awk '{print \$8}')`;
+#my $quality=`nmcli dev wifi list `;
+#$quality = grep {$ssid eq $_} $quality;
+#------------------------------------------------------------------------
+
+
+#echo "$LABEL $QUALITY% $SSID $BLOCK_BUTTON"  # full text
+print "$ssid $quality\n";
+#echo "#00FF00" # color
