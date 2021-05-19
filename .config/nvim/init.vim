@@ -3,6 +3,9 @@ set laststatus=2
 set statusline=[%n]\ %<%f%h%m
 "set statusline=[%n]\
 syntax on
+set langmap=!\\"№\\;%?*ёйцукенгшщзхъфывапролджэячсмитьбюЁЙЦУКЕHГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;!@#$%&*`qwertyuiop[]asdfghjkl\\;'zxcvbnm\\,.~QWERTYUIOP{}ASDFGHJKL:\\"ZXCVBNM<>
+setlocal spell spelllang=ru_yo,en_us
+set spellfile=~/.config/nvim/spell/vimspell.utf-8.add
 set wrap linebreak
 set clipboard=unnamedplus
 set guicursor+=n:-blinkwait175-blinkoff150-blinkon175
