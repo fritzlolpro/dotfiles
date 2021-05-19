@@ -46,14 +46,14 @@ set updatetime=750
 " Don't pass messages to |ins-completion-menu|.
 set shortmess+=c
 
-set colorcolumn=120
+"set colorcolumn=120
 set diffopt+=vertical
 
 set pastetoggle=<F2>
 set background=dark
 
 
-highlight ColorColumn ctermbg=0 guibg=lightgrey
+"highlight ColorColumn ctermbg=0 guibg=lightgrey
 
 " set autochdir and disable auto-vim-rooter
 set autochdir
@@ -251,7 +251,8 @@ autocmd vimenter * ++nested colorscheme gruvbox
 " as determined by rooter
 command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --glob '!node_modules/*' --no-heading --color=always --smart-case " . shellescape(<q-args>), 1,    fzf#vim#with_preview({"dir": FindRootDirectory(), 'options': '--delimiter : --nth 4..'}))
 
-command! ProjectFiles execute 'GFiles' s:find_git_root()
+command! -bang -nargs=? -complete=dir GitFiles call fzf#vim#gitfiles(shellescape(<q-args>), fzf#vim#with_preview({'options': '-i'}), <bang>0)
+command! ProjectFiles execute 'GitFiles' s:find_git_root()
 
 if executable('rg')
     let g:rg_derive_root='true'
