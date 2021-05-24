@@ -125,6 +125,7 @@ let g:coc_global_extensions = [
   \ 'coc-eslint',
   \ 'coc-json',
   \ 'coc-prettier',
+  \ 'coc-tsserver',
   \ 'coc-styled-components',
   \ ]
 
