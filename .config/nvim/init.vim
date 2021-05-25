@@ -64,6 +64,7 @@ let $FZF_DEFAULT_COMMAND = 'find .'
 
 let mapleader = " "
 
+
 " AUTOCLOSE TAGS
 let g:closetag_filenames = '*.html,*.xhtml,*.phtml'
 let g:closetag_xhtml_filenames = '*.xhtml,*.jsx'
@@ -127,6 +128,7 @@ let g:coc_global_extensions = [
   \ 'coc-prettier',
   \ 'coc-tsserver',
   \ 'coc-styled-components',
+  \ 'coc-omnisharp',
   \ ]
 
 let g:airline#extensions#default#section_truncate_width = {
@@ -143,37 +145,43 @@ let g:airline#extensions#default#layout = [
   \ [ 'z', 'error', 'warning' ]
   \ ]
 
+function! AirlineInit()
+    let g:airline_section_a = airline#section#create(['mode'])
+endfunction
+autocmd VimEnter * call AirlineInit()
 call plug#begin('~/.config/nvim/plugged')
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'alvan/vim-closetag'
-Plug 'mg979/vim-visual-multi', {'branch': 'master'}
-Plug 'dominikduda/vim_current_word'
-Plug 'morhetz/gruvbox'
-Plug 'tpope/vim-fugitive'
-Plug 'vim-utils/vim-man'
-Plug 'severin-lemaignan/vim-minimap'
-Plug 'mbbill/undotree'
-Plug 'sheerun/vim-polyglot'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'alvan/vim-closetag'
+  Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+  Plug 'dominikduda/vim_current_word'
+  Plug 'morhetz/gruvbox'
+  Plug 'tpope/vim-fugitive'
+  Plug 'vim-utils/vim-man'
+  Plug 'severin-lemaignan/vim-minimap'
+  Plug 'mbbill/undotree'
+  Plug 'sheerun/vim-polyglot'
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
 
-Plug 'https://github.com/nvie/vim-togglemouse'
-Plug 'https://github.com/tpope/vim-surround'
-Plug 'https://github.com/ap/vim-css-color'
-Plug 'zivyangll/git-blame.vim'
-Plug 'preservim/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'ryanoasis/vim-devicons'
-Plug 'airblade/vim-rooter'
-Plug 'dyng/ctrlsf.vim'
-Plug 'vim-airline/vim-airline'
-Plug 'flazz/vim-colorschemes'
-Plug 'MattesGroeger/vim-bookmarks'
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-Plug 'jiangmiao/auto-pairs'
-Plug 'https://github.com/AndrewRadev/tagalong.vim'
+  Plug 'https://github.com/nvie/vim-togglemouse'
+  Plug 'https://github.com/tpope/vim-surround'
+  Plug 'https://github.com/ap/vim-css-color'
+  Plug 'zivyangll/git-blame.vim'
+  Plug 'preservim/nerdtree'
+  Plug 'Xuyuanp/nerdtree-git-plugin'
+  Plug 'ryanoasis/vim-devicons'
+  Plug 'airblade/vim-rooter'
+  Plug 'dyng/ctrlsf.vim'
+  Plug 'vim-airline/vim-airline'
+  Plug 'flazz/vim-colorschemes'
+  Plug 'MattesGroeger/vim-bookmarks'
+  Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+  Plug 'jiangmiao/auto-pairs'
+  Plug 'https://github.com/AndrewRadev/tagalong.vim'
+  Plug 'https://github.com/OmniSharp/omnisharp-vim'
+
 call plug#end()
-
+let g:OmniSharp_server_use_mono = 1
 " Navigate quickfix list with ease
 nnoremap <silent> [q :cprevious<CR>
 nnoremap <silent> ]q :cnext<CR>
@@ -341,3 +349,4 @@ function MyTabLine()
   endif
   return s
 endfunction
+
