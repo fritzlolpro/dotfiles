@@ -3,7 +3,7 @@ set laststatus=2
 set statusline=[%n]\ %<%f%h%m
 "set statusline=[%n]\
 syntax on
-set langmap=!\\"№\\;%?*ёйцукенгшщзхъфывапролджэячсмитьбюЁЙЦУКЕHГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;!@#$%&*`qwertyuiop[]asdfghjkl\\;'zxcvbnm\\,.~QWERTYUIOP{}ASDFGHJKL:\\"ZXCVBNM<>
+set langmap=!№\\%?*ёйцукенгшщзхъфывапролджэячсмитьбюЁЙЦУКЕHГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;!#%&*`qwertyuiop[]asdfghjkl\\;'zxcvbnm\\,.~QWERTYUIOP{}ASDFGHJKL:\\"ZXCVBNM<>
 setlocal spell spelllang=ru_yo,en_us
 set spellfile=~/.config/nvim/spell/vimspell.utf-8.add
 set wrap linebreak
@@ -42,15 +42,14 @@ set cmdheight=2
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
 set updatetime=750
-
+set mouse=a
 " Don't pass messages to |ins-completion-menu|.
 set shortmess+=c
 
-"set colorcolumn=120
+set colorcolumn=120
 set diffopt+=vertical
 
 set pastetoggle=<F2>
-set background=dark
 
 
 "highlight ColorColumn ctermbg=0 guibg=lightgrey
@@ -101,8 +100,6 @@ let g:go_auto_sameids = 1
 let g:nerdtreeignore = ['^node_modules$']
 let g:ctrlsf_ackprg = '/usr/local/bin/rg'
 "let g:ctrlsf_winsize = '100'
-let g:gruvbox_guisp_fallback = "bg"
-
 let g:netrw_browse_split = 2
 let g:vrfr_rg = 'true'
 let g:netrw_banner = 0
@@ -150,11 +147,15 @@ function! AirlineInit()
 endfunction
 autocmd VimEnter * call AirlineInit()
 call plug#begin('~/.config/nvim/plugged')
+  " Linting/error highlighting
+  Plug 'sirver/ultisnips'
+  Plug 'dense-analysis/ale'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'alvan/vim-closetag'
   Plug 'mg979/vim-visual-multi', {'branch': 'master'}
   Plug 'dominikduda/vim_current_word'
   Plug 'morhetz/gruvbox'
+  Plug 'https://github.com/erichdongubler/vim-sublime-monokai'
   Plug 'tpope/vim-fugitive'
   Plug 'vim-utils/vim-man'
   Plug 'severin-lemaignan/vim-minimap'
@@ -178,8 +179,8 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
   Plug 'jiangmiao/auto-pairs'
   Plug 'https://github.com/AndrewRadev/tagalong.vim'
+  Plug 'nosami/Omnisharp'
   Plug 'https://github.com/OmniSharp/omnisharp-vim'
-
 call plug#end()
 let g:OmniSharp_server_use_mono = 1
 " Navigate quickfix list with ease
@@ -222,22 +223,65 @@ inoremap <silent><expr> <TAB>
             \ <SID>check_back_space() ? "\<TAB>" :
             \ coc#refresh()
 
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <silent><expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
+" GoTo coc code navigation.
 inoremap <silent><expr> <C-space> coc#refresh()
-" GoTo code navigation.
-nmap <leader>gd <Plug>(coc-definition)
-nmap <leader>gy <Plug>(coc-type-definition)
-nmap <leader>gi <Plug>(coc-implementation)
-nmap <leader>gr <Plug>(coc-references)
-nmap <leader>rr <Plug>(coc-rename)
-nmap <leader>g[ <Plug>(coc-diagnostic-prev)
-nmap <leader>g] <Plug>(coc-diagnostic-next)
-nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev)
-nmap <silent> <leader>gn <Plug>(coc-diagnostic-next)
-nmap <leader>cf :CocCommand eslint.executeAutofix<CR>
+nmap <buffer> <leader>gd <Plug>(coc-definition)
+nmap <buffer> <leader>gy <Plug>(coc-type-definition)
+nmap <buffer> <leader>gi <Plug>(coc-implementation)
+nmap <buffer> <leader>gr <Plug>(coc-references)
+nmap <buffer> <leader>rr <Plug>(coc-rename)
+nmap <buffer> <leader>g[ <Plug>(coc-diagnostic-prev)
+nmap <buffer> <leader>g] <Plug>(coc-diagnostic-next)
+nmap <buffer> <silent> <leader>gp <Plug>(coc-diagnostic-prev)
+nmap <buffer> <silent> <leader>gn <Plug>(coc-diagnostic-next)
+nmap <buffer> <leader>cf :CocCommand eslint.executeAutofix<CR>
+nmap <buffer> <leader> ca <Plug>(coc-codeaction)
 nnoremap <leader>cr :CocRestart<CR>
-nmap <leader> ca <Plug>(coc-codeaction)
+
+augroup omnisharp_commands
+  autocmd!
+
+  " Show type information automatically when the cursor stops moving.
+  " Note that the type is echoed to the Vim command line, and will overwrite
+  " any other messages in this space including e.g. ALE linting messages.
+  autocmd CursorHold *.cs OmniSharpTypeLookup
+
+  " The following commands are contextual, based on the cursor position.
+  autocmd FileType cs nmap <silent> <buffer> gd <Plug>(omnisharp_go_to_definition)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>osfu <Plug>(omnisharp_find_usages)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>osfi <Plug>(omnisharp_find_implementations)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>ospd <Plug>(omnisharp_preview_definition)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>ospi <Plug>(omnisharp_preview_implementations)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>ost <Plug>(omnisharp_type_lookup)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>osd <Plug>(omnisharp_documentation)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>osfs <Plug>(omnisharp_find_symbol)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>osfx <Plug>(omnisharp_fix_usings)
+  autocmd FileType cs nmap <silent> <buffer> <C-\> <Plug>(omnisharp_signature_help)
+  autocmd FileType cs imap <silent> <buffer> <C-\> <Plug>(omnisharp_signature_help)
+
+  " Navigate up and down by method/property/field
+  autocmd FileType cs nmap <silent> <buffer> [[ <Plug>(omnisharp_navigate_up)
+  autocmd FileType cs nmap <silent> <buffer> ]] <Plug>(omnisharp_navigate_down)
+  " Find all code errors/warnings for the current solution and populate the quickfix window
+  autocmd FileType cs nmap <silent> <buffer> <Leader>osgcc <Plug>(omnisharp_global_code_check)
+  " Contextual code actions (uses fzf, vim-clap, CtrlP or unite.vim selector when available)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>osca <Plug>(omnisharp_code_actions)
+  autocmd FileType cs xmap <silent> <buffer> <Leader>osca <Plug>(omnisharp_code_actions)
+  " Repeat the last code action performed (does not use a selector)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>os. <Plug>(omnisharp_code_action_repeat)
+  autocmd FileType cs xmap <silent> <buffer> <Leader>os. <Plug>(omnisharp_code_action_repeat)
+
+  autocmd FileType cs nmap <silent> <buffer> <Leader>os= <Plug>(omnisharp_code_format)
+
+  autocmd FileType cs nmap <silent> <buffer> <Leader>osnm <Plug>(omnisharp_rename)
+
+  autocmd FileType cs nmap <silent> <buffer> <Leader>osre <Plug>(omnisharp_restart_server)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>osst <Plug>(omnisharp_start_server)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>ossp <Plug>(omnisharp_stop_server)
+augroup END
+
 " Sweet Sweet FuGITive
 nmap <leader>gf :diffget //3<CR>
 nmap <leader>gj :diffget //2<CR>
@@ -254,7 +298,74 @@ inoremap <A-Down> <Esc>:m+<CR>
 nnoremap <leader>ss :mks! ~/Documents/programming/vim-sessions/session.vim<CR>
 nnoremap <leader>sr :so ~/Documents/programming/vim-sessions/session.vim<CR>
 
+" Colors: {{{
+augroup ColorschemePreferences
+  autocmd!
+  " These preferences clear some gruvbox background colours, allowing transparency
+"  autocmd ColorScheme * highlight Normal     ctermbg=NONE guibg=NONE
+"  autocmd ColorScheme * highlight SignColumn ctermbg=NONE guibg=NONE
+"  autocmd ColorScheme * highlight Todo       ctermbg=NONE guibg=NONE
+  " Link ALE sign highlights to similar equivalents without background colours
+  autocmd ColorScheme * highlight link ALEErrorSign   WarningMsg
+  autocmd ColorScheme * highlight link ALEWarningSign ModeMsg
+  autocmd ColorScheme * highlight link ALEInfoSign    Identifier
+augroup END
+
+" Use truecolor in the terminal, when it is supported
+if has('termguicolors')
+  set termguicolors
+endif
+
+let g:gruvbox_guisp_fallback = "bg"
+" Changes dark mode contrast. Overrides g:gruvbox_contrast option. Possible values are soft, medium and hard.
+let g:gruvbox_contrast_dark = "hard"
+set background=dark
 autocmd vimenter * ++nested colorscheme gruvbox
+"autocmd vimenter * ++nested colorscheme sublimemonokai
+" }}}
+
+" ALE: {{{
+let g:ale_sign_error = '•'
+let g:ale_sign_warning = '•'
+let g:ale_sign_info = '·'
+let g:ale_sign_style_error = '·'
+let g:ale_sign_style_warning = '·'
+
+let g:ale_linters = { 'cs': ['OmniSharp'] }
+" }}}
+
+" OmniSharp: {{{
+" Set this to 1 to use ultisnips for snippet handling
+let s:using_snippets = 1
+let g:OmniSharp_popup_position = 'peek'
+if has('nvim')
+  let g:OmniSharp_popup_options = {
+  \ 'winhl': 'Normal:NormalFloat'
+  \}
+else
+  let g:OmniSharp_popup_options = {
+  \ 'highlight': 'Normal',
+  \ 'padding': [0, 0, 0, 0],
+  \ 'border': [1]
+  \}
+endif
+let g:OmniSharp_popup_mappings = {
+\ 'sigNext': '<C-n>',
+\ 'sigPrev': '<C-p>',
+\ 'pageDown': ['<C-f>', '<PageDown>'],
+\ 'pageUp': ['<C-b>', '<PageUp>']
+\}
+
+if s:using_snippets
+  let g:OmniSharp_want_snippet = 1
+endif
+
+let g:OmniSharp_highlight_groups = {
+\ 'ExcludedCode': 'NonText'
+\}
+" }}}
+
+
 
 " define a command which runs ripgrep in the root directory
 " as determined by rooter
