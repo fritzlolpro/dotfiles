@@ -11,8 +11,8 @@ export PATH="$PATH:${$(find ~/.local/bin -type d -printf %p:)%%:}"
 unsetopt PROMPT_SP
 
 # Default programs:
-export EDITOR='/usr/bin/vim'
-export VISUAL='/usr/bin/vim'
+export EDITOR='/usr/bin/nvim'
+export VISUAL='/usr/bin/nvim'
 export SHELL='zsh'
 export BROWSER='brave'
 export RTV_BROWSER='linkhandler'

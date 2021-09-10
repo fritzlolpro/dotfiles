@@ -4,6 +4,11 @@ LABEL=
 interval=1
 color=#A4C2F4
 
+[battery]
+command=./battery
+markup=pango
+interval=10
+
 [vpn]
 command=./vpn
 #init_color=#FFFF00
@@ -35,7 +40,7 @@ signal=10
 
 [ssid]
 command=./ssid
-INTERFACE=wlp6s0
+INTERFACE=wlp4s0
 LABEL=
 interval=60
 
