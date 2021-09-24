@@ -1,15 +1,17 @@
+set ignorecase smartcase
+set lazyredraw
 set backspace=indent,eol,start
 set laststatus=2
 set statusline=[%n]\ %<%f%h%m
 "set statusline=[%n]\
 syntax on
 set langmap=!№\\%?*ёйцукенгшщзхъфывапролджэячсмитьбюЁЙЦУКЕHГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;!#%&*`qwertyuiop[]asdfghjkl\\;'zxcvbnm\\,.~QWERTYUIOP{}ASDFGHJKL:\\"ZXCVBNM<>
-setlocal spell spelllang=ru_yo,en_us
+"setlocal spell spelllang=ru_yo,en_us
+set nospell
 set spellfile=~/.config/nvim/spell/vimspell.utf-8.add
 set wrap linebreak
 set clipboard=unnamedplus
 set guicursor+=n:-blinkwait175-blinkoff150-blinkon175
-"set guicursor=
 set number relativenumber
 set hidden
 set noerrorbells
@@ -50,7 +52,7 @@ set colorcolumn=120
 set diffopt+=vertical
 
 set pastetoggle=<F2>
-
+set sessionoptions-=options
 
 "highlight ColorColumn ctermbg=0 guibg=lightgrey
 
@@ -81,7 +83,6 @@ let g:closetag_close_shortcut = '<leader>>'"
 let g:vim_current_word#highlight_twins = 1
 " the word under cursor:
 let g:vim_current_word#highlight_current_word = 1
-let g:minimap_highlight='visual'
 
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_extra_types = 1
@@ -118,7 +119,6 @@ let g:Lf_RgConfig = [
     \ ]
 
 let g:coc_global_extensions = [
-  \ 'coc-snippets',
   \ 'coc-pairs',
   \ 'coc-eslint',
   \ 'coc-json',
@@ -146,24 +146,30 @@ function! AirlineInit()
     let g:airline_section_a = airline#section#create(['mode'])
 endfunction
 autocmd VimEnter * call AirlineInit()
+
+"if ! filereadable(system('echo -n "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim"'))
+"	echo "Downloading junegunn/vim-plug to manage plugins..."
+"	silent !mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/
+"	silent !curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" > ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim
+"	autocmd VimEnter * PlugInstall
+"endif
 call plug#begin('~/.config/nvim/plugged')
   " Linting/error highlighting
-  Plug 'sirver/ultisnips'
-  Plug 'dense-analysis/ale'
+"  Plug 'sirver/ultisnips'
+  "Plug 'dense-analysis/ale'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'alvan/vim-closetag'
   Plug 'mg979/vim-visual-multi', {'branch': 'master'}
   Plug 'dominikduda/vim_current_word'
   Plug 'morhetz/gruvbox'
-  Plug 'https://github.com/erichdongubler/vim-sublime-monokai'
   Plug 'tpope/vim-fugitive'
   Plug 'vim-utils/vim-man'
-  Plug 'severin-lemaignan/vim-minimap'
   Plug 'mbbill/undotree'
   Plug 'sheerun/vim-polyglot'
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
-
+  Plug 'tomarrell/vim-npr'
+"  Plug 'brooth/far.vim'
   Plug 'https://github.com/nvie/vim-togglemouse'
   Plug 'https://github.com/tpope/vim-surround'
   Plug 'https://github.com/ap/vim-css-color'
@@ -179,10 +185,10 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
   Plug 'jiangmiao/auto-pairs'
   Plug 'https://github.com/AndrewRadev/tagalong.vim'
-  Plug 'nosami/Omnisharp'
-  Plug 'https://github.com/OmniSharp/omnisharp-vim'
+  "Plug 'nosami/Omnisharp'
+  "Plug 'https://github.com/OmniSharp/omnisharp-vim'
 call plug#end()
-let g:OmniSharp_server_use_mono = 1
+"let g:OmniSharp_server_use_mono = 1
 " Navigate quickfix list with ease
 nnoremap <silent> [q :cprevious<CR>
 nnoremap <silent> ]q :cnext<CR>
@@ -203,7 +209,6 @@ nnoremap <C-p> :ProjectFiles<CR>
 nnoremap <Leader>pf :Files %:p:h<CR>
 nnoremap <Leader>= :vertical resize +5<CR>
 nnoremap <Leader>- :vertical resize -5<CR>
-nnoremap <Leader>ee oif err != nil {<CR>log.Fatalf("%+v\n", err)<CR>}<CR><esc>kkI<esc>
 nnoremap <Leader>fp :echo expand('%:p')<CR>
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
@@ -218,7 +223,10 @@ xnoremap <leader>d "_d
 xnoremap <leader>p "_dP
 nnoremap j gj
 nnoremap k gk
-inoremap <silent><expr> <TAB>
+
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr><TAB>
             \ pumvisible() ? "\<C-n>" :
             \ <SID>check_back_space() ? "\<TAB>" :
             \ coc#refresh()
@@ -236,9 +244,17 @@ nmap <buffer> <leader>g[ <Plug>(coc-diagnostic-prev)
 nmap <buffer> <leader>g] <Plug>(coc-diagnostic-next)
 nmap <buffer> <silent> <leader>gp <Plug>(coc-diagnostic-prev)
 nmap <buffer> <silent> <leader>gn <Plug>(coc-diagnostic-next)
-nmap <buffer> <leader>cf :CocCommand eslint.executeAutofix<CR>
+nmap <buffer> <leader>cf :CocCommand prettier.formatFile<CR>
 nmap <buffer> <leader> ca <Plug>(coc-codeaction)
 nnoremap <leader>cr :CocRestart<CR>
+
+" Far search/replace
+"let g:far#cwd = s:find_git_root()
+"let g:far#source = 'rgnvim'
+"let g:far#window_layout = 'tab'
+"nmap <silent> <buffer> <leader>gs :Farf<cr>
+"nmap <silent> <buffer> <leader>gc :Farr<cr>
+
 
 augroup omnisharp_commands
   autocmd!
@@ -285,7 +301,7 @@ augroup END
 " Sweet Sweet FuGITive
 nmap <leader>gf :diffget //3<CR>
 nmap <leader>gj :diffget //2<CR>
-nmap <leader>gs :G<CR>
+"nmap <leader>gs :G<CR>
 
 "move line under cursor with keys
 vnoremap <A-Up> :m-2<CR>
@@ -336,7 +352,7 @@ let g:ale_linters = { 'cs': ['OmniSharp'] }
 
 " OmniSharp: {{{
 " Set this to 1 to use ultisnips for snippet handling
-let s:using_snippets = 1
+let s:using_snippets = 0
 let g:OmniSharp_popup_position = 'peek'
 if has('nvim')
   let g:OmniSharp_popup_options = {
@@ -366,6 +382,11 @@ let g:OmniSharp_highlight_groups = {
 " }}}
 
 
+function! s:find_git_root()
+  return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+endfunction
+
+let projectDir = s:find_git_root()
 
 " define a command which runs ripgrep in the root directory
 " as determined by rooter
@@ -378,17 +399,18 @@ if executable('rg')
     let g:rg_derive_root='true'
 endif
 
-function! s:find_git_root()
-  return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
-endfunction
-
-let projectDir = s:find_git_root()
 
 function! s:check_back_space() abort
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-
+"
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
 
 fun! TrimWhitespace()
     let l:save = winsaveview()

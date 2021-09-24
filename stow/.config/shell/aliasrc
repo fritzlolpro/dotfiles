@@ -1,16 +1,3 @@
-#!/bin/sh
-
-# Use neovim for vim if present.
-[ -x "$(command -v nvim)" ] && alias vim="nvim" vimdiff="nvim -d"
-
-# Use $XINITRC variable if file exists.
-[ -f "$XINITRC" ] && alias startx="startx $XINITRC"
-
-# sudo not required for some system commands
-for x in mount umount sv pacman updatedb su ; do
-	alias $x="sudo $x"
-done
-
 # Verbosity and settings that you pretty much just always are going to want.
 alias \
 	cp="cp -iv" \
@@ -20,8 +7,7 @@ alias \
 	mkd="mkdir -pv" \
 	yt="youtube-dl --add-metadata -i" \
 	yta="yt -x -f bestaudio/best" \
-	r="ranger" \
-	ffmpeg="ffmpeg -hide_banner"
+	ffmpeg="ffmpeg -hide_banner" \
 
 # Colorize commands when possible.
 alias \
@@ -44,18 +30,18 @@ alias \
 	xi="sudo xbps-install" \
 	xr="sudo xbps-remove -R" \
 	xq="xbps-query" \
-	z="zathura"
+	z="zathura" \
+	r="ranger" \
+	sr="sudo ranger"
 
-alias \
-	magit="nvim -c MagitOnly" \
-	ref="shortcuts >/dev/null; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutrc ; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/zshnameddirrc" \
-	weath="less -S ${XDG_DATA_HOME:-$HOME/.local/share}/weatherreport" \
 
 
 # Job related stuff
 alias wtconturconnect="ssh fsorokin@10.77.255.229"
 alias wtdev="ssh fsorokin@msa-devwt-ap2.whotrades.net"
 alias wtworkfolder="cd ~/Documents/programming/whotrades/dev/dev/comon/static/www/"
+alias ogworkfolder="cd ~/Documents/programming/overgear"
+alias shooterfolder="cd ~/Documents/programming/unity/shooter"
 alias wtsync="rsync -zva --stats -h --no-perms --no-owner --no-group --no-times --exclude=/.git --exclude='node_modules*' --exclude='vendor*' ~/Documents/programming/whotrades/dev/dev/ fsorokin@10.77.255.229:/home/dev/dev && date"
 alias gsb="git branch | fzf | xargs git checkout"
 alias pi="ssh pi@192.168.1.200"
@@ -70,4 +56,3 @@ alias vpn-down="pgrep openconnect | xargs sudo kill -2"
 #
 # Some longs commands
 alias pim="sudo sshfs pi@192.168.1.200:/mnt /mnt/raspberrypi/ -o allow_other -o default_permissions"
-

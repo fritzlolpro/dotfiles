@@ -42,6 +42,34 @@ exec --no-startup-id nm-applet
 # polkit
 exec --no-startup-id /usr/lib/polkit-kde-authentication-agent-1
 
+# konsole with tmux on launch
+#exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id konsole --hold -e tmux new'
+exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id st -e sh -c tmux new'
+#exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id st'
+
+# telegram client
+#bindsym $mod+Shift+w exec --no-startup-id i3-msg 'workspace 10'; exec --no-startup-id kotatogram-desktop
+#exec --no-startup-id i3-msg 'workspace 10'; exec --no-startup-id kotatogram-desktop
+exec --no-startup-id i3-msg 'workspace 10; exec kotatogram-desktop'
+
+
+#set screen resolution
+# Check the amount of monitors
+#monitor_count=$(xrandr | grep connected | grep -v disconnected | wc -l)
+#if [ $monitor_count -eq 3 ];
+#then
+exec_always --no-startup-id xrandr --output HDMI-0 --auto --left-of DP-0 --mode 2560x1440 --primary
+exec_always --no-startup-id xrandr --output DP-0 --auto --right-of HDMI-0 --mode 2560x1440
+
+workspace 10 output HDMI-0
+workspace 2 output HDMI-0
+workspace 1 output HDMI-0
+workspace 3 output HDMI-0
+
+# Assign applications to workspaces
+assign [class="brave-browser"] 2
+assign [class="kotatogram-desktop"] 10
+
 # Use pactl to adjust volume in PulseAudio.
 #set $refresh_i3status killall -SIGUSR1 i3status
 #bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
@@ -57,10 +85,17 @@ bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -RTMIN
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec konsole
+bindsym $mod+Return exec $TERMINAL
 
+# start a browser
+bindsym $mod+Shift+w exec $BROWSER
+#
 # kill focused window
 bindsym $mod+Shift+q kill
+
+# move to scratchpad and show it
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
 
 # start dmenu (a program launcher)
 #bindsym $mod+d exec --no-startup-id dmenu_run

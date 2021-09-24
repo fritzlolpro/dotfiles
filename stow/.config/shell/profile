@@ -14,12 +14,13 @@ unsetopt PROMPT_SP
 export EDITOR='/usr/bin/nvim'
 export VISUAL='/usr/bin/nvim'
 export SHELL='zsh'
-export BROWSER='brave'
-export RTV_BROWSER='linkhandler'
+export TERMINAL='st'
+export BROWSER='brave-browser-nightly'
+export RTV_BROWSER='brave-browser-nightly'
 export RSS_PICS='/home/fedor/Pictures/rss'
 export REDDIT_PICS='/home/fedor/Pictures/reddit'
 export HISTCONTROL=ignoreboth:erasedups
-# ~/ Clean-up:
+
 export XDG_CONFIG_HOME="$HOME/.config"
 export ZDOTDIR="$HOME/.config/zsh/"
 export XDG_DATA_HOME="$HOME/.local/share"

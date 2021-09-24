@@ -6,6 +6,8 @@ setopt autocd		# Automatically cd into typed directory.
 stty stop undef		# Disable ctrl-s to freeze terminal.
 setopt interactive_comments
 
+export FrameworkPathOverride=/etc/mono/4.5
+export DOCKER_GATEWAY_HOST=172.17.0.1
 # History in cache directory:
 HISTSIZE=10000000
 SAVEHIST=10000000
@@ -33,13 +35,16 @@ _comp_options+=(globdots)		# Include hidden files.
 # vi mode
 bindkey -v
 export KEYTIMEOUT=1
-
 # Use vim keys in tab complete menu:
 bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 bindkey -v '^?' backward-delete-char
+
+# Use vim keys to traverse history
+bindkey '^k' up-line-or-history
+bindkey '^j' down-line-or-history
 
 # Change cursor shape for different vi modes.
 function zle-keymap-select () {
@@ -57,6 +62,9 @@ zle -N zle-line-init
 echo -ne '\e[5 q' # Use beam shape cursor on startup.
 preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 
+export NVM_DIR="$HOME/.config/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 # Use ranger to switch directories and bind it to ctrl-o
 rcd () {
     tmp="$(mktemp)"
@@ -69,7 +77,7 @@ rcd () {
 }
 bindkey -s '^o' 'rcd\n'
 
-bindkey -s '^a' 'bc -lq\n'
+#bindkey -s '^a' 'bc -lq\n'
 
 bindkey -s '^f' 'cd "$(dirname "$(fzf)")"\n'
 
@@ -81,4 +89,4 @@ bindkey '^e' edit-command-line
 
 #source ~/Documents/gitstatus/gitstatus.prompt.zsh
 # Load syntax highlighting; should be last.
-source ~/.local/share/zsh/plugins/fast-syntax-highlight/fast-syntax-highlighting.plugin.zsh 2>/dev/null
+source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null

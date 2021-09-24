@@ -1,13 +1,16 @@
+[window_title]
+command=xtitle
+interval=repeat
+color=#fabd2f
+min_width=1366
+max_width=1366
+align=center
+
 [key_layout]
 command=./key_layout
 LABEL=
 interval=1
-color=#A4C2F4
-
-[battery]
-command=./battery
-markup=pango
-interval=10
+color=#fabd2f
 
 [vpn]
 command=./vpn
@@ -16,6 +19,10 @@ command=./vpn
 label=VPN:
 interval=5
 
+[cpu_temp]
+command=./cpu_temp
+interval=3
+
 [memory]
 command=./memory
 LABEL=MEM
@@ -23,7 +30,7 @@ interval=30
 
 #[memory]
 #command=./memory
-#label=SWAP
+##label=SWAP
 #instance=swap
 #interval=30
 
@@ -40,7 +47,7 @@ signal=10
 
 [ssid]
 command=./ssid
-INTERFACE=wlp4s0
+INTERFACE=wlp6s0
 LABEL=
 interval=60
 
