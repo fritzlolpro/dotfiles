@@ -59,6 +59,11 @@ set sessionoptions-=options
 " set autochdir and disable auto-vim-rooter
 set autochdir
 
+set foldmethod=indent
+set foldnestmax=10
+set nofoldenable
+set foldlevel=2
+
 let g:rooter_cd_cmd="lcd"
 let g:rooter_manual_only = 1
 let $FZF_DEFAULT_COMMAND = 'find .'
@@ -142,17 +147,23 @@ let g:airline#extensions#default#layout = [
   \ [ 'z', 'error', 'warning' ]
   \ ]
 
+function! s:find_git_root()
+  return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+endfunction
+
+let projectDir = s:find_git_root()
+
 function! AirlineInit()
     let g:airline_section_a = airline#section#create(['mode'])
 endfunction
 autocmd VimEnter * call AirlineInit()
 
-"if ! filereadable(system('echo -n "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim"'))
-"	echo "Downloading junegunn/vim-plug to manage plugins..."
-"	silent !mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/
-"	silent !curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" > ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim
-"	autocmd VimEnter * PlugInstall
-"endif
+if ! filereadable(system('echo -n "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim"'))
+	echo "Downloading junegunn/vim-plug to manage plugins..."
+	silent !mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/
+	silent !curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" > ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim
+	autocmd VimEnter * PlugInstall
+endif
 call plug#begin('~/.config/nvim/plugged')
   " Linting/error highlighting
 "  Plug 'sirver/ultisnips'
@@ -169,7 +180,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
   Plug 'tomarrell/vim-npr'
-"  Plug 'brooth/far.vim'
+  Plug 'brooth/far.vim'
   Plug 'https://github.com/nvie/vim-togglemouse'
   Plug 'https://github.com/tpope/vim-surround'
   Plug 'https://github.com/ap/vim-css-color'
@@ -234,26 +245,26 @@ inoremap <silent><expr><TAB>
 inoremap <silent><expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 " GoTo coc code navigation.
-inoremap <silent><expr> <C-space> coc#refresh()
-nmap <buffer> <leader>gd <Plug>(coc-definition)
-nmap <buffer> <leader>gy <Plug>(coc-type-definition)
-nmap <buffer> <leader>gi <Plug>(coc-implementation)
-nmap <buffer> <leader>gr <Plug>(coc-references)
-nmap <buffer> <leader>rr <Plug>(coc-rename)
-nmap <buffer> <leader>g[ <Plug>(coc-diagnostic-prev)
-nmap <buffer> <leader>g] <Plug>(coc-diagnostic-next)
-nmap <buffer> <silent> <leader>gp <Plug>(coc-diagnostic-prev)
-nmap <buffer> <silent> <leader>gn <Plug>(coc-diagnostic-next)
-nmap <buffer> <leader>cf :CocCommand prettier.formatFile<CR>
-nmap <buffer> <leader> ca <Plug>(coc-codeaction)
+inoremap <silent><expr><C-space> coc#refresh()
+nmap <leader>gd <Plug>(coc-definition)
+nmap <leader>gy <Plug>(coc-type-definition)
+nmap <leader>gi <Plug>(coc-implementation)
+nmap <leader>gr <Plug>(coc-references)
+nmap <leader>rr <Plug>(coc-rename)
+nmap <leader>g[ <Plug>(coc-diagnostic-prev)
+nmap <leader>g] <Plug>(coc-diagnostic-next)
+nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev)
+nmap <silent> <leader>gn <Plug>(coc-diagnostic-next)
+nmap <leader>cf :CocCommand prettier.formatFile<CR>
+nmap <leader>ca <Plug>(coc-codeaction)
 nnoremap <leader>cr :CocRestart<CR>
 
 " Far search/replace
-"let g:far#cwd = s:find_git_root()
-"let g:far#source = 'rgnvim'
-"let g:far#window_layout = 'tab'
-"nmap <silent> <buffer> <leader>gs :Farf<cr>
-"nmap <silent> <buffer> <leader>gc :Farr<cr>
+let g:far#cwd = s:find_git_root()
+let g:far#source = 'rgnvim'
+let g:far#window_layout = 'tab'
+nmap <silent> <buffer> <leader>gs :Farf<cr>
+nmap <silent> <buffer> <leader>gc :Farr<cr>
 
 
 augroup omnisharp_commands
@@ -382,11 +393,6 @@ let g:OmniSharp_highlight_groups = {
 " }}}
 
 
-function! s:find_git_root()
-  return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
-endfunction
-
-let projectDir = s:find_git_root()
 
 " define a command which runs ripgrep in the root directory
 " as determined by rooter

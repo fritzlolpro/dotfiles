@@ -40,7 +40,7 @@ alias \
 alias wtconturconnect="ssh fsorokin@10.77.255.229"
 alias wtdev="ssh fsorokin@msa-devwt-ap2.whotrades.net"
 alias wtworkfolder="cd ~/Documents/programming/whotrades/dev/dev/comon/static/www/"
-alias ogworkfolder="cd ~/Documents/programming/overgear"
+alias ogworkfolder="cd ~/Documents/programming/overgear/og-frontend"
 alias shooterfolder="cd ~/Documents/programming/unity/shooter"
 alias wtsync="rsync -zva --stats -h --no-perms --no-owner --no-group --no-times --exclude=/.git --exclude='node_modules*' --exclude='vendor*' ~/Documents/programming/whotrades/dev/dev/ fsorokin@10.77.255.229:/home/dev/dev && date"
 alias gsb="git branch | fzf | xargs git checkout"
@@ -55,4 +55,4 @@ alias vpn-up="sudo openconnect --user='fsorokin' -b --pid-file=/var/run/openconn
 alias vpn-down="pgrep openconnect | xargs sudo kill -2"
 #
 # Some longs commands
-alias pim="sudo sshfs pi@192.168.1.200:/mnt /mnt/raspberrypi/ -o allow_other -o default_permissions"
+alias pim="nohup sshfs pi@192.168.1.200:/mnt/bigboy ~/raspberrypi/ -o default_permissions -o debug > /dev/null 2>&1 &"

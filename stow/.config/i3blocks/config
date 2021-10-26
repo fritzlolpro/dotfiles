@@ -12,6 +12,15 @@ LABEL=
 interval=1
 color=#fabd2f
 
+#[bluetooth]
+#command=./bluetooth
+#interval=1
+[docker]
+command=./docker
+#color=#0db7ed
+interval=10
+LABEL=
+
 [vpn]
 command=./vpn
 #init_color=#FFFF00
