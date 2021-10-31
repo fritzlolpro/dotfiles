@@ -12,6 +12,10 @@ LABEL=
 interval=1
 color=#fabd2f
 
+[battery]
+command=./battery
+markup=pango
+interval=10
 #[bluetooth]
 #command=./bluetooth
 #interval=1
@@ -56,7 +60,7 @@ signal=10
 
 [ssid]
 command=./ssid
-INTERFACE=wlp6s0
+#INTERFACE=wlp6s0
 LABEL=
 interval=60
 
