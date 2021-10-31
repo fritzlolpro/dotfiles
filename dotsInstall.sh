@@ -9,14 +9,14 @@ installStow() {
 	echo $force
 	for package in stow/
 	do
-		stow -vn -t ~/ $package  >> tmp 2>&1
+		stow -v -t ~/ $package  >> tmp 2>&1
 	done
 	cat tmp
 }
 
 applyForce() {
 	echo "FUCK!"
-	grep existing tmp | awk '{print $11}' | xargs -I {} rm ~/{}
+	grep existing tmp | awk '{print $9}' | xargs -I {} rm ~/{}
 	installStow
 }
 

@@ -1,0 +1,11 @@
+#!bin/sh
+
+# Check the amount of monitors
+monitor_count=$(xrandr | grep connected | grep -v disconnected | wc -l)
+
+first_monitor=$(xrandr | grep connected | grep -v disconnected | awk '{print $1}')
+
+xrandr --output HDMI-0 --auto --left-of DP-0 --mode 2560x1440 --primary > /dev/null 2>&1
+xrandr --output DP-0 --auto --right-of HDMI-0 --mode 2560x1440 > /dev/null 2>&1
+
+[ $monitor_count -eq 1 ] && xrandr --output $first_monitor --primary
