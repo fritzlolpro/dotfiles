@@ -66,7 +66,7 @@ workspace 3 output HDMI-0
 # Assign applications to workspaces
 assign [class="brave-browser"] 2
 #assign [class="kotatogram-desktop"] 10
-for_window [class="kotatogram-desktop"] move scratchpad
+#for_window [class="kotatogram-desktop"] move scratchpad
 # Use pactl to adjust volume in PulseAudio.
 #set $refresh_i3status killall -SIGUSR1 i3status
 #bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
@@ -91,7 +91,9 @@ bindsym $mod+Shift+w exec $BROWSER
 bindsym $mod+Shift+q kill
 
 # move to scratchpad and show it
-bindsym $mod+Shift+minus move scratchpad
+#bindsym $mod+Shift+minus move scratchpad
+#переводить в плавающий режим, изменять размер, потом переводить в скречпад
+bindsym $mod+Shift+minus floating enable resize set 1200 1400 ; exec i3-msg  move scratchpad
 bindsym $mod+minus scratchpad show
 
 # start dmenu (a program launcher)
