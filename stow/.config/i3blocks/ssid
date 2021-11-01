@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Copyright (C) 2021 Fedor Sorokin <livsant123@gmail.com>
 # Copyright (C) 2020 hseg <gesh@gesh.uni.cx>
 # Copyright (C) 2014 Alexander Keller <github@nycroth.com>
 
@@ -16,9 +17,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #------------------------------------------------------------------------
-if [[ -z "$INTERFACE" ]] ; then
-    INTERFACE="${BLOCK_INSTANCE:-wlan0}"
-fi
+# If no interface name get first UP device
+[[ -z "$INTERFACE" ]] && INTERFACE=$(ip l | grep 'state UP' | head -1 | awk '{print $2}' | sed 's\:\\')
 #------------------------------------------------------------------------
 
 # As per #36 -- It is transparent: e.g. if the machine has no battery or wireless
@@ -45,7 +45,3 @@ if [ $BLOCK_BUTTON == 1 ] ; then
 fi
 
 echo "$OUTPUT"
-#echo "$LABEL $QUALITY% $SSID $CLICK"  # full text
-
-#echo "$SSID a" # short text
-#echo "#00FF00" # color
