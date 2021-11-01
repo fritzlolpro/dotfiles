@@ -1,18 +1,26 @@
 #!/usr/bin/env python3
 #
+# Copyright (C) 2021 Fedor Sorokin <livsant123@gmail.com>
 # Copyright (C) 2016 James Murphy
 # Licensed under the GPL version 2 only
 #
 # A battery indicator blocklet script for i3blocks
 
-import re
 from subprocess import check_output
+from subprocess import run
 
 status = check_output(['acpi'], universal_newlines=True)
 
 if not status:
     # stands for no battery found
-    #fulltext = "<span color='red'><span font='FontAwesome'>\uf00d \uf240</span></span>"
+    fulltext = "<span color='red'><span font='FontAwesome'>\uf00d \uf240</span></span>"
+    # hide at all on desktop, get device table from https://superuser.com/a/1107191
+    devType = run(['cat', '/sys/class/dmi/id/chassis_type'], capture_output=True, text=True,
+                  universal_newlines=True).stdout.rstrip("%\n")
+
+    if devType == '3':
+        fulltext = ""
+
     percentleft = 100
 else:
     # if there is more than one battery in one laptop, the percentage left is
