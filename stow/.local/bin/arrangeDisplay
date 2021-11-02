@@ -1,4 +1,4 @@
-#!bin/sh
+#!/usr/bin/env sh
 
 # Check the amount of monitors
 monitor_count=$(xrandr | grep connected | grep -v disconnected | wc -l)
