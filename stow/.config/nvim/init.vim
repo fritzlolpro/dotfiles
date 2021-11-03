@@ -143,20 +143,28 @@ let g:airline#extensions#default#section_truncate_width = {
     \ }
 
 let g:airline#extensions#default#layout = [
-  \ [ 'a', 'b', 'c' ],
-  \ [ 'z', 'error', 'warning' ]
+    \ [ 'a', 'b', 'c' ],
+    \ [ 'z', 'error', 'warning' ]
   \ ]
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#branch#displayed_head_limit = 10
+" to only show the tail, e.g. a branch 'feature/foo' becomes 'foo', use
+"let g:airline#extensions#branch#format = 1
+" to truncate all path sections but the last one, e.g. a branch
+" 'foo/bar/baz' becomes 'f/b/baz', use
+let g:airline#extensions#branch#format = 2
+"let g:airline_stl_path_style = 'short'
+let g:airline#extensions#coc#enabled = 0
+function! AirlineInit()
+    let g:airline_section_a = airline#section#create(['mode'])
+endfunction
+autocmd VimEnter * call AirlineInit()
 
 function! s:find_git_root()
   return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
 endfunction
 
 let projectDir = s:find_git_root()
-
-function! AirlineInit()
-    let g:airline_section_a = airline#section#create(['mode'])
-endfunction
-autocmd VimEnter * call AirlineInit()
 
 if ! filereadable(system('echo -n "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim"'))
 	echo "Downloading junegunn/vim-plug to manage plugins..."
