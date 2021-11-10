@@ -59,10 +59,6 @@ set sessionoptions-=options
 " set autochdir and disable auto-vim-rooter
 set autochdir
 
-set foldmethod=indent
-set foldnestmax=10
-set nofoldenable
-set foldlevel=2
 
 let g:rooter_cd_cmd="lcd"
 let g:rooter_manual_only = 1
@@ -154,7 +150,8 @@ let g:airline#extensions#branch#displayed_head_limit = 10
 " 'foo/bar/baz' becomes 'f/b/baz', use
 let g:airline#extensions#branch#format = 2
 "let g:airline_stl_path_style = 'short'
-let g:airline#extensions#coc#enabled = 0
+let g:airline#extensions#coc#enabled = 1
+let g:airline#extensions#coc#show_coc_status = 0
 function! AirlineInit()
     let g:airline_section_a = airline#section#create(['mode'])
 endfunction
@@ -172,10 +169,17 @@ if ! filereadable(system('echo -n "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autolo
 	silent !curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" > ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim
 	autocmd VimEnter * PlugInstall
 endif
+
+" vim-plug conditional activation
+function! Cond(cond, ...)
+  let opts = get(a:000, 0, {})
+  return a:cond ? opts : extend(opts, {'on': [], 'for': []})
+endfunction
+
+
 call plug#begin('~/.config/nvim/plugged')
-  " Linting/error highlighting
-"  Plug 'sirver/ultisnips'
-  "Plug 'dense-analysis/ale'
+  Plug 'nvim-treesitter/nvim-treesitter', Cond(has('nvim-0.5'), {'do': ':TSUpdate'})
+  Plug 'dense-analysis/ale'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'alvan/vim-closetag'
   Plug 'mg979/vim-visual-multi', {'branch': 'master'}
@@ -204,10 +208,40 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
   Plug 'jiangmiao/auto-pairs'
   Plug 'https://github.com/AndrewRadev/tagalong.vim'
-  "Plug 'nosami/Omnisharp'
-  "Plug 'https://github.com/OmniSharp/omnisharp-vim'
+  Plug 'nosami/Omnisharp'
+  Plug 'https://github.com/OmniSharp/omnisharp-vim'
 call plug#end()
-"let g:OmniSharp_server_use_mono = 1
+
+"treesitter
+"packadd nvim-treesitter
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
+  ignore_install = {}, -- List of parsers to ignore installing
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+    disable = {},  -- list of language that will be disabled
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
+  indent = {
+    enable = true
+  },
+  fold = {
+    enable = true,
+  },
+}
+EOF
+set foldmethod=indent
+set foldnestmax=10
+set nofoldenable
+set foldlevel=2
+
+let g:OmniSharp_server_use_mono = 1
 " Navigate quickfix list with ease
 nnoremap <silent> [q :cprevious<CR>
 nnoremap <silent> ]q :cnext<CR>
@@ -233,7 +267,6 @@ vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 vnoremap X "_d
 inoremap <C-c> <esc>
-nnoremap <leader>b :NERDTree<CR>
 nnoremap <Leader>gb :<C-u>call gitblame#echo()<CR>
 nmap <silent> ,/ :nohlsearch<CR>
 noremap <C-w> :tabclose <CR>
@@ -242,6 +275,12 @@ xnoremap <leader>d "_d
 xnoremap <leader>p "_dP
 nnoremap j gj
 nnoremap k gk
+
+" NERDTree
+let NERDTreeShowHidden = 1
+let NERDTreeMinimalUI = 1
+nnoremap <leader>b :NERDTree<CR>
+
 
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
