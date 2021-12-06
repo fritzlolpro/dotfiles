@@ -210,6 +210,9 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'https://github.com/AndrewRadev/tagalong.vim'
   Plug 'nosami/Omnisharp'
   Plug 'https://github.com/OmniSharp/omnisharp-vim'
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'https://github.com/fritzlolpro/harpoon.git'
+  Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 call plug#end()
 
 "treesitter
@@ -235,12 +238,37 @@ require'nvim-treesitter.configs'.setup {
     enable = true,
   },
 }
+require("harpoon").setup({
+    global_settings = {
+        save_on_toggle = true,
+        save_on_change = true,
+    },
+   global_project = "/home/fedor/Documents/programming/overgear/og-frontend",
+})
 EOF
 set foldmethod=indent
 set foldnestmax=10
 set nofoldenable
 set foldlevel=2
 
+"harpoon
+nnoremap <silent><leader>a :lua require("harpoon.mark").add_file()<CR>
+nnoremap <silent><C-e> :lua require("harpoon.ui").toggle_quick_menu()<CR>
+"nnoremap <silent><leader>tc :lua require("harpoon.cmd-ui").toggle_quick_menu()<CR>
+
+nnoremap <silent><leader>1 :lua require("harpoon.ui").nav_file(1)<CR>
+nnoremap <silent><leader>2 :lua require("harpoon.ui").nav_file(2)<CR>
+nnoremap <silent><leader>3 :lua require("harpoon.ui").nav_file(3)<CR>
+nnoremap <silent><leader>4 :lua require("harpoon.ui").nav_file(4)<CR>
+nnoremap <silent><leader>tu :lua require("harpoon.term").gotoTerminal(1)<CR>
+nnoremap <silent><leader>te :lua require("harpoon.term").gotoTerminal(2)<CR>
+nnoremap <silent><leader>cu :lua require("harpoon.term").sendCommand(1, 1)<CR>
+nnoremap <silent><leader>ce :lua require("harpoon.term").sendCommand(1, 2)<CR>
+
+"markdown .md autopreview
+nmap <leader><C-s> <Plug>MarkdownPreview
+
+let g:OmniSharp_highlighting = 0
 let g:OmniSharp_server_use_mono = 1
 " Navigate quickfix list with ease
 nnoremap <silent> [q :cprevious<CR>

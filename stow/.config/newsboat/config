@@ -1,6 +1,12 @@
 #pager "/usr/bin/nbparser"
 #html-renderer "/bin/cat"
 #show-read-feeds no
+urls-source "ttrss"
+ttrss-url "https://radiofedor.ru/tt-rss/"
+ttrss-login "admin"
+ssl-verifyhost no
+ssl-verifypeer no
+ttrss-passwordeval "pass show rss"
 auto-reload no
 
 #external-url-viewer "urlview"

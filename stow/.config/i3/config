@@ -52,7 +52,7 @@ exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id st -e sh -c tmux 
 # telegram client
 #bindsym $mod+Shift+w exec --no-startup-id i3-msg 'workspace 10'; exec --no-startup-id kotatogram-desktop
 #exec --no-startup-id i3-msg 'workspace 10'; exec --no-startup-id kotatogram-desktop
-exec --no-startup-id i3-msg 'workspace 10; exec kotatogram-desktop'
+exec --no-startup-id i3-msg 'exec kotatogram-desktop'
 
 
 #set screen resolution
