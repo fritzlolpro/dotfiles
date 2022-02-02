@@ -19,6 +19,7 @@ interval=10
 #[bluetooth]
 #command=./bluetooth
 #interval=1
+
 [docker]
 command=./docker
 #color=#0db7ed

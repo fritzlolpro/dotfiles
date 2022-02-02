@@ -14,15 +14,22 @@ set $mod Mod4
 #set russian keyboard layout and alt+shift to switch
 exec_always "setxkbmap -model pc101 -layout us,ru -variant ,, -option grp:alt_shift_toggle"
 
-# run eye saver
-exec redshift
+# notifications
+exec_always dunst
 
+# mouse settings
+exec_always --no-startup-id "solaar --window=hide --restart-on-wake-up"
+
+# run eye saver
+exec redshift -l $(curl -s "https://location.services.mozilla.com/v1/geolocate?key=geoclue" | awk 'OFS=":" {print $3,$5}' | tr -d ',}')
 # run flameshot screen capturer
+exec flameshot
 bindsym Control+Mod1+5 exec flameshot gui
 #
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 8
+#font pango:monospace 8
+font pango:hack 8
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -41,6 +48,9 @@ exec --no-startup-id nm-applet
 
 # polkit
 exec --no-startup-id /usr/lib/polkit-kde-authentication-agent-1
+
+#source Xresources
+exec_always xrdb -merge ~/.Xdefaults
 
 # connect to raspi
 exec --no-startup-id 'nohup sshfs pi@192.168.1.200:/mnt/bigboy ~/raspberrypi/ -o default_permissions -o debug > /dev/null 2>&1 &'
