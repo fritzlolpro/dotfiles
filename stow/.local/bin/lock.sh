@@ -11,10 +11,10 @@ log () {
 	msg="[lock ${VERSION}] ${when} $1"
 	echo "${msg}" >> "${LOG}"
 }
-
+# turn off screen after lock
 lock () {
 	if [ ! -f "${NOLOCK}" ]; then
-		i3lock --nofork --tiling --ignore-empty-password --show-failed-attempts
+		i3lock -c 39332E -d --nofork --tiling --ignore-empty-password --show-failed-attempts
 	else
 		log "${NOLOCK} found, not locking"
 	fi

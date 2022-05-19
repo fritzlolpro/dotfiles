@@ -17,6 +17,9 @@ exec_always "setxkbmap -model pc101 -layout us,ru -variant ,, -option grp:alt_sh
 # notifications
 exec_always dunst
 
+#turn off screen after on inactivity
+exec_always --no-startup-id xset dpms 0 0 900
+
 # mouse settings
 exec_always --no-startup-id "solaar --window=hide --restart-on-wake-up"
 
@@ -68,10 +71,10 @@ exec --no-startup-id i3-msg 'exec kotatogram-desktop'
 #set screen resolution
 exec_always --no-startup-id arrangeDisplay
 
-workspace 10 output HDMI-0
-workspace 2 output HDMI-0
-workspace 1 output HDMI-0
-workspace 3 output HDMI-0
+workspace 10 output HDMI-1
+workspace 2 output HDMI-1
+workspace 1 output HDMI-1
+workspace 3 output HDMI-1
 
 # Assign applications to workspaces
 assign [class="brave-browser"] 2
