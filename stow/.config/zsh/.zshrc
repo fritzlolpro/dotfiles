@@ -172,3 +172,5 @@ unset -f bind-git-helper
 #source ~/Documents/gitstatus/gitstatus.prompt.zsh
 # Load syntax highlighting; should be last.
 source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
+source ~/.local/share/zsh/plugins/zsh-z.plugin.zsh
+
