@@ -12,6 +12,7 @@ set spellfile=~/.config/nvim/spell/vimspell.utf-8.add
 set wrap linebreak
 set clipboard=unnamedplus
 set guicursor+=n:-blinkwait175-blinkoff150-blinkon175
+set guifont=Hack\ Nerd\ Font\ Bold\ 14
 set number relativenumber
 set hidden
 set noerrorbells
@@ -144,6 +145,7 @@ let g:airline#extensions#default#layout = [
   \ ]
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#branch#displayed_head_limit = 10
+let g:airline_powerline_fonts = 1
 " to only show the tail, e.g. a branch 'feature/foo' becomes 'foo', use
 "let g:airline#extensions#branch#format = 1
 " to truncate all path sections but the last one, e.g. a branch
@@ -192,7 +194,6 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
   Plug 'tomarrell/vim-npr'
-  Plug 'brooth/far.vim'
   Plug 'https://github.com/nvie/vim-togglemouse'
   Plug 'https://github.com/tpope/vim-surround'
   Plug 'https://github.com/ap/vim-css-color'
@@ -305,11 +306,15 @@ xnoremap <leader>d "_d
 xnoremap <leader>p "_dP
 nnoremap j gj
 nnoremap k gk
-
+"
+" Restore last position
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+"
 " NERDTree
 let NERDTreeShowHidden = 1
-let NERDTreeMinimalUI = 1
-nnoremap <leader>b :NERDTree<CR>
+let NERDTreeMinimalUI = 0
+nnoremap <leader>bb :NERDTreeToggle<CR>
+nnoremap <leader>bf :NERDTreeFind<CR>
 
 
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by

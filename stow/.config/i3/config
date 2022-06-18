@@ -75,11 +75,19 @@ workspace 10 output HDMI-1
 workspace 2 output HDMI-1
 workspace 1 output HDMI-1
 workspace 3 output HDMI-1
+workspace 4 output HDMI-1
 
 # Assign applications to workspaces
 assign [class="brave-browser"] 2
 #assign [class="kotatogram-desktop"] 10
 #for_window [class="kotatogram-desktop"] move scratchpad
+for_window [class="kotatogram-desktop" title="Telegram*" window_type="normal"] floating enable, border none, move absolute position center, resize set 1000px 800px, move scratchpad
+# Telegram picture viewer
+for_window [class="kotatogram-desktop" title="Media viewer"] floating enable, border pixel 5
+# Telegram PiP window
+for_window [class="kotatogram-desktop" window_type="utility"] floating enable, border pixel 5, sticky enable
+
+bindsym $super+o [class=kotatogram-desktop] scratchpad show; mode "default"
 # Use pactl to adjust volume in PulseAudio.
 #set $refresh_i3status killall -SIGUSR1 i3status
 #bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
