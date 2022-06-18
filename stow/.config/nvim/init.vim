@@ -243,10 +243,9 @@ require'nvim-treesitter.configs'.setup {
 }
 require("harpoon").setup({
     global_settings = {
-        save_on_toggle = true,
         save_on_change = true,
+        global_project = vim.fn[  's:find_git_root'  ]()
     },
-   global_project = "/home/fedor/Documents/programming/overgear/og-frontend",
 })
 EOF
 set foldmethod=indent
