@@ -216,6 +216,9 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
   Plug 'rbgrouleff/bclose.vim'
   Plug 'francoiscabrol/ranger.vim'
+  Plug 'https://github.com/charludo/projectmgr.nvim'
+  Plug 'windwp/nvim-spectre'
+  Plug 'kdheepak/lazygit.nvim'
 call plug#end()
 
 "treesitter
@@ -340,13 +343,16 @@ nmap <leader>cf :CocCommand prettier.formatFile<CR>
 nmap <leader>ca <Plug>(coc-codeaction)
 nnoremap <leader>cr :CocRestart<CR>
 
-" Far search/replace
-let g:far#cwd = s:find_git_root()
-let g:far#source = 'rgnvim'
-let g:far#window_layout = 'tab'
-nmap <silent> <buffer> <leader>gs :Farf<cr>
-nmap <silent> <buffer> <leader>gc :Farr<cr>
 
+" spectre search and replace
+nnoremap <leader>S <cmd>lua require('spectre').open()<CR>
+
+"search current word
+nnoremap <leader>sw <cmd>lua require('spectre').open_visual({select_word=true})<CR>
+vnoremap <leader>s <cmd>lua require('spectre').open_visual()<CR>
+"  search in current file
+nnoremap <leader>sp viw:lua require('spectre').open_file_search()<cr>
+" run command :Spectre
 
 augroup omnisharp_commands
   autocmd!
@@ -394,6 +400,8 @@ augroup END
 nmap <leader>gf :diffget //3<CR>
 nmap <leader>gj :diffget //2<CR>
 "nmap <leader>gs :G<CR>
+" setup mapping to call :LazyGit
+nnoremap <silent> <leader>lg :LazyGit<CR>
 
 "move line under cursor with keys
 vnoremap <A-Up> :m-2<CR>
