@@ -124,6 +124,7 @@ let g:coc_global_extensions = [
   \ 'coc-pairs',
   \ 'coc-eslint',
   \ 'coc-json',
+  \ 'coc-lua',
   \ 'coc-prettier',
   \ 'coc-tsserver',
   \ 'coc-styled-components',
@@ -219,13 +220,14 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'https://github.com/charludo/projectmgr.nvim'
   Plug 'windwp/nvim-spectre'
   Plug 'kdheepak/lazygit.nvim'
+  Plug './plugged/whid'
 call plug#end()
 
 "treesitter
 "packadd nvim-treesitter
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ensure_installed = {"rust", "lua", "typescript", "json", "javascript", "html", "jsdoc", "vue", "bash", "tsx", "dockerfile", "regex", "vim", "make", "c"}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
   ignore_install = {}, -- List of parsers to ignore installing
   highlight = {
