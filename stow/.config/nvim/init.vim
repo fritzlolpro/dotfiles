@@ -220,14 +220,17 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'https://github.com/charludo/projectmgr.nvim'
   Plug 'windwp/nvim-spectre'
   Plug 'kdheepak/lazygit.nvim'
-  Plug './plugged/whid'
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-telescope/telescope.nvim'
+  Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
 call plug#end()
 
 "treesitter
 "packadd nvim-treesitter
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = {"rust", "lua", "typescript", "json", "javascript", "html", "jsdoc", "vue", "bash", "tsx", "dockerfile", "regex", "vim", "make", "c"}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  --ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ensure_installed = {"rust",  "dockerfile", "lua", "typescript", "json", "javascript", "html", "jsdoc", "vue", "bash", "tsx", "dockerfile", "regex", "vim", "make", "c"}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
   ignore_install = {}, -- List of parsers to ignore installing
   highlight = {
@@ -237,7 +240,7 @@ require'nvim-treesitter.configs'.setup {
     -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
     -- Using this option may slow down your editor, and you may see some duplicate highlights.
     -- Instead of true it can also be a list of languages
-    additional_vim_regex_highlighting = false,
+    additional_vim_regex_highlighting = true,
   },
   indent = {
     enable = true
@@ -249,14 +252,71 @@ require'nvim-treesitter.configs'.setup {
 require("harpoon").setup({
     global_settings = {
         save_on_change = true,
-        global_project = vim.fn[  's:find_git_root'  ]()
+        global_project = vim.fn['s:find_git_root']()
     },
 })
+
+require('telescope').setup({
+  defaults = {
+      vimgrep_arguments = {
+      "rg",
+      "--color=never",
+      "--no-heading",
+      "--with-filename",
+      "--line-number",
+      "--column",
+      "--smart-case",
+      "--trim" -- add this value
+    },
+    -- Default configuration for telescope goes here:
+    -- config_key = value,
+    mappings = {
+      i = {
+        -- map actions.which_key to <C-h> (default: <C-/>)
+        -- actions.which_key shows the mappings for your picker,
+        -- e.g. git_{create, delete, ...}_branch for the git_branches picker
+        --["<C-h>"] = "which_key"
+        ["<C-j>"] = require('telescope.actions').move_selection_next,
+        ["<C-k>"] = require('telescope.actions').move_selection_previous,
+      }
+    }
+  },
+  --pickers = {
+    -- Default configuration for builtin pickers goes here:
+    -- picker_name = {
+    --   picker_config_key = value,
+    --   ...
+    -- }
+    -- Now the picker_config_key will be applied every time you call this
+    -- builtin picker
+  --},
+  extensions = {
+    -- Your extension configuration goes here:
+    -- extension_name = {
+    --   extension_config_key = value,
+    -- }
+    -- please take a look at the readme of the extension you want to configure
+        fzf = {
+          fuzzy = true,                    -- false will only do exact matching
+          override_generic_sorter = true,  -- override the generic sorter
+          override_file_sorter = true,     -- override the file sorter
+          case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+                                           -- the default case_mode is "smart_case"
+        }
+    }
+})
+require('telescope').load_extension('fzf')
 EOF
 set foldmethod=indent
 set foldnestmax=10
 set nofoldenable
 set foldlevel=2
+
+" TELESCOPE
+"nnoremap <leader>tf <cmd>lua require('telescope.builtin').live_grep({search_dirs={ProjectFiles}, hidden=true})<cr>
+
+"nnoremap <leader>tf <cmd>lua require'telescope.builtin'.grep_string{ search_dirs={ProjectFiles}, shorten_path = true, word_match = "-w", only_sort_text = true, search = '' }<cr>
+
 
 "harpoon
 nnoremap <silent><leader>a :lua require("harpoon.mark").add_file()<CR>
@@ -490,6 +550,7 @@ let g:OmniSharp_highlight_groups = {
 command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --glob '!node_modules/*' --no-heading --color=always --smart-case " . shellescape(<q-args>), 1,    fzf#vim#with_preview({"dir": FindRootDirectory(), 'options': '--delimiter : --nth 4..'}))
 
 command! -bang -nargs=? -complete=dir GitFiles call fzf#vim#gitfiles(shellescape(<q-args>), fzf#vim#with_preview({'options': '-i'}), <bang>0)
+
 command! ProjectFiles execute 'GitFiles' s:find_git_root()
 
 if executable('rg')
