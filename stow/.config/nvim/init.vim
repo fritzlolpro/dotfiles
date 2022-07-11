@@ -160,11 +160,11 @@ function! AirlineInit()
 endfunction
 autocmd VimEnter * call AirlineInit()
 
-function! s:find_git_root()
+function! Find_git_root()
   return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
 endfunction
 
-let projectDir = s:find_git_root()
+let projectDir = Find_git_root()
 
 if ! filereadable(system('echo -n "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim"'))
 	echo "Downloading junegunn/vim-plug to manage plugins..."
@@ -220,6 +220,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'https://github.com/charludo/projectmgr.nvim'
   Plug 'windwp/nvim-spectre'
   Plug 'kdheepak/lazygit.nvim'
+  Plug 'kyazdani42/nvim-web-devicons'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
@@ -228,6 +229,8 @@ call plug#end()
 "treesitter
 "packadd nvim-treesitter
 lua <<EOF
+
+-- TREESITTER
 require'nvim-treesitter.configs'.setup {
   --ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   ensure_installed = {"rust",  "dockerfile", "lua", "typescript", "json", "javascript", "html", "jsdoc", "vue", "bash", "tsx", "dockerfile", "regex", "vim", "make", "c"}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
@@ -249,13 +252,16 @@ require'nvim-treesitter.configs'.setup {
     enable = true,
   },
 }
+
+-- HARPOON
 require("harpoon").setup({
     global_settings = {
         save_on_change = true,
-        global_project = vim.fn['s:find_git_root']()
+        global_project = vim.fn['Find_git_root']()
     },
 })
 
+-- TELESCOPE
 require('telescope').setup({
   defaults = {
       vimgrep_arguments = {
@@ -266,8 +272,10 @@ require('telescope').setup({
       "--line-number",
       "--column",
       "--smart-case",
-      "--trim" -- add this value
+      "--trim"
     },
+      layout_strategy = 'vertical',
+      layout_config = { height = 0.95 },
     -- Default configuration for telescope goes here:
     -- config_key = value,
     mappings = {
@@ -306,16 +314,48 @@ require('telescope').setup({
     }
 })
 require('telescope').load_extension('fzf')
+
+vim.api.nvim_set_keymap('n',  '<leader>tgs', [[
+    <cmd>lua require'telescope.builtin'.grep_string({cwd=vim.fn['Find_git_root']()})<cr>
+]], {noremap = true})
+
+vim.api.nvim_set_keymap('n',  '<leader>tbb', [[
+    <cmd>lua require'telescope.builtin'.buffers()<cr>
+]], {noremap = true})
+
+vim.api.nvim_set_keymap('n',  '<leader>thh', [[
+    <cmd>lua require'telescope.builtin'.help_tags()<cr>
+]], {noremap = true})
+
+vim.api.nvim_set_keymap('n',  '<leader>ttt', [[
+    <cmd>Telescope<cr>
+]], {noremap = true})
+
+-- SPECTRE search and replace
+vim.api.nvim_set_keymap('n', '<Leader>S', [[
+    <cmd>lua require('spectre').open({cwd = vim.fn['Find_git_root']()})<CR>
+]], {noremap = true, silent = true})
+
+
+--search current word
+vim.api.nvim_set_keymap('n', '<leader>sw', [[
+    <cmd>lua require('spectre').open_visual({select_word=true}) <CR>
+]], {noremap = true})
+
+vim.api.nvim_set_keymap('v', '<leader>s', [[
+    <cmd>lua require('spectre').open_visual() <CR>
+]], {noremap = true})
+
+--  search in current file
+vim.api.nvim_set_keymap('n', '<leader>sp', [[
+    <cmd>lua require('spectre').open_file_search() <CR>
+]], {noremap = true})
+
 EOF
 set foldmethod=indent
 set foldnestmax=10
 set nofoldenable
 set foldlevel=2
-
-" TELESCOPE
-"nnoremap <leader>tf <cmd>lua require('telescope.builtin').live_grep({search_dirs={ProjectFiles}, hidden=true})<cr>
-
-"nnoremap <leader>tf <cmd>lua require'telescope.builtin'.grep_string{ search_dirs={ProjectFiles}, shorten_path = true, word_match = "-w", only_sort_text = true, search = '' }<cr>
 
 
 "harpoon
@@ -333,7 +373,7 @@ nnoremap <silent><leader>cu :lua require("harpoon.term").sendCommand(1, 1)<CR>
 nnoremap <silent><leader>ce :lua require("harpoon.term").sendCommand(1, 2)<CR>
 
 "markdown .md autopreview
-nmap <leader><C-s> <Plug>MarkdownPreview
+"nmap <leader><C-s> <Plug>MarkdownPreview
 
 let g:OmniSharp_highlighting = 0
 let g:OmniSharp_server_use_mono = 1
@@ -343,7 +383,7 @@ nnoremap <silent> ]q :cnext<CR>
 
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 
-nmap <leader>pa :let @" = expand("%:p")<cr>
+nmap <leader>pa <cmd>:let @" = expand("%:p")<cr>
 nnoremap <silent> <Leader>rg :Rg <C-R><C-W><CR>
 nnoremap <leader>h :wincmd h<CR>
 nnoremap <leader>j :wincmd j<CR>
@@ -404,17 +444,6 @@ nmap <silent> <leader>gn <Plug>(coc-diagnostic-next)
 nmap <leader>cf :CocCommand prettier.formatFile<CR>
 nmap <leader>ca <Plug>(coc-codeaction)
 nnoremap <leader>cr :CocRestart<CR>
-
-
-" spectre search and replace
-nnoremap <leader>S <cmd>lua require('spectre').open()<CR>
-
-"search current word
-nnoremap <leader>sw <cmd>lua require('spectre').open_visual({select_word=true})<CR>
-vnoremap <leader>s <cmd>lua require('spectre').open_visual()<CR>
-"  search in current file
-nnoremap <leader>sp viw:lua require('spectre').open_file_search()<cr>
-" run command :Spectre
 
 augroup omnisharp_commands
   autocmd!
@@ -551,7 +580,7 @@ command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --glob '
 
 command! -bang -nargs=? -complete=dir GitFiles call fzf#vim#gitfiles(shellescape(<q-args>), fzf#vim#with_preview({'options': '-i'}), <bang>0)
 
-command! ProjectFiles execute 'GitFiles' s:find_git_root()
+command! ProjectFiles execute 'GitFiles' Find_git_root()
 
 if executable('rg')
     let g:rg_derive_root='true'
