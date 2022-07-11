@@ -331,6 +331,10 @@ vim.api.nvim_set_keymap('n',  '<leader>ttt', [[
     <cmd>Telescope<cr>
 ]], {noremap = true})
 
+vim.api.nvim_set_keymap('n',  '<leader>tcc', [[
+    <cmd>lua require'telescope.builtin'.commands()<cr>
+]], {noremap = true})
+
 -- SPECTRE search and replace
 vim.api.nvim_set_keymap('n', '<Leader>S', [[
     <cmd>lua require('spectre').open({cwd = vim.fn['Find_git_root']()})<CR>
@@ -493,7 +497,7 @@ nmap <leader>gj :diffget //2<CR>
 "nmap <leader>gs :G<CR>
 " setup mapping to call :LazyGit
 nnoremap <silent> <leader>lg :LazyGit<CR>
-
+"
 "move line under cursor with keys
 vnoremap <A-Up> :m-2<CR>
 vnoremap <A-Down> :m+<CR>
