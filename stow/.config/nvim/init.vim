@@ -222,6 +222,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'kdheepak/lazygit.nvim'
   Plug 'kyazdani42/nvim-web-devicons'
   Plug 'nvim-lua/plenary.nvim'
+  Plug 'kyazdani42/nvim-tree.lua'
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
 call plug#end()
@@ -259,6 +260,26 @@ require("harpoon").setup({
         save_on_change = true,
         global_project = vim.fn['Find_git_root']()
     },
+})
+
+-- NVIMtree like nerdtree but lua
+require("nvim-tree").setup({
+    --sort_by = "case_sensitive",
+    view = {
+      adaptive_size = true,
+      mappings = {
+        list = {
+          { key = "?", action = "toggle_help" },
+        },
+      },
+    },
+    renderer = {
+   --   group_empty = true,
+        root_folder_modifier = ":t",
+    },
+   -- filters = {
+   --   dotfiles = true,
+   -- },
 })
 
 -- TELESCOPE
@@ -336,22 +357,77 @@ vim.api.nvim_set_keymap('n',  '<leader>tcc', [[
 ]], {noremap = true})
 
 -- SPECTRE search and replace
-vim.api.nvim_set_keymap('n', '<Leader>S', [[
+require('spectre').setup({
+  find_engine = {
+      -- rg is map with finder_cmd
+      ['rg'] = {
+        cmd = "rg",
+        -- default args
+        args = {
+          '--color=never',
+          '--no-heading',
+          '--with-filename',
+          '--line-number',
+          '--column',
+        } ,
+        options = {
+          ['ignore-case'] = {
+            value= "--ignore-case",
+            icon="[I]",
+            desc="ignore case"
+          },
+          ['hidden'] = {
+            value="--hidden",
+            desc="hidden file",
+            icon="[H]"
+          },
+          ['multiline'] = {
+            value="--multiline",
+            desc="multi line",
+            icon="[M]"
+          }
+          -- you can put any rg search option you want here it can toggle with
+          -- show_option function
+        }
+      },
+      ['ag'] = {
+        cmd = "ag",
+        args = {
+          '--vimgrep',
+          '-s'
+        } ,
+        options = {
+          ['ignore-case'] = {
+            value= "-i",
+            icon="[I]",
+            desc="ignore case"
+          },
+          ['hidden'] = {
+            value="--hidden",
+            desc="hidden file",
+            icon="[H]"
+          },
+        },
+      },
+    },
+})
+
+vim.api.nvim_set_keymap('n', '<Leader>ssg', [[
     <cmd>lua require('spectre').open({cwd = vim.fn['Find_git_root']()})<CR>
 ]], {noremap = true, silent = true})
 
 
 --search current word
-vim.api.nvim_set_keymap('n', '<leader>sw', [[
+vim.api.nvim_set_keymap('n', '<leader>ssw', [[
     <cmd>lua require('spectre').open_visual({select_word=true}) <CR>
 ]], {noremap = true})
 
-vim.api.nvim_set_keymap('v', '<leader>s', [[
+vim.api.nvim_set_keymap('v', '<leader>ssv', [[
     <cmd>lua require('spectre').open_visual() <CR>
 ]], {noremap = true})
 
 --  search in current file
-vim.api.nvim_set_keymap('n', '<leader>sp', [[
+vim.api.nvim_set_keymap('n', '<leader>ssf', [[
     <cmd>lua require('spectre').open_file_search() <CR>
 ]], {noremap = true})
 
@@ -419,11 +495,14 @@ nnoremap k gk
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 "
 " NERDTree
-let NERDTreeShowHidden = 1
-let NERDTreeMinimalUI = 0
-nnoremap <leader>bb :NERDTreeToggle<CR>
-nnoremap <leader>bf :NERDTreeFind<CR>
+"let NERDTreeShowHidden = 1
+"let NERDTreeMinimalUI = 0
+"nnoremap <leader>bb :NERDTreeToggle<CR>
+"nnoremap <leader>bf :NERDTreeFind<CR>
 
+" NVIMtree
+nnoremap <leader>ntt :NvimTreeToggle<CR>
+nnoremap <leader>ntf :NvimTreeFindFile<CR>
 
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
