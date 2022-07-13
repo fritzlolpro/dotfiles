@@ -31,6 +31,7 @@ alias \
 	xr="sudo xbps-remove -R" \
 	xq="xbps-query" \
 	za="zathura" \
+	lg="lazygit" \
 	r="ranger" \
 	sr="sudo ranger"
 
