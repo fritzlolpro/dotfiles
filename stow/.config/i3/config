@@ -25,8 +25,13 @@ exec --no-startup-id "solaar --window=hide --restart-on-wake-up"
 
 # run eye saver
 exec redshift -l $(curl -s "https://location.services.mozilla.com/v1/geolocate?key=geoclue" | awk 'OFS=":" {print $3,$5}' | tr -d ',}')
+
 # run flameshot screen capturer
 exec flameshot
+#
+# nextcloud cloud storage
+exec nextcloud
+#
 # Mod1 === alt
 bindsym Control+Mod1+5 exec flameshot gui
 #
