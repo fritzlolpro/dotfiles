@@ -19,7 +19,7 @@ set noerrorbells
 set tabstop=2 softtabstop=2
 set wrapmargin=0
 set tw=120
-set shiftwidth=2
+set shiftwidth=4
 set autoindent
 set copyindent
 set expandtab
@@ -39,8 +39,6 @@ set history=1000
 set undolevels=1000
 set formatoptions+=t
 set encoding=UTF-8
-set fileencodings=utf-8,cp1251,koi8-r,cp866
-
 set formatoptions-=l
 " Give more space for displaying messages.
 set cmdheight=2
@@ -123,9 +121,7 @@ let g:Lf_RgConfig = [
     \ ]
 
 let g:coc_global_extensions = [
-  \ 'coc-phpls',
   \ 'coc-pairs',
-  \ 'coc-cssmodules',
   \ 'coc-eslint',
   \ 'coc-json',
   \ 'coc-lua',
@@ -221,6 +217,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
   Plug 'rbgrouleff/bclose.vim'
   Plug 'francoiscabrol/ranger.vim'
+  Plug 'https://github.com/charludo/projectmgr.nvim'
   Plug 'windwp/nvim-spectre'
   Plug 'kdheepak/lazygit.nvim'
   Plug 'kyazdani42/nvim-web-devicons'
@@ -228,8 +225,6 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'kyazdani42/nvim-tree.lua'
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
-  Plug 'https://github.com/tom-anders/telescope-vim-bookmarks.nvim'
-  Plug 'nvim-treesitter/nvim-treesitter-context'
 call plug#end()
 
 "treesitter
@@ -239,7 +234,7 @@ lua <<EOF
 -- TREESITTER
 require'nvim-treesitter.configs'.setup {
   --ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-  ensure_installed = {"rust",  "php","dockerfile", "lua", "typescript", "json", "javascript", "html", "jsdoc", "vue", "bash", "tsx", "dockerfile", "regex", "vim", "make", "c"}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ensure_installed = {"rust",  "dockerfile", "lua", "typescript", "json", "javascript", "html", "jsdoc", "vue", "bash", "tsx", "dockerfile", "regex", "vim", "make", "c"}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
   ignore_install = {}, -- List of parsers to ignore installing
   highlight = {
@@ -258,40 +253,7 @@ require'nvim-treesitter.configs'.setup {
     enable = true,
   },
 }
--- TRESITTER-CONTEXT Sticky Scroll
-require'treesitter-context'.setup{
-    enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-    max_lines = 1, -- How many lines the window should span. Values <= 0 mean no limit.
-    trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-    patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
-        -- For all filetypes
-        -- Note that setting an entry here replaces all other patterns for this entry.
-        -- By setting the 'default' entry below, you can control which nodes you want to
-        -- appear in the context window.
-        default = {
-            'class',
-            'function',
-            'method',
-            -- 'for', -- These won't appear in the context
-            -- 'while',
-            -- 'if',
-            -- 'switch',
-            -- 'case',
-        },
-        -- Example for a specific filetype.
-        -- If a pattern is missing, *open a PR* so everyone can benefit.
-        --   rust = {
-        --       'impl_item',
-        --   },
-    },
-    exact_patterns = {
-        -- Example for a specific filetype with Lua patterns
-        -- Treat patterns.rust as a Lua pattern (i.e "^impl_item$" will
-        -- exactly match "impl_item" only)
-        -- rust = true,
-    },
 
-}
 -- HARPOON
 require("harpoon").setup({
     global_settings = {
@@ -394,13 +356,6 @@ vim.api.nvim_set_keymap('n',  '<leader>tcc', [[
     <cmd>lua require'telescope.builtin'.commands()<cr>
 ]], {noremap = true})
 
-vim.api.nvim_set_keymap('n',  '<leader>tmm', [[
-    <cmd>lua require('telescope').extensions.vim_bookmarks.all({tail_path=false})<cr>
-]], {noremap = true})
-
-vim.api.nvim_set_keymap('n',  '<leader>tmf', [[
-<cmd>lua require('telescope').extensions.vim_bookmarks.current_file()<cr>
-]], {noremap = true})
 -- SPECTRE search and replace
 require('spectre').setup({
   find_engine = {
@@ -551,25 +506,13 @@ nnoremap <leader>ntf :NvimTreeFindFile<CR>
 
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
-"inoremap <silent><expr><TAB>
-"            \ pumvisible() ? "\<C-n>" :
-"            \ <SID>check_back_space() ? "\<TAB>" :
-"            \ coc#refresh()
-"
-"inoremap <silent><expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
- inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-    inoremap <silent><expr> <C-x><C-z> coc#pum#visible() ? coc#pum#stop() : "\<C-x>\<C-z>"
-    " remap for complete to use tab and <cr>
-    inoremap <silent><expr> <TAB>
-        \ coc#pum#visible() ? coc#pum#next(1):
-        \ <SID>check_back_space() ? "\<Tab>" :
-        \ coc#refresh()
-    inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
-    inoremap <silent><expr> <c-space> coc#refresh()
+inoremap <silent><expr><TAB>
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ coc#refresh()
 
-    hi CocSearch ctermfg=12 guifg=#18A3FF
-    hi CocMenuSel ctermbg=109 guibg=#13354A
-    "
+inoremap <silent><expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
 " GoTo coc code navigation.
 inoremap <silent><expr><C-space> coc#refresh()
 nmap <leader>gd <Plug>(coc-definition)
@@ -581,8 +524,7 @@ nmap <leader>g[ <Plug>(coc-diagnostic-prev)
 nmap <leader>g] <Plug>(coc-diagnostic-next)
 nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev)
 nmap <silent> <leader>gn <Plug>(coc-diagnostic-next)
-"nmap <leader>cf :CocCommand prettier.formatFile<CR>
-nmap <leader>cf :CocCommand eslint.executeAutofix<CR>
+nmap <leader>cf :CocCommand prettier.formatFile<CR>
 nmap <leader>ca <Plug>(coc-codeaction)
 nnoremap <leader>cr :CocRestart<CR>
 
