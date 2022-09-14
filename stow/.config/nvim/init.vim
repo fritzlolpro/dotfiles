@@ -203,8 +203,6 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'https://github.com/tpope/vim-surround'
   Plug 'https://github.com/ap/vim-css-color'
   Plug 'zivyangll/git-blame.vim'
-  Plug 'preservim/nerdtree'
-  Plug 'Xuyuanp/nerdtree-git-plugin'
   Plug 'ryanoasis/vim-devicons'
   Plug 'airblade/vim-rooter'
   Plug 'dyng/ctrlsf.vim'
@@ -226,10 +224,14 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'kyazdani42/nvim-web-devicons'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'kyazdani42/nvim-tree.lua'
+  Plug 'https://github.com/p00f/nvim-ts-rainbow'
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
   Plug 'https://github.com/tom-anders/telescope-vim-bookmarks.nvim'
   Plug 'nvim-treesitter/nvim-treesitter-context'
+  Plug 'phaazon/hop.nvim'
+  Plug 'https://github.com/tpope/vim-commentary'
+  Plug 'https://github.com/JoosepAlviste/nvim-ts-context-commentstring'
 call plug#end()
 
 "treesitter
@@ -257,6 +259,17 @@ require'nvim-treesitter.configs'.setup {
   fold = {
     enable = true,
   },
+  rainbow = {
+    enable = true,
+    -- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
+    extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+    max_file_lines = nil, -- Do not enable for files with more than n lines, int
+    -- colors = {}, -- table of hex strings
+    -- termcolors = {} -- table of colour name strings
+  },
+  context_commentstring = {
+    enable = true
+  }
 }
 -- TRESITTER-CONTEXT Sticky Scroll
 require'treesitter-context'.setup{
@@ -348,7 +361,7 @@ require('telescope').setup({
       }
     }
   },
-  --pickers = {
+  pickers = {
     -- Default configuration for builtin pickers goes here:
     -- picker_name = {
     --   picker_config_key = value,
@@ -356,7 +369,11 @@ require('telescope').setup({
     -- }
     -- Now the picker_config_key will be applied every time you call this
     -- builtin picker
-  --},
+     buffers = {
+            ignore_current_buffer = true,
+            sort_lastused = true,
+        },
+  },
   extensions = {
     -- Your extension configuration goes here:
     -- extension_name = {
@@ -373,6 +390,10 @@ require('telescope').setup({
     }
 })
 require('telescope').load_extension('fzf')
+
+vim.api.nvim_set_keymap('n',  '<leader>tct', [[
+    <cmd>lua require('telescope').extensions.ctags_outline.outline({buf='all'})<cr>
+]], {noremap = true})
 
 vim.api.nvim_set_keymap('n',  '<leader>tgs', [[
     <cmd>lua require'telescope.builtin'.grep_string({cwd=vim.fn['Find_git_root']()})<cr>
@@ -401,6 +422,7 @@ vim.api.nvim_set_keymap('n',  '<leader>tmm', [[
 vim.api.nvim_set_keymap('n',  '<leader>tmf', [[
 <cmd>lua require('telescope').extensions.vim_bookmarks.current_file()<cr>
 ]], {noremap = true})
+
 -- SPECTRE search and replace
 require('spectre').setup({
   find_engine = {
@@ -476,6 +498,14 @@ vim.api.nvim_set_keymap('n', '<leader>ssf', [[
     <cmd>lua require('spectre').open_file_search() <CR>
 ]], {noremap = true})
 
+-- NVIM HOP
+require'hop'.setup{
+  keys = 'etovxqpdygfblzhckisuran'
+}
+vim.api.nvim_set_keymap('', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
+vim.api.nvim_set_keymap('', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
+vim.api.nvim_set_keymap('', 't', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })<cr>", {})
+vim.api.nvim_set_keymap('', 'T', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })<cr>", {})
 EOF
 set foldmethod=indent
 set foldnestmax=10
@@ -492,6 +522,7 @@ nnoremap <silent><leader>1 :lua require("harpoon.ui").nav_file(1)<CR>
 nnoremap <silent><leader>2 :lua require("harpoon.ui").nav_file(2)<CR>
 nnoremap <silent><leader>3 :lua require("harpoon.ui").nav_file(3)<CR>
 nnoremap <silent><leader>4 :lua require("harpoon.ui").nav_file(4)<CR>
+nnoremap <silent><leader>5 :lua require("harpoon.ui").nav_file(5)<CR>
 nnoremap <silent><leader>tu :lua require("harpoon.term").gotoTerminal(1)<CR>
 nnoremap <silent><leader>te :lua require("harpoon.term").gotoTerminal(2)<CR>
 nnoremap <silent><leader>cu :lua require("harpoon.term").sendCommand(1, 1)<CR>
@@ -557,18 +588,18 @@ nnoremap <leader>ntf :NvimTreeFindFile<CR>
 "            \ coc#refresh()
 "
 "inoremap <silent><expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
- inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-    inoremap <silent><expr> <C-x><C-z> coc#pum#visible() ? coc#pum#stop() : "\<C-x>\<C-z>"
-    " remap for complete to use tab and <cr>
-    inoremap <silent><expr> <TAB>
-        \ coc#pum#visible() ? coc#pum#next(1):
-        \ <SID>check_back_space() ? "\<Tab>" :
-        \ coc#refresh()
-    inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
-    inoremap <silent><expr> <c-space> coc#refresh()
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1):
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
-    hi CocSearch ctermfg=12 guifg=#18A3FF
-    hi CocMenuSel ctermbg=109 guibg=#13354A
+"hi CocSearch ctermfg=12 guifg=#18A3FF
+"hi CocMenuSel ctermbg=109 guibg=#13354A
     "
 " GoTo coc code navigation.
 inoremap <silent><expr><C-space> coc#refresh()
