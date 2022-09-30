@@ -232,6 +232,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'phaazon/hop.nvim'
   Plug 'https://github.com/tpope/vim-commentary'
   Plug 'https://github.com/JoosepAlviste/nvim-ts-context-commentstring'
+  Plug 'Yilin-Yang/vim-markbar'
 call plug#end()
 
 "treesitter
@@ -511,7 +512,8 @@ set foldmethod=indent
 set foldnestmax=10
 set nofoldenable
 set foldlevel=2
-
+nnoremap <A-a> <C-a>
+nnoremap <A-x> <C-x>
 
 "harpoon
 nnoremap <silent><leader>a :lua require("harpoon.mark").add_file()<CR>
