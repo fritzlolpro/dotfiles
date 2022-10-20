@@ -487,7 +487,7 @@ vim.api.nvim_set_keymap('n', '<Leader>ssg', [[
 
 --search current word
 vim.api.nvim_set_keymap('n', '<leader>ssw', [[
-    <cmd>lua require('spectre').open_visual({select_word=true}) <CR>
+    <cmd>lua require('spectre').open_visual({cwd = vim.fn['Find_git_root'](), select_word=true}) <CR>
 ]], {noremap = true})
 
 vim.api.nvim_set_keymap('v', '<leader>ssv', [[
