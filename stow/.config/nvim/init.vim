@@ -508,6 +508,7 @@ vim.api.nvim_set_keymap('', 'F', "<cmd>lua require'hop'.hint_char1({ direction =
 vim.api.nvim_set_keymap('', 't', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })<cr>", {})
 vim.api.nvim_set_keymap('', 'T', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })<cr>", {})
 EOF
+
 set foldmethod=indent
 set foldnestmax=10
 set nofoldenable
