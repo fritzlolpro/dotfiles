@@ -133,6 +133,8 @@ let g:coc_global_extensions = [
   \ 'coc-tsserver',
   \ 'coc-styled-components',
   \ 'coc-omnisharp',
+  \ 'coc-pyright',
+  \ 'coc-rust-analyzer'
   \ ]
 
 let g:airline#extensions#default#section_truncate_width = {
@@ -187,7 +189,7 @@ endfunction
 call plug#begin('~/.config/nvim/plugged')
   Plug 'nvim-treesitter/nvim-treesitter', Cond(has('nvim-0.5'), {'do': ':TSUpdate'})
   Plug 'dense-analysis/ale'
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
   Plug 'alvan/vim-closetag'
   Plug 'mg979/vim-visual-multi', {'branch': 'master'}
   Plug 'dominikduda/vim_current_word'
@@ -233,6 +235,10 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'https://github.com/tpope/vim-commentary'
   Plug 'https://github.com/JoosepAlviste/nvim-ts-context-commentstring'
   Plug 'Yilin-Yang/vim-markbar'
+  Plug 'tpope/vim-fugitive'
+  Plug 'junegunn/gv.vim'
+  Plug 'j-hui/fidget.nvim'
+  Plug 'rust-lang/rust.vim'
 call plug#end()
 
 "treesitter
@@ -507,6 +513,8 @@ vim.api.nvim_set_keymap('', 'f', "<cmd>lua require'hop'.hint_char1({ direction =
 vim.api.nvim_set_keymap('', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
 vim.api.nvim_set_keymap('', 't', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })<cr>", {})
 vim.api.nvim_set_keymap('', 'T', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })<cr>", {})
+
+require"fidget".setup{}
 EOF
 
 set foldmethod=indent
@@ -530,6 +538,9 @@ nnoremap <silent><leader>tu :lua require("harpoon.term").gotoTerminal(1)<CR>
 nnoremap <silent><leader>te :lua require("harpoon.term").gotoTerminal(2)<CR>
 nnoremap <silent><leader>cu :lua require("harpoon.term").sendCommand(1, 1)<CR>
 nnoremap <silent><leader>ce :lua require("harpoon.term").sendCommand(1, 2)<CR>
+
+" -- RUST stuff
+let g:rustfmt_emit_files = 1
 
 "markdown .md autopreview
 "nmap <leader><C-s> <Plug>MarkdownPreview
@@ -679,6 +690,8 @@ inoremap <A-Down> <Esc>:m+<CR>
 
 nnoremap <leader>ss :mks! ~/Documents/programming/vim-sessions/session.vim<CR>
 nnoremap <leader>sr :so ~/Documents/programming/vim-sessions/session.vim<CR>
+
+tnoremap <Esc> <C-\><C-n>
 
 " Colors: {{{
 augroup ColorschemePreferences
