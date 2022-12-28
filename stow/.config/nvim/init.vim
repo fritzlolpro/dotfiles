@@ -239,6 +239,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'junegunn/gv.vim'
   Plug 'j-hui/fidget.nvim'
   Plug 'rust-lang/rust.vim'
+  Plug 'https://github.com/debugloop/telescope-undo.nvim'
 call plug#end()
 
 "treesitter
@@ -353,8 +354,8 @@ require('telescope').setup({
       "--smart-case",
       "--trim"
     },
-      layout_strategy = 'vertical',
-      layout_config = { height = 0.95 },
+      layout_strategy = 'flex',
+      layout_config = { height = 0.95, width = 0.95 },
     -- Default configuration for telescope goes here:
     -- config_key = value,
     mappings = {
@@ -393,10 +394,17 @@ require('telescope').setup({
           override_file_sorter = true,     -- override the file sorter
           case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
                                            -- the default case_mode is "smart_case"
+        },
+        undo = {
+          side_by_side = true
         }
     }
 })
 require('telescope').load_extension('fzf')
+
+-- TELESCOPE UNDO TREE
+require("telescope").load_extension("undo")
+vim.keymap.set("n", "<leader>tut", "<cmd>Telescope undo<cr>")
 
 vim.api.nvim_set_keymap('n',  '<leader>tct', [[
     <cmd>lua require('telescope').extensions.ctags_outline.outline({buf='all'})<cr>
