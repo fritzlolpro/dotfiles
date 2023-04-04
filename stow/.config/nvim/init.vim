@@ -131,7 +131,6 @@ let g:coc_global_extensions = [
   \ 'coc-lua',
   \ 'coc-prettier',
   \ 'coc-tsserver',
-  \ 'coc-styled-components',
   \ 'coc-omnisharp',
   \ 'coc-pyright',
   \ 'coc-rust-analyzer'
@@ -240,6 +239,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'j-hui/fidget.nvim'
   Plug 'rust-lang/rust.vim'
   Plug 'https://github.com/debugloop/telescope-undo.nvim'
+  Plug 'https://github.com/kevinhwang91/nvim-bqf'
 call plug#end()
 
 "treesitter
@@ -634,8 +634,8 @@ nmap <leader>g[ <Plug>(coc-diagnostic-prev)
 nmap <leader>g] <Plug>(coc-diagnostic-next)
 nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev)
 nmap <silent> <leader>gn <Plug>(coc-diagnostic-next)
-"nmap <leader>cf :CocCommand prettier.formatFile<CR>
-nmap <leader>cf :CocCommand eslint.executeAutofix<CR>
+nmap <leader>cf :CocCommand prettier.formatFile<CR>
+" nmap <leader>cf :CocCommand eslint.executeAutofix<CR>
 nmap <leader>ca <Plug>(coc-codeaction)
 nnoremap <leader>cr :CocRestart<CR>
 
