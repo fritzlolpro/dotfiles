@@ -255,6 +255,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'rust-lang/rust.vim'
   Plug 'https://github.com/debugloop/telescope-undo.nvim'
   Plug 'https://github.com/kevinhwang91/nvim-bqf'
+  Plug 'https://github.com/andreasvc/vim-256noir'
 call plug#end()
 
 "treesitter
@@ -738,8 +739,14 @@ let g:gruvbox_guisp_fallback = "bg"
 " Changes dark mode contrast. Overrides g:gruvbox_contrast option. Possible values are soft, medium and hard.
 let g:gruvbox_contrast_dark = "hard"
 set background=dark
+" colorscheme 256_noir
+" Change highlighting of cursor line when entering/leaving Insert Mode
+set cursorline
+highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=233 guifg=NONE guibg=#121212
+autocmd InsertEnter * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=234 guifg=NONE guibg=#1c1c1c
+autocmd InsertLeave * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=233 guifg=NONE guibg=#121212
 autocmd vimenter * ++nested colorscheme gruvbox
-"autocmd vimenter * ++nested colorscheme sublimemonokai
+" autocmd vimenter * ++nested colorscheme sublimemonokai
 " }}}
 
 " ALE: {{{
