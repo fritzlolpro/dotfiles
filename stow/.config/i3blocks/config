@@ -15,7 +15,7 @@ color=#fabd2f
 [battery]
 command=./battery
 markup=pango
-interval=10
+interval=30
 #[bluetooth]
 #command=./bluetooth
 #interval=1
@@ -23,7 +23,7 @@ interval=10
 [docker]
 command=./docker
 #color=#0db7ed
-interval=10
+interval=30
 LABEL=
 
 [vpn]
@@ -31,16 +31,16 @@ command=./vpn
 #init_color=#FFFF00
 #on_color=#00FF00
 label=VPN:
-interval=5
+interval=30
 
 # [cpu_temp]
 # command=./cpu_temp
-# interval=3
+# interval=30
 
-[memory]
-command=./memory
-LABEL=MEM
-interval=30
+# [memory]
+# command=./memory
+# LABEL=MEM
+# interval=30
 
 #[memory]
 #command=./memory
@@ -59,11 +59,11 @@ signal=10
 #MIXER=[determined automatically]
 #SCONTROL=[determined automatically]
 
-[ssid]
-command=./ssid
-#INTERFACE=wlp6s0
-LABEL=
-interval=60
+#[ssid]
+#command=./ssid
+##INTERFACE=wlp6s0
+#LABEL=
+#interval=60
 
 #[weather]
 #command=./weather
