@@ -33,9 +33,9 @@ command=./vpn
 label=VPN:
 interval=5
 
-[cpu_temp]
-command=./cpu_temp
-interval=3
+# [cpu_temp]
+# command=./cpu_temp
+# interval=3
 
 [memory]
 command=./memory
