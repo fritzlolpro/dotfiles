@@ -4,6 +4,7 @@
 # Should you change your keyboard layout some time, delete
 # this file and re-run i3-config-wizard(1).
 #
+#Alt key (Mod1) by default, with the Windows key (Mod4) being a popular alternative that largely prevents conflicts with application-defined shortcuts.
 
 # i3 config file (v4)
 #
@@ -22,6 +23,9 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec_always dunst
 
 #turn off screen after on inactivity
+#The xset dpms 0 0 900 command sets the DPMS settings to the following values:
+# 0 for the standby, suspend, and off settings, which means that the monitor will not be put into any of these modes automatically.
+# 900 for the timeout setting, which specifies the number of seconds of inactivity before the monitor will be turned off.
 exec_always --no-startup-id xset dpms 0 0 900
 
 # mouse settings
@@ -497,9 +501,9 @@ bindsym $mod+Control+r mode "restore"
 
 
 mode "lock" {
-        bindsym $mod+Control+q exec ~/.local/bin/lock.sh force; mode "default"
+        bindsym $mod+mod1+l exec "xscreensaver-command -lock"; mode "default"
         # Abort
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
-bindsym $mod+Control+q mode "lock"
+bindsym $mod+mod1+l mode "lock"
