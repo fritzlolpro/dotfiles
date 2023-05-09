@@ -598,7 +598,7 @@ vnoremap X "_d
 inoremap <C-c> <esc>
 nnoremap <Leader>gb :<C-u>call gitblame#echo()<CR>
 nmap <silent> ,/ :nohlsearch<CR>
-noremap <C-w> :tabclose <CR>
+" noremap <C-w> :tabclose <CR>
 nnoremap <leader>d "_d
 xnoremap <leader>d "_d
 xnoremap <leader>p "_dP
