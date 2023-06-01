@@ -202,7 +202,7 @@ endfunction
 
 call plug#begin('~/.config/nvim/plugged')
   Plug 'nvim-treesitter/nvim-treesitter', Cond(has('nvim-0.5'), {'do': ':TSUpdate'})
-  Plug 'dense-analysis/ale'
+  " Plug 'dense-analysis/ale'
   Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
   Plug 'alvan/vim-closetag'
   Plug 'mg979/vim-visual-multi', {'branch': 'master'}
@@ -239,13 +239,12 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'kdheepak/lazygit.nvim'
   Plug 'kyazdani42/nvim-web-devicons'
   Plug 'nvim-lua/plenary.nvim'
-  Plug 'kyazdani42/nvim-tree.lua'
   Plug 'https://github.com/p00f/nvim-ts-rainbow'
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
   Plug 'https://github.com/tom-anders/telescope-vim-bookmarks.nvim'
   Plug 'nvim-treesitter/nvim-treesitter-context'
-  Plug 'phaazon/hop.nvim'
+  " Plug 'phaazon/hop.nvim'
   Plug 'https://github.com/tpope/vim-commentary'
   Plug 'https://github.com/JoosepAlviste/nvim-ts-context-commentstring'
   Plug 'Yilin-Yang/vim-markbar'
@@ -335,26 +334,6 @@ require("harpoon").setup({
         save_on_change = true,
         global_project = vim.fn['Find_git_root']()
     },
-})
-
--- NVIMtree like nerdtree but lua
-require("nvim-tree").setup({
-    --sort_by = "case_sensitive",
-    view = {
-      adaptive_size = true,
-      mappings = {
-        list = {
-          { key = "?", action = "toggle_help" },
-        },
-      },
-    },
-    renderer = {
-   --   group_empty = true,
-        root_folder_modifier = ":t",
-    },
-   -- filters = {
-   --   dotfiles = true,
-   -- },
 })
 
 -- TELESCOPE
@@ -530,13 +509,13 @@ vim.api.nvim_set_keymap('n', '<leader>ssf', [[
 ]], {noremap = true})
 
 -- NVIM HOP
-require'hop'.setup{
-  keys = 'etovxqpdygfblzhckisuran'
-}
-vim.api.nvim_set_keymap('', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
-vim.api.nvim_set_keymap('', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
-vim.api.nvim_set_keymap('', 't', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })<cr>", {})
-vim.api.nvim_set_keymap('', 'T', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })<cr>", {})
+-- require'hop'.setup{
+--   keys = 'etovxqpdygfblzhckisuran'
+-- }
+-- vim.api.nvim_set_keymap('', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
+-- vim.api.nvim_set_keymap('', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
+-- vim.api.nvim_set_keymap('', 't', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })<cr>", {})
+-- vim.api.nvim_set_keymap('', 'T', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })<cr>", {})
 
 require"fidget".setup{}
 EOF
@@ -598,7 +577,6 @@ vnoremap X "_d
 inoremap <C-c> <esc>
 nnoremap <Leader>gb :<C-u>call gitblame#echo()<CR>
 nmap <silent> ,/ :nohlsearch<CR>
-" noremap <C-w> :tabclose <CR>
 nnoremap <leader>d "_d
 xnoremap <leader>d "_d
 xnoremap <leader>p "_dP
