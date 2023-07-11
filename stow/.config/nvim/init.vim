@@ -203,6 +203,7 @@ endfunction
 call plug#begin('~/.config/nvim/plugged')
   Plug 'nvim-treesitter/nvim-treesitter', Cond(has('nvim-0.5'), {'do': ':TSUpdate'})
   " Plug 'dense-analysis/ale'
+  Plug 'https://github.com/tpope/vim-unimpaired'
   Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
   Plug 'alvan/vim-closetag'
   Plug 'mg979/vim-visual-multi', {'branch': 'master'}
