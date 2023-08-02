@@ -120,10 +120,14 @@ let g:go_auto_sameids = 1
 let g:nerdtreeignore = ['^node_modules$']
 let g:ctrlsf_ackprg = '/usr/local/bin/rg'
 "let g:ctrlsf_winsize = '100'
-let g:netrw_browse_split = 2
 let g:vrfr_rg = 'true'
+
+
+" NETRW FILE MANAGER
+let g:netrw_browse_split = 0
 let g:netrw_banner = 0
-let g:netrw_winsize = 25
+let g:netrw_winsize = 30
+hi! link netrwMarkFile Search
 
 let g:fzf_layout = { 'down': '~50%' }
 "let g:fzf_layout = { 'window': 'enew' }
@@ -251,7 +255,6 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'Yilin-Yang/vim-markbar'
   Plug 'tpope/vim-fugitive'
   Plug 'junegunn/gv.vim'
-  Plug 'j-hui/fidget.nvim'
   Plug 'rust-lang/rust.vim'
   Plug 'https://github.com/debugloop/telescope-undo.nvim'
   Plug 'https://github.com/kevinhwang91/nvim-bqf'
@@ -389,7 +392,6 @@ require('telescope').setup({
           override_generic_sorter = true,  -- override the generic sorter
           override_file_sorter = true,     -- override the file sorter
           case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
-                                           -- the default case_mode is "smart_case"
         },
         undo = {
           side_by_side = true
@@ -518,7 +520,6 @@ vim.api.nvim_set_keymap('n', '<leader>ssf', [[
 -- vim.api.nvim_set_keymap('', 't', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })<cr>", {})
 -- vim.api.nvim_set_keymap('', 'T', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })<cr>", {})
 
-require"fidget".setup{}
 EOF
 
 set foldmethod=indent
@@ -697,18 +698,6 @@ nnoremap <leader>sr :so ~/Documents/programming/vim-sessions/session.vim<CR>
 tnoremap <Esc> <C-\><C-n>
 
 " Colors: {{{
-augroup ColorschemePreferences
-  autocmd!
-  " These preferences clear some gruvbox background colours, allowing transparency
-"  autocmd ColorScheme * highlight Normal     ctermbg=NONE guibg=NONE
-"  autocmd ColorScheme * highlight SignColumn ctermbg=NONE guibg=NONE
-"  autocmd ColorScheme * highlight Todo       ctermbg=NONE guibg=NONE
-  " Link ALE sign highlights to similar equivalents without background colours
-  autocmd ColorScheme * highlight link ALEErrorSign   WarningMsg
-  autocmd ColorScheme * highlight link ALEWarningSign ModeMsg
-  autocmd ColorScheme * highlight link ALEInfoSign    Identifier
-augroup END
-
 " Use truecolor in the terminal, when it is supported
 if has('termguicolors')
   set termguicolors
@@ -728,15 +717,6 @@ autocmd vimenter * ++nested colorscheme gruvbox
 " autocmd vimenter * ++nested colorscheme sublimemonokai
 " }}}
 
-" ALE: {{{
-let g:ale_sign_error = '•'
-let g:ale_sign_warning = '•'
-let g:ale_sign_info = '·'
-let g:ale_sign_style_error = '·'
-let g:ale_sign_style_warning = '·'
-
-let g:ale_linters = { 'cs': ['OmniSharp'] }
-" }}}
 
 " OmniSharp: {{{
 " Set this to 1 to use ultisnips for snippet handling
