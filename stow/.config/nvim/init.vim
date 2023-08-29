@@ -526,29 +526,29 @@ require("mason").setup({})
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('UserLspConfig', {}),
   callback = function(ev)
-    vim.keymap.set("n", "K", function()
-      vim.lsp.buf.hover()
-    end, { desc = "Hover" })
-    vim.keymap.set("n", "<leader>gd", function()
-      vim.lsp.buf.definition()
-    end, { desc = "Go to definition" })
-    vim.keymap.set('n', '<leader>gD', vim.lsp.buf.declaration, opts)
-    vim.keymap.set('n', '<leader>gd', vim.lsp.buf.definition, opts)
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-    vim.keymap.set('n', '<leader>gi', vim.lsp.buf.implementation, opts)
-    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-    vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
-    vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
-    vim.keymap.set('n', '<leader>wl', function()
-      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, opts)
-    vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
-    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
-    vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
-    vim.keymap.set('n', '<leader>gr', vim.lsp.buf.references, opts)
-    vim.keymap.set('n', '<leader>cf', function()
-      vim.lsp.buf.format { async = true }
-    end, opts)
+    -- vim.keymap.set("n", "K", function()
+    --   vim.lsp.buf.hover()
+    -- end, { desc = "Hover" })
+    -- vim.keymap.set("n", "<leader>gd", function()
+    --   vim.lsp.buf.definition()
+    -- end, { desc = "Go to definition" })
+    -- vim.keymap.set('n', '<leader>gD', vim.lsp.buf.declaration, opts)
+    -- vim.keymap.set('n', '<leader>gd', vim.lsp.buf.definition, opts)
+    -- vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+    -- vim.keymap.set('n', '<leader>gi', vim.lsp.buf.implementation, opts)
+    -- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+    -- vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
+    -- vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
+    -- vim.keymap.set('n', '<leader>wl', function()
+    --   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    -- end, opts)
+    -- vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
+    -- vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+    -- vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
+    -- vim.keymap.set('n', '<leader>gr', vim.lsp.buf.references, opts)
+    -- vim.keymap.set('n', '<leader>cf', function()
+    --   vim.lsp.buf.format { async = true }
+    -- end, opts)
   end,
 })
 EOF
@@ -575,20 +575,20 @@ endfunction
 "hi CocMenuSel ctermbg=109 guibg=#13354A
     "
 " GoTo coc code navigation.
-" inoremap <silent><expr><C-space> coc#refresh()
-" nmap <leader>gd <Plug>(coc-definition)
-" nmap <leader>gy <Plug>(coc-type-definition)
-" nmap <leader>gi <Plug>(coc-implementation)
-" nmap <leader>gr <Plug>(coc-references)
-" nmap <leader>rr <Plug>(coc-rename)
-" nmap <leader>g[ <Plug>(coc-diagnostic-prev)
-" nmap <leader>g] <Plug>(coc-diagnostic-next)
-" nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev)
-" nmap <silent> <leader>gn <Plug>(coc-diagnostic-next)
-" nmap <leader>cf :CocCommand prettier.formatFile<CR>
-" " nmap <leader>cf :CocCommand eslint.executeAutofix<CR>
-" nmap <leader>ca <Plug>(coc-codeaction)
-" nnoremap <leader>cr :CocRestart<CR>
+inoremap <silent><expr><C-space> coc#refresh()
+nmap <leader>gd <Plug>(coc-definition)
+nmap <leader>gy <Plug>(coc-type-definition)
+nmap <leader>gi <Plug>(coc-implementation)
+nmap <leader>gr <Plug>(coc-references)
+nmap <leader>rr <Plug>(coc-rename)
+nmap <leader>g[ <Plug>(coc-diagnostic-prev)
+nmap <leader>g] <Plug>(coc-diagnostic-next)
+nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev)
+nmap <silent> <leader>gn <Plug>(coc-diagnostic-next)
+nmap <leader>cf :CocCommand prettier.formatFile<CR>
+" nmap <leader>cf :CocCommand eslint.executeAutofix<CR>
+nmap <leader>ca <Plug>(coc-codeaction)
+nnoremap <leader>cr :CocRestart<CR>
 
 set foldmethod=indent
 set foldnestmax=10
