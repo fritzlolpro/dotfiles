@@ -128,6 +128,7 @@ let g:netrw_browse_split = 0
 let g:netrw_banner = 0
 let g:netrw_winsize = 30
 hi! link netrwMarkFile Search
+let g:netrw_bufsettings = 'noma nu nobl nowrap ro'
 
 let g:fzf_layout = { 'down': '~50%' }
 "let g:fzf_layout = { 'window': 'enew' }
@@ -205,8 +206,9 @@ endfunction
 
 
 call plug#begin('~/.config/nvim/plugged')
-  Plug 'nvim-treesitter/nvim-treesitter', Cond(has('nvim-0.5'), {'do': ':TSUpdate'})
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   " Plug 'dense-analysis/ale'
+  Plug 'williamboman/mason.nvim'
   Plug 'https://github.com/tpope/vim-unimpaired'
   Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
   Plug 'alvan/vim-closetag'
@@ -219,6 +221,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'sheerun/vim-polyglot'
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
+  Plug 'junegunn/vim-peekaboo'
   Plug 'tomarrell/vim-npr'
   Plug 'https://github.com/nvie/vim-togglemouse'
   Plug 'https://github.com/tpope/vim-surround'
@@ -519,8 +522,73 @@ vim.api.nvim_set_keymap('n', '<leader>ssf', [[
 -- vim.api.nvim_set_keymap('', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
 -- vim.api.nvim_set_keymap('', 't', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })<cr>", {})
 -- vim.api.nvim_set_keymap('', 'T', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })<cr>", {})
-
+require("mason").setup({})
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+  callback = function(ev)
+    vim.keymap.set("n", "K", function()
+      vim.lsp.buf.hover()
+    end, { desc = "Hover" })
+    vim.keymap.set("n", "<leader>gd", function()
+      vim.lsp.buf.definition()
+    end, { desc = "Go to definition" })
+    vim.keymap.set('n', '<leader>gD', vim.lsp.buf.declaration, opts)
+    vim.keymap.set('n', '<leader>gd', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', '<leader>gi', vim.lsp.buf.implementation, opts)
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+    vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
+    vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
+    vim.keymap.set('n', '<leader>wl', function()
+      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end, opts)
+    vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
+    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+    vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
+    vim.keymap.set('n', '<leader>gr', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', '<leader>cf', function()
+      vim.lsp.buf.format { async = true }
+    end, opts)
+  end,
+})
 EOF
+
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+"inoremap <silent><expr><TAB>
+"            \ pumvisible() ? "\<C-n>" :
+"            \ <SID>check_back_space() ? "\<TAB>" :
+"            \ coc#refresh()
+"
+"inoremap <silent><expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1):
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+"hi CocSearch ctermfg=12 guifg=#18A3FF
+"hi CocMenuSel ctermbg=109 guibg=#13354A
+    "
+" GoTo coc code navigation.
+" inoremap <silent><expr><C-space> coc#refresh()
+" nmap <leader>gd <Plug>(coc-definition)
+" nmap <leader>gy <Plug>(coc-type-definition)
+" nmap <leader>gi <Plug>(coc-implementation)
+" nmap <leader>gr <Plug>(coc-references)
+" nmap <leader>rr <Plug>(coc-rename)
+" nmap <leader>g[ <Plug>(coc-diagnostic-prev)
+" nmap <leader>g] <Plug>(coc-diagnostic-next)
+" nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev)
+" nmap <silent> <leader>gn <Plug>(coc-diagnostic-next)
+" nmap <leader>cf :CocCommand prettier.formatFile<CR>
+" " nmap <leader>cf :CocCommand eslint.executeAutofix<CR>
+" nmap <leader>ca <Plug>(coc-codeaction)
+" nnoremap <leader>cr :CocRestart<CR>
 
 set foldmethod=indent
 set foldnestmax=10
@@ -543,6 +611,13 @@ nnoremap <silent><leader>tu :lua require("harpoon.term").gotoTerminal(1)<CR>
 nnoremap <silent><leader>te :lua require("harpoon.term").gotoTerminal(2)<CR>
 nnoremap <silent><leader>cu :lua require("harpoon.term").sendCommand(1, 1)<CR>
 nnoremap <silent><leader>ce :lua require("harpoon.term").sendCommand(1, 2)<CR>
+
+" -- VIM MARKBAR
+let g:markbar_width = 50
+
+
+" -- VIM PEEKABOO REGISTER BAR
+let g:peekaboo_window = "vert bo 50new"
 
 " -- RUST stuff
 let g:rustfmt_emit_files = 1
@@ -597,43 +672,6 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 " NVIMtree
 nnoremap <leader>ntt :NvimTreeToggle<CR>
 nnoremap <leader>ntf :NvimTreeFindFile<CR>
-
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-"inoremap <silent><expr><TAB>
-"            \ pumvisible() ? "\<C-n>" :
-"            \ <SID>check_back_space() ? "\<TAB>" :
-"            \ coc#refresh()
-"
-"inoremap <silent><expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1):
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
-function! CheckBackspace() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-"hi CocSearch ctermfg=12 guifg=#18A3FF
-"hi CocMenuSel ctermbg=109 guibg=#13354A
-    "
-" GoTo coc code navigation.
-inoremap <silent><expr><C-space> coc#refresh()
-nmap <leader>gd <Plug>(coc-definition)
-nmap <leader>gy <Plug>(coc-type-definition)
-nmap <leader>gi <Plug>(coc-implementation)
-nmap <leader>gr <Plug>(coc-references)
-nmap <leader>rr <Plug>(coc-rename)
-nmap <leader>g[ <Plug>(coc-diagnostic-prev)
-nmap <leader>g] <Plug>(coc-diagnostic-next)
-nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev)
-nmap <silent> <leader>gn <Plug>(coc-diagnostic-next)
-nmap <leader>cf :CocCommand prettier.formatFile<CR>
-" nmap <leader>cf :CocCommand eslint.executeAutofix<CR>
-nmap <leader>ca <Plug>(coc-codeaction)
-nnoremap <leader>cr :CocRestart<CR>
 
 augroup omnisharp_commands
   autocmd!
