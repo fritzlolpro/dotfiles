@@ -93,6 +93,10 @@ workspace 4 output HDMI-1
 workspace 5 output HDMI-1
 workspace 6 output HDMI-0
 
+# wacom to primary
+exec --no-startup-id "xsetwacom --set 11 MapToOutput HEAD-0"
+exec --no-startup-id "xsetwacom --set 12 MapToOutput HEAD-0"
+#
 # Assign applications to workspaces
 assign [class="brave-browser"] 2
 #assign [class="kotatogram-desktop"] 10
