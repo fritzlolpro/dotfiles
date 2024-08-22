@@ -69,11 +69,9 @@ exec --no-startup-id /usr/lib/polkit-kde-authentication-agent-1
 #source Xresources
 exec_always xrdb -merge ~/.Xdefaults
 
-# connect to raspi
-exec --no-startup-id 'nohup sshfs pi@192.168.1.200:/mnt/bigboy ~/raspberrypi/ -o default_permissions -o debug > /dev/null 2>&1 &'
 # konsole with tmux on launch
 #exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id konsole --hold -e tmux new'
-exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id st -e sh -c tmux new'
+exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id st -e sh -c tmux -u new'
 #exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id st'
 
 # telegram client
@@ -504,6 +502,7 @@ mode "restore" {
 
 bindsym $mod+Control+r mode "restore"
 
+exec_always --no-startup-id "xscreensaver --no-splash"
 
 mode "lock" {
         bindsym $mod+mod1+l exec "xscreensaver-command -lock"; mode "default"

@@ -38,9 +38,8 @@ alias \
 
 
 # Job related stuff
-alias wtsync="rsync -zva --stats -h --no-perms --no-owner --no-group --no-times --exclude=/.git --exclude='node_modules*' --exclude='vendor*' ~/Documents/programming/whotrades/dev/dev/ fsorokin@10.77.255.229:/home/dev/dev && date"
+alias wtsync="rsync -zva --stats -h --no-perms --no-owner --no-group --no-times --exclude=/.git --exclude='node_modules*' --exclude='vendor*' ~/Documents/programming/whotrades/dev/dev/ fs@10.77.255.229:/home/dev/dev && date"
 alias gsb="git branch | fzf | xargs git checkout"
-alias pi="ssh pi@192.168.1.200"
 function wtsf() {
     cd ~/Documents/programming/whotrades/dev/dev/comon/static/www/
     git fetch
@@ -57,3 +56,5 @@ alias listen="ssh -vCNR 9000:localhost:9000 adm512"
 #
 # Some longs commands
 alias pim="nohup sshfs pi@192.168.1.200:/mnt/bigboy ~/raspberrypi/ -o default_permissions -o debug > /dev/null 2>&1 &"
+
+alias thm_vpn="sudo openvpn --config ~/Documents/Te0d_US_WEST.ovpn --socks-proxy 127.0.0.1 2080"

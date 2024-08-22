@@ -20,6 +20,7 @@ SidebarShowText=false
 
 [PageView]
 BackgroundColor=57,51,46
+MouseMode=TextSelect
 ShowScrollBars=false
 UseCustomBackgroundColor=true
 ViewColumns=1
