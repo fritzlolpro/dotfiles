@@ -41,7 +41,7 @@ exec flameshot
 exec nextcloud
 #
 # Mod1 === alt
-bindsym Control+Mod1+5 exec flameshot gui
+bindsym Control+Mod1+x exec flameshot gui
 #
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -502,7 +502,11 @@ mode "restore" {
 
 bindsym $mod+Control+r mode "restore"
 
-exec_always --no-startup-id "xscreensaver --no-splash"
+# exec_always "xscreensaver --no-splash"
+# better do via syscli
+# cp /usr/share/xscreensaver/xscreensaver.service ~/.config/systemd/user/
+# systemctl --user enable xscreensaver
+
 
 mode "lock" {
         bindsym $mod+mod1+l exec "xscreensaver-command -lock"; mode "default"
