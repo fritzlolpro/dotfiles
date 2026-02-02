@@ -19,7 +19,7 @@ set noerrorbells
 set tabstop=2 softtabstop=2
 set wrapmargin=0
 set tw=120
-set shiftwidth=2
+set shiftwidth=4
 set autoindent
 set copyindent
 set expandtab
@@ -39,8 +39,6 @@ set history=1000
 set undolevels=1000
 set formatoptions+=t
 set encoding=UTF-8
-set fileencodings=utf-8,cp1251,koi8-r,cp866
-
 set formatoptions-=l
 " Give more space for displaying messages.
 set cmdheight=2
@@ -54,7 +52,8 @@ set shortmess+=c
 set colorcolumn=120
 set diffopt+=vertical
 
-" set pastetoggle=<F2>
+"set pastetoggle=<F2>
+
 set sessionoptions-=options
 
 "highlight ColorColumn ctermbg=0 guibg=lightgrey
@@ -67,21 +66,6 @@ let g:rooter_cd_cmd="lcd"
 let g:rooter_manual_only = 1
 let $FZF_DEFAULT_COMMAND = 'find .'
 
-" CTRL-A CTRL-Q to select all and build quickfix list
-
-function! s:build_quickfix_list(lines)
-  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
-  copen
-  cc
-endfunction
-
-let g:fzf_action = {
-  \ 'ctrl-q': function('s:build_quickfix_list'),
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit' }
-
-let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
 let mapleader = " "
 
 
@@ -120,15 +104,10 @@ let g:go_auto_sameids = 1
 let g:nerdtreeignore = ['^node_modules$']
 let g:ctrlsf_ackprg = '/usr/local/bin/rg'
 "let g:ctrlsf_winsize = '100'
+let g:netrw_browse_split = 2
 let g:vrfr_rg = 'true'
-
-
-" NETRW FILE MANAGER
-let g:netrw_browse_split = 0
 let g:netrw_banner = 0
-let g:netrw_winsize = 30
-hi! link netrwMarkFile Search
-let g:netrw_bufsettings = 'noma nu nobl nowrap ro'
+let g:netrw_winsize = 25
 
 let g:fzf_layout = { 'down': '~50%' }
 "let g:fzf_layout = { 'window': 'enew' }
@@ -143,16 +122,12 @@ let g:Lf_RgConfig = [
     \ ]
 
 let g:coc_global_extensions = [
-  \ 'coc-phpls',
   \ 'coc-pairs',
-  \ 'coc-cssmodules',
   \ 'coc-eslint',
   \ 'coc-json',
   \ 'coc-lua',
   \ 'coc-prettier',
   \ 'coc-tsserver',
-  \ 'coc-pyright',
-  \ 'coc-rust-analyzer'
   \ ]
 
 let g:airline#extensions#default#section_truncate_width = {
@@ -184,6 +159,7 @@ function! AirlineInit()
 endfunction
 autocmd VimEnter * call AirlineInit()
 
+
 function! Find_git_root()
   return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
 endfunction
@@ -205,12 +181,11 @@ endfunction
 
 
 call plug#begin('~/.config/nvim/plugged')
-  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  " Plug 'dense-analysis/ale'
-  Plug 'williamboman/mason.nvim'
-  Plug 'https://github.com/tpope/vim-unimpaired'
-  Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
+  Plug 'nvim-treesitter/nvim-treesitter', Cond(has('nvim-0.5'), {'do': ':TSUpdate'})
+  Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'npm ci'}
   Plug 'alvan/vim-closetag'
+  " Plug 'chriskempson/base16-vim'
+  Plug 'https://github.com/tpope/vim-unimpaired'
   Plug 'mg979/vim-visual-multi', {'branch': 'master'}
   Plug 'dominikduda/vim_current_word'
   Plug 'morhetz/gruvbox'
@@ -232,102 +207,103 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'vim-airline/vim-airline'
   Plug 'flazz/vim-colorschemes'
   Plug 'MattesGroeger/vim-bookmarks'
-  Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
   Plug 'jiangmiao/auto-pairs'
   Plug 'https://github.com/AndrewRadev/tagalong.vim'
   Plug 'nvim-lua/plenary.nvim'
-  Plug 'https://github.com/fritzlolpro/harpoon.git'
   Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+  Plug 'https://github.com/fritzlolpro/harpoon.git'
   Plug 'rbgrouleff/bclose.vim'
   Plug 'francoiscabrol/ranger.vim'
+  Plug 'https://github.com/charludo/projectmgr.nvim'
   Plug 'windwp/nvim-spectre'
   Plug 'kdheepak/lazygit.nvim'
-  Plug 'kyazdani42/nvim-web-devicons'
   Plug 'nvim-lua/plenary.nvim'
-  Plug 'https://github.com/p00f/nvim-ts-rainbow'
+  Plug './plugged/linenumbers'
+  Plug 'kyazdani42/nvim-tree.lua'
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
   Plug 'https://github.com/tom-anders/telescope-vim-bookmarks.nvim'
   Plug 'nvim-treesitter/nvim-treesitter-context'
-  " Plug 'phaazon/hop.nvim'
   Plug 'https://github.com/tpope/vim-commentary'
   Plug 'Yilin-Yang/vim-markbar'
   Plug 'tpope/vim-fugitive'
   Plug 'junegunn/gv.vim'
   Plug 'rust-lang/rust.vim'
   Plug 'https://github.com/debugloop/telescope-undo.nvim'
+  Plug 'https://github.com/nanotech/jellybeans.vim'
   Plug 'https://github.com/kevinhwang91/nvim-bqf'
-  Plug 'https://github.com/andreasvc/vim-256noir'
 call plug#end()
 
-"treesitter
-"packadd nvim-treesitter
 lua <<EOF
 
--- TREESITTER
-require'nvim-treesitter.configs'.setup {
-  --ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-  ensure_installed = {"rust",  "php","dockerfile", "lua", "typescript", "json", "javascript", "html", "jsdoc", "vue", "bash", "tsx", "dockerfile", "regex", "vim", "make", "c"}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-  sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
-  ignore_install = {}, -- List of parsers to ignore installing
-  highlight = {
-    enable = true,              -- false will disable the whole extension
-    disable = {},  -- list of language that will be disabled
-    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-    -- Instead of true it can also be a list of languages
-    additional_vim_regex_highlighting = true,
-  },
-  indent = {
-    enable = true
-  },
-  fold = {
-    enable = true,
-  },
-  rainbow = {
-    enable = true,
-    -- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
-    extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
-    max_file_lines = nil, -- Do not enable for files with more than n lines, int
-    -- colors = {}, -- table of hex strings
-    -- termcolors = {} -- table of colour name strings
-  },
-}
--- TRESITTER-CONTEXT Sticky Scroll
-require'treesitter-context'.setup{
-    enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-    max_lines = 1, -- How many lines the window should span. Values <= 0 mean no limit.
-    trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-    patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
-        -- For all filetypes
-        -- Note that setting an entry here replaces all other patterns for this entry.
-        -- By setting the 'default' entry below, you can control which nodes you want to
-        -- appear in the context window.
-        default = {
-            'class',
-            'function',
-            'method',
-            -- 'for', -- These won't appear in the context
-            -- 'while',
-            -- 'if',
-            -- 'switch',
-            -- 'case',
-        },
-        -- Example for a specific filetype.
-        -- If a pattern is missing, *open a PR* so everyone can benefit.
-        --   rust = {
-        --       'impl_item',
-        --   },
-    },
-    exact_patterns = {
-        -- Example for a specific filetype with Lua patterns
-        -- Treat patterns.rust as a Lua pattern (i.e "^impl_item$" will
-        -- exactly match "impl_item" only)
-        -- rust = true,
-    },
+ -- TREESITTER
 
-}
+ require'nvim-treesitter'.setup {
+   --ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+   ensure_installed = {"rust",  "php", "lua", "typescript", "json", "javascript", "html", "jsdoc", "vue", "bash", "tsx", "dockerfile", "regex", "vim", "make", "c"}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+   sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
+   ignore_install = {}, -- List of parsers to ignore installing
+   highlight = {
+     enable = true,              -- false will disable the whole extension
+     disable = {},  -- list of language that will be disabled
+     -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+     -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+     -- Using this option may slow down your editor, and you may see some duplicate highlights.
+     -- Instead of true it can also be a list of languages
+     -- additional_vim_regex_highlighting = true,
+   },
+   indent = {
+     enable = true
+   },
+   fold = {
+     enable = true,
+   },
+   rainbow = {
+     enable = true,
+     -- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
+     extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+     max_file_lines = nil, -- Do not enable for files with more than n lines, int
+     -- colors = {}, -- table of hex strings
+     -- termcolors = {} -- table of colour name strings
+   },
+   -- context_commentstring = {
+   --   enable = true
+   -- }
+ }
+ -- TRESITTER-CONTEXT Sticky Scroll
+ require'treesitter-context'.setup{
+     enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+     max_lines = 3, -- How many lines the window should span. Values <= 0 mean no limit.
+     trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+     patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
+         -- For all filetypes
+         -- Note that setting an entry here replaces all other patterns for this entry.
+         -- By setting the 'default' entry below, you can control which nodes you want to
+         -- appear in the context window.
+         default = {
+             'class',
+             'function',
+             'method',
+              'for', -- These won't appear in the context
+              'while',
+              'if',
+              'switch',
+              'case',
+         },
+         -- Example for a specific filetype.
+         -- If a pattern is missing, *open a PR* so everyone can benefit.
+         --   rust = {
+         --       'impl_item',
+         --   },
+     },
+     exact_patterns = {
+         -- Example for a specific filetype with Lua patterns
+         -- Treat patterns.rust as a Lua pattern (i.e "^impl_item$" will
+         -- exactly match "impl_item" only)
+         -- rust = true,
+     },
+
+ }
 -- HARPOON
 require("harpoon").setup({
     global_settings = {
@@ -336,67 +312,88 @@ require("harpoon").setup({
     },
 })
 
--- TELESCOPE
-require('telescope').setup({
-  defaults = {
-      vimgrep_arguments = {
-      "rg",
-      "--color=never",
-      "--no-heading",
-      "--with-filename",
-      "--line-number",
-      "--column",
-      "--smart-case",
-      "--trim"
-    },
-      layout_strategy = 'flex',
-      layout_config = { height = 0.95, width = 0.95 },
-    -- Default configuration for telescope goes here:
-    -- config_key = value,
-    mappings = {
-      i = {
-        -- map actions.which_key to <C-h> (default: <C-/>)
-        -- actions.which_key shows the mappings for your picker,
-        -- e.g. git_{create, delete, ...}_branch for the git_branches picker
-        --["<C-h>"] = "which_key"
-        ["<C-j>"] = require('telescope.actions').move_selection_next,
-        ["<C-k>"] = require('telescope.actions').move_selection_previous,
-      }
-    }
-  },
-  pickers = {
-    -- Default configuration for builtin pickers goes here:
-    -- picker_name = {
-    --   picker_config_key = value,
-    --   ...
-    -- }
-    -- Now the picker_config_key will be applied every time you call this
-    -- builtin picker
-     buffers = {
-            ignore_current_buffer = true,
-            sort_lastused = true,
-        },
-  },
-  extensions = {
-    -- Your extension configuration goes here:
-    -- extension_name = {
-    --   extension_config_key = value,
-    -- }
-    -- please take a look at the readme of the extension you want to configure
-        fzf = {
-          fuzzy = true,                    -- false will only do exact matching
-          override_generic_sorter = true,  -- override the generic sorter
-          override_file_sorter = true,     -- override the file sorter
-          case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
-        },
-        undo = {
-          side_by_side = true
-        }
-    }
-})
-require('telescope').load_extension('fzf')
+-- NVIMtree like nerdtree but lua
+--require("nvim-tree").setup({
+--    --sort_by = "case_sensitive",
+--    view = {
+--      adaptive_size = true,
+--      mappings = {
+--        list = {
+--          { key = "?", action = "toggle_help" },
+--        },
+--      },
+--    },
+--    renderer = {
+--   --   group_empty = true,
+--        root_folder_modifier = ":t",
+--    },
+--   -- filters = {
+--   --   dotfiles = true,
+--   -- },
+--})
 
--- TELESCOPE UNDO TREE
+-- TELESCOPE
+ require('telescope').setup({
+   defaults = {
+       vimgrep_arguments = {
+       "rg",
+       "--color=never",
+       "--no-heading",
+       "--with-filename",
+       "--line-number",
+       "--column",
+       "--smart-case",
+       "--trim"
+     },
+       layout_strategy = 'flex',
+       layout_config = { height = 0.95, width = 0.95 },
+     -- Default configuration for telescope goes here:
+     -- config_key = value,
+     mappings = {
+       i = {
+         -- map actions.which_key to <C-h> (default: <C-/>)
+         -- actions.which_key shows the mappings for your picker,
+         -- e.g. git_{create, delete, ...}_branch for the git_branches picker
+         --["<C-h>"] = "which_key"
+         ["<C-j>"] = require('telescope.actions').move_selection_next,
+         ["<C-k>"] = require('telescope.actions').move_selection_previous,
+       }
+     }
+   },
+   pickers = {
+     -- Default configuration for builtin pickers goes here:
+     -- picker_name = {
+     --   picker_config_key = value,
+     --   ...
+     -- }
+     -- Now the picker_config_key will be applied every time you call this
+     -- builtin picker
+      buffers = {
+             ignore_current_buffer = true,
+             sort_lastused = true,
+         },
+   },
+   extensions = {
+     -- Your extension configuration goes here:
+     -- extension_name = {
+     --   extension_config_key = value,
+     -- }
+     -- please take a look at the readme of the extension you want to configure
+         fzf = {
+           fuzzy = true,                    -- false will only do exact matching
+           override_generic_sorter = true,  -- override the generic sorter
+           override_file_sorter = true,     -- override the file sorter
+           case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+                                            -- the default case_mode is "smart_case"
+         },
+         undo = {
+           side_by_side = true
+         }
+     }
+ })
+ require('telescope').load_extension('fzf')
+--
+-- -- TELESCOPE UNDO TREE
 require("telescope").load_extension("undo")
 vim.keymap.set("n", "<leader>tut", "<cmd>Telescope undo<cr>")
 
@@ -412,6 +409,10 @@ vim.api.nvim_set_keymap('n',  '<leader>tbb', [[
     <cmd>lua require'telescope.builtin'.buffers()<cr>
 ]], {noremap = true})
 
+vim.api.nvim_set_keymap('n',  '<leader>tmm', [[
+    <cmd>lua require'telescope.builtin'.marks()<cr>
+]], {noremap = true})
+
 vim.api.nvim_set_keymap('n',  '<leader>thh', [[
     <cmd>lua require'telescope.builtin'.help_tags()<cr>
 ]], {noremap = true})
@@ -424,69 +425,69 @@ vim.api.nvim_set_keymap('n',  '<leader>tcc', [[
     <cmd>lua require'telescope.builtin'.commands()<cr>
 ]], {noremap = true})
 
-vim.api.nvim_set_keymap('n',  '<leader>tmm', [[
-    <cmd>lua require('telescope').extensions.vim_bookmarks.all({tail_path=false})<cr>
-]], {noremap = true})
+--vim.api.nvim_set_keymap('n',  '<leader>tmm', [[
+--    <cmd>lua require('telescope').extensions.vim_bookmarks.all({tail_path=false})<cr>
+--]], {noremap = true})
 
 vim.api.nvim_set_keymap('n',  '<leader>tmf', [[
-<cmd>lua require('telescope').extensions.vim_bookmarks.current_file()<cr>
+    <cmd>lua require('telescope').extensions.vim_bookmarks.current_file()<cr>
 ]], {noremap = true})
 
 -- SPECTRE search and replace
-require('spectre').setup({
-  find_engine = {
-      -- rg is map with finder_cmd
-      ['rg'] = {
-        cmd = "rg",
-        -- default args
-        args = {
-          '--color=never',
-          '--no-heading',
-          '--with-filename',
-          '--line-number',
-          '--column',
-        } ,
-        options = {
-          ['ignore-case'] = {
-            value= "--ignore-case",
-            icon="[I]",
-            desc="ignore case"
-          },
-          ['hidden'] = {
-            value="--hidden",
-            desc="hidden file",
-            icon="[H]"
-          },
-          ['multiline'] = {
-            value="--multiline",
-            desc="multi line",
-            icon="[M]"
-          }
-          -- you can put any rg search option you want here it can toggle with
-          -- show_option function
-        }
-      },
-      ['ag'] = {
-        cmd = "ag",
-        args = {
-          '--vimgrep',
-          '-s'
-        } ,
-        options = {
-          ['ignore-case'] = {
-            value= "-i",
-            icon="[I]",
-            desc="ignore case"
-          },
-          ['hidden'] = {
-            value="--hidden",
-            desc="hidden file",
-            icon="[H]"
-          },
-        },
-      },
-    },
-})
+--require('spectre').setup({
+--  find_engine = {
+--      -- rg is map with finder_cmd
+--      ['rg'] = {
+--        cmd = "rg",
+--        -- default args
+--        args = {
+--          '--color=never',
+--          '--no-heading',
+--          '--with-filename',
+--          '--line-number',
+--          '--column',
+--        } ,
+--        options = {
+--          ['ignore-case'] = {
+--            value= "--ignore-case",
+--            icon="[I]",
+--            desc="ignore case"
+--          },
+--          ['hidden'] = {
+--            value="--hidden",
+--            desc="hidden file",
+--            icon="[H]"
+--          },
+--          ['multiline'] = {
+--            value="--multiline",
+--            desc="multi line",
+--            icon="[M]"
+--          }
+--          -- you can put any rg search option you want here it can toggle with
+--          -- show_option function
+--        }
+--      },
+--      ['ag'] = {
+--        cmd = "ag",
+--        args = {
+--          '--vimgrep',
+--          '-s'
+--        } ,
+--        options = {
+--          ['ignore-case'] = {
+--            value= "-i",
+--            icon="[I]",
+--            desc="ignore case"
+--          },
+--          ['hidden'] = {
+--            value="--hidden",
+--            desc="hidden file",
+--            icon="[H]"
+--          },
+--        },
+--      },
+--    },
+--})
 
 vim.api.nvim_set_keymap('n', '<Leader>ssg', [[
     <cmd>lua require('spectre').open({cwd = vim.fn['Find_git_root']()})<CR>
@@ -507,88 +508,12 @@ vim.api.nvim_set_keymap('n', '<leader>ssf', [[
     <cmd>lua require('spectre').open_file_search() <CR>
 ]], {noremap = true})
 
--- NVIM HOP
--- require'hop'.setup{
---   keys = 'etovxqpdygfblzhckisuran'
--- }
--- vim.api.nvim_set_keymap('', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
--- vim.api.nvim_set_keymap('', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
--- vim.api.nvim_set_keymap('', 't', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })<cr>", {})
--- vim.api.nvim_set_keymap('', 'T', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })<cr>", {})
-require("mason").setup({})
-vim.api.nvim_create_autocmd('LspAttach', {
-  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
-  callback = function(ev)
-    -- vim.keymap.set("n", "K", function()
-    --   vim.lsp.buf.hover()
-    -- end, { desc = "Hover" })
-    -- vim.keymap.set("n", "<leader>gd", function()
-    --   vim.lsp.buf.definition()
-    -- end, { desc = "Go to definition" })
-    -- vim.keymap.set('n', '<leader>gD', vim.lsp.buf.declaration, opts)
-    -- vim.keymap.set('n', '<leader>gd', vim.lsp.buf.definition, opts)
-    -- vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-    -- vim.keymap.set('n', '<leader>gi', vim.lsp.buf.implementation, opts)
-    -- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-    -- vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
-    -- vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
-    -- vim.keymap.set('n', '<leader>wl', function()
-    --   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    -- end, opts)
-    -- vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
-    -- vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
-    -- vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
-    -- vim.keymap.set('n', '<leader>gr', vim.lsp.buf.references, opts)
-    -- vim.keymap.set('n', '<leader>cf', function()
-    --   vim.lsp.buf.format { async = true }
-    -- end, opts)
-  end,
-})
 EOF
-
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-"inoremap <silent><expr><TAB>
-"            \ pumvisible() ? "\<C-n>" :
-"            \ <SID>check_back_space() ? "\<TAB>" :
-"            \ coc#refresh()
-"
-"inoremap <silent><expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1):
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
-function! CheckBackspace() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-"hi CocSearch ctermfg=12 guifg=#18A3FF
-"hi CocMenuSel ctermbg=109 guibg=#13354A
-    "
-" GoTo coc code navigation.
-inoremap <silent><expr><C-space> coc#refresh()
-nmap <leader>gd <Plug>(coc-definition)
-nmap <leader>gy <Plug>(coc-type-definition)
-nmap <leader>gi <Plug>(coc-implementation)
-nmap <leader>gr <Plug>(coc-references)
-nmap <leader>rr <Plug>(coc-rename)
-nmap <leader>g[ <Plug>(coc-diagnostic-prev)
-nmap <leader>g] <Plug>(coc-diagnostic-next)
-nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev)
-nmap <silent> <leader>gn <Plug>(coc-diagnostic-next)
-nmap <leader>cf :CocCommand prettier.formatFile<CR>
-" nmap <leader>cf :CocCommand eslint.executeAutofix<CR>
-nmap <leader>ca <Plug>(coc-codeaction)
-nnoremap <leader>cr :CocRestart<CR>
 
 set foldmethod=indent
 set foldnestmax=10
 set nofoldenable
 set foldlevel=2
-nnoremap <A-a> <C-a>
-nnoremap <A-x> <C-x>
 
 "harpoon
 nnoremap <silent><leader>a :lua require("harpoon.mark").add_file()<CR>
@@ -599,24 +524,13 @@ nnoremap <silent><leader>1 :lua require("harpoon.ui").nav_file(1)<CR>
 nnoremap <silent><leader>2 :lua require("harpoon.ui").nav_file(2)<CR>
 nnoremap <silent><leader>3 :lua require("harpoon.ui").nav_file(3)<CR>
 nnoremap <silent><leader>4 :lua require("harpoon.ui").nav_file(4)<CR>
-nnoremap <silent><leader>5 :lua require("harpoon.ui").nav_file(5)<CR>
 nnoremap <silent><leader>tu :lua require("harpoon.term").gotoTerminal(1)<CR>
 nnoremap <silent><leader>te :lua require("harpoon.term").gotoTerminal(2)<CR>
 nnoremap <silent><leader>cu :lua require("harpoon.term").sendCommand(1, 1)<CR>
 nnoremap <silent><leader>ce :lua require("harpoon.term").sendCommand(1, 2)<CR>
 
-" -- VIM MARKBAR
-let g:markbar_width = 50
-
-
-" -- VIM PEEKABOO REGISTER BAR
-let g:peekaboo_window = "vert bo 50new"
-
-" -- RUST stuff
-let g:rustfmt_emit_files = 1
-
 "markdown .md autopreview
-"nmap <leader><C-s> <Plug>MarkdownPreview
+nmap <leader><C-s> <Plug>MarkdownPreview
 
 " Navigate quickfix list with ease
 nnoremap <silent> [q :cprevious<CR>
@@ -624,7 +538,7 @@ nnoremap <silent> ]q :cnext<CR>
 
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 
-nmap <leader>pa <cmd>:let @" = expand("%:p")<cr>
+nmap <leader>pa :let @" = expand("%:p")<cr>
 nnoremap <silent> <Leader>rg :Rg <C-R><C-W><CR>
 nnoremap <leader>h :wincmd h<CR>
 nnoremap <leader>j :wincmd j<CR>
@@ -645,6 +559,7 @@ vnoremap X "_d
 inoremap <C-c> <esc>
 nnoremap <Leader>gb :<C-u>call gitblame#echo()<CR>
 nmap <silent> ,/ :nohlsearch<CR>
+noremap <C-w> :tabclose <CR>
 nnoremap <leader>d "_d
 xnoremap <leader>d "_d
 xnoremap <leader>p "_dP
@@ -655,15 +570,44 @@ nnoremap k gk
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 "
 " NERDTree
-"let NERDTreeShowHidden = 1
-"let NERDTreeMinimalUI = 0
-"nnoremap <leader>bb :NERDTreeToggle<CR>
-"nnoremap <leader>bf :NERDTreeFind<CR>
+let NERDTreeShowHidden = 1
+let NERDTreeMinimalUI = 0
+nnoremap <leader>bb :NERDTreeToggle<CR>
+nnoremap <leader>bf :NERDTreeFind<CR>
 
-" NVIMtree
-nnoremap <leader>ntt :NvimTreeToggle<CR>
-nnoremap <leader>ntf :NvimTreeFindFile<CR>
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1):
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
+
+" GoTo coc code navigation.
+"
+inoremap <silent><expr><C-space> coc#refresh()
+nmap <leader>gd <Plug>(coc-definition)
+nmap <leader>gy <Plug>(coc-type-definition)
+nmap <leader>gi <Plug>(coc-implementation)
+nmap <leader>gr <Plug>(coc-references)
+nmap <leader>rr <Plug>(coc-rename)
+nmap <leader>g[ <Plug>(coc-diagnostic-prev)
+nmap <leader>g] <Plug>(coc-diagnostic-next)
+nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev)
+nmap <silent> <leader>gn <Plug>(coc-diagnostic-next)
+nmap <leader>cf :CocCommand prettier.formatFile<CR>
+nmap <leader>ca <Plug>(coc-codeaction)
+nnoremap <leader>cr :CocRestart<CR>
+
+
+" spectre search and replace
+nnoremap <leader>S <cmd>lua require('spectre').open()<CR>
+
+"search current word
+nnoremap <leader>sw <cmd>lua require('spectre').open_visual({select_word=true})<CR>
+vnoremap <leader>s <cmd>lua require('spectre').open_visual()<CR>
+"  search in current file
+nnoremap <leader>sp viw:lua require('spectre').open_file_search()<cr>
+" run command :Spectre
 
 " Sweet Sweet FuGITive
 nmap <leader>gf :diffget //3<CR>
@@ -671,7 +615,7 @@ nmap <leader>gj :diffget //2<CR>
 "nmap <leader>gs :G<CR>
 " setup mapping to call :LazyGit
 nnoremap <silent> <leader>lg :LazyGit<CR>
-"
+
 "move line under cursor with keys
 vnoremap <A-Up> :m-2<CR>
 vnoremap <A-Down> :m+<CR>
@@ -683,9 +627,7 @@ inoremap <A-Down> <Esc>:m+<CR>
 nnoremap <leader>ss :mks! ~/Documents/programming/vim-sessions/session.vim<CR>
 nnoremap <leader>sr :so ~/Documents/programming/vim-sessions/session.vim<CR>
 
-tnoremap <Esc> <C-\><C-n>
-
-" Colors: {{{
+"
 " Use truecolor in the terminal, when it is supported
 if has('termguicolors')
   set termguicolors
@@ -695,15 +637,10 @@ let g:gruvbox_guisp_fallback = "bg"
 " Changes dark mode contrast. Overrides g:gruvbox_contrast option. Possible values are soft, medium and hard.
 let g:gruvbox_contrast_dark = "hard"
 set background=dark
-" colorscheme 256_noir
-" Change highlighting of cursor line when entering/leaving Insert Mode
-set cursorline
-highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=233 guifg=NONE guibg=#121212
-autocmd InsertEnter * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=234 guifg=NONE guibg=#1c1c1c
-autocmd InsertLeave * highlight CursorLine cterm=NONE ctermfg=NONE ctermbg=233 guifg=NONE guibg=#121212
 autocmd vimenter * ++nested colorscheme gruvbox
-" autocmd vimenter * ++nested colorscheme sublimemonokai
+"autocmd vimenter * ++nested colorscheme sublimemonokai
 " }}}
+
 
 
 " define a command which runs ripgrep in the root directory
@@ -712,7 +649,7 @@ command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --glob '
 
 command! -bang -nargs=? -complete=dir GitFiles call fzf#vim#gitfiles(shellescape(<q-args>), fzf#vim#with_preview({'options': '-i'}), <bang>0)
 
-command! ProjectFiles execute 'GitFiles' Find_git_root()
+command! ProjectFiles execute 'GitFiles' s:find_git_root()
 
 if executable('rg')
     let g:rg_derive_root='true'
