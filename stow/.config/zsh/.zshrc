@@ -6,12 +6,10 @@ setopt autocd		# Automatically cd into typed directory.
 stty stop undef		# Disable ctrl-s to freeze terminal.
 setopt interactive_comments
 
-export FrameworkPathOverride=/etc/mono/4.5
-export DOCKER_GATEWAY_HOST=172.17.0.1
 # History in cache directory:
 HISTSIZE=10000000
 SAVEHIST=10000000
-HISTFILE=~/.cache/zsh/history
+HISTFILE=~/.zsh_history
 setopt SHARE_HISTORY
 #append into history file
 setopt INC_APPEND_HISTORY
@@ -62,8 +60,9 @@ zle -N zle-line-init
 echo -ne '\e[5 q' # Use beam shape cursor on startup.
 preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 
-export NVM_DIR="$HOME/.config/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# export NVM_DIR="$HOME/.config/nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 # Use ranger to switch directories and bind it to ctrl-o
 rcd () {
@@ -151,26 +150,26 @@ _gg() {
   cut -d: -f1
 }
 
-join-lines() {
-  local item
-  while read item; do
-    echo -n "${(q)item} "
-  done
-}
+# join-lines() {
+#   local item
+#   while read item; do
+#     echo -n "${(q)item} "
+#   done
+# }
 
-bind-git-helper() {
-  local c
-  for c in $@; do
-    eval "fzf-g$c-widget() { local result=\$(_g$c | join-lines); zle reset-prompt; LBUFFER+=\$result }"
-    eval "zle -N fzf-g$c-widget"
-    eval "bindkey '^g^$c' fzf-g$c-widget"
-  done
-}
-bindkey -r "^G"
-bind-git-helper f b t r h s
-unset -f bind-git-helper
+# bind-git-helper() {
+#   local c
+#   for c in $@; do
+#     eval "fzf-g$c-widget() { local result=\$(_g$c | join-lines); zle reset-prompt; LBUFFER+=\$result }"
+#     eval "zle -N fzf-g$c-widget"
+#     eval "bindkey '^g^$c' fzf-g$c-widget"
+#   done
+# }
+# bindkey -r "^G"
+# bind-git-helper f b t r h s
+# unset -f bind-git-helper
 #source ~/Documents/gitstatus/gitstatus.prompt.zsh
 # Load syntax highlighting; should be last.
 source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
-source ~/.local/share/zsh/plugins/zsh-z.plugin.zsh
+# source ~/.local/share/zsh/plugins/zsh-z.plugin.zsh
 

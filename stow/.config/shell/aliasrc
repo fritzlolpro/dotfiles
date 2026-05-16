@@ -37,24 +37,3 @@ alias \
 
 
 
-# Job related stuff
-alias wtsync="rsync -zva --stats -h --no-perms --no-owner --no-group --no-times --exclude=/.git --exclude='node_modules*' --exclude='vendor*' ~/Documents/programming/whotrades/dev/dev/ fs@10.77.255.229:/home/dev/dev && date"
-alias gsb="git branch | fzf | xargs git checkout"
-function wtsf() {
-    cd ~/Documents/programming/whotrades/dev/dev/comon/static/www/
-    git fetch
-    git checkout feature/"$1"
-}
-
-# alias vpnup="sudo openvpn ~/Documents/programming/vkcom/vkvpn.ovpn"
-# alias vpndown="pgrep openvpn | xargs sudo kill -2"
-alias vpnup="wg-quick up wg0"
-alias vpndown="wg-quick down wg0"
-alias vks="rsync -zva --stats -h --no-perms --no-owner --no-group --no-times --exclude=.yarn.lock --exclude=.git --exclude='node_modules*' --exclude='vendor*' ~/Documents/programming/vkcom/repo/ adm512:/home/fsorokin/data"
-alias keys="eval `ssh-agent -s` && ssh-add -e /usr/lib/opensc-pkcs11.so; ssh-add -s /usr/lib/opensc-pkcs11.so"
-alias listen="ssh -vCNR 9000:localhost:9000 adm512"
-#
-# Some longs commands
-alias pim="nohup sshfs pi@192.168.1.200:/mnt/bigboy ~/raspberrypi/ -o default_permissions -o debug > /dev/null 2>&1 &"
-
-alias thm_vpn="sudo openvpn --config ~/Documents/Te0d_US_WEST.ovpn --socks-proxy 127.0.0.1 2080"

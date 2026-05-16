@@ -8,19 +8,19 @@ bd	${XDG_CONFIG_HOME:-$HOME/.config}/shell/bm-dirs		# A list of bookmarked direc
 
 
 # These do not update automatically, but on the next new instance of a program:
-
-cfv	${XDG_CONFIG_HOME:-$HOME/}/.init.vim # vim/neovim config
+cfv	${XDG_CONFIG_HOME:-$HOME/.config}/init.vim # vim/neovim config
 cfi	${XDG_CONFIG_HOME:-$HOME/.config}/i3/config # vim/neovim config
 cfz	$ZDOTDIR/.zshrc						# zsh (shell) config
 cfa	${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc		# aliases used by zsh (and potentially other shells)
 cfp	${XDG_CONFIG_HOME:-$HOME/.config}/shell/profile		# profile file for login settings for zsh
+cfw	${XDG_CONFIG_HOME:-$HOME/.config}/wezterm/wezterm.lua		# wezterm config
 # cfm	${XDG_CONFIG_HOME:-$HOME/.config}/mutt/muttrc		# mutt (email client) config
 # cfn	${XDG_CONFIG_HOME:-$HOME/.config}/newsboat/config	# newsboat (RSS reader)
 # cfu	${XDG_CONFIG_HOME:-$HOME/.config}/newsboat/urls		# RSS urls for newsboat
-cfmb	${XDG_CONFIG_HOME:-$HOME/.config}/ncmpcpp/bindings	# ncmpcpp (music player) keybinds file
-cfmc	${XDG_CONFIG_HOME:-$HOME/.config}/ncmpcpp/config	# ncmpcpp (music player) config
+# cfmb	${XDG_CONFIG_HOME:-$HOME/.config}/ncmpcpp/bindings	# ncmpcpp (music player) keybinds file
+# cfmc	${XDG_CONFIG_HOME:-$HOME/.config}/ncmpcpp/config	# ncmpcpp (music player) config
 cfpb	${XDG_CONFIG_HOME:-$HOME/.config}/polybar/config.ini	# polybar config
 cfr	${XDG_CONFIG_HOME:-$HOME/.config}/ranger/rc.conf		# ranger (file browser) config
-cfL	${XDG_CONFIG_HOME:-$HOME/.config}/lf/scope		# lf's scope/preview file
-cfX	${XDG_CONFIG_HOME:-$HOME/.config}/sxiv/exec/key-handler	# sxiv (image viewer) key/script handler
+# cfL	${XDG_CONFIG_HOME:-$HOME/.config}/lf/scope		# lf's scope/preview file
+# cfX	${XDG_CONFIG_HOME:-$HOME/.config}/sxiv/exec/key-handler	# sxiv (image viewer) key/script handler
 
