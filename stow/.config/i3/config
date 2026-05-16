@@ -88,7 +88,7 @@ exec --no-startup-id i3-msg 'exec v2rayn'
 exec --no-startup-id i3-msg 'exec nekoray'
 
 # synthing-tray for synthing service
-exec --no-startup-id i3-msg 'exec synthingtray-qt6'
+exec --no-startup-id i3-msg 'exec syncthingtray-qt6'
 
 #set screen resolution
 exec_always --no-startup-id arrangeDisplay
