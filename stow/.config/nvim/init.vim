@@ -166,12 +166,24 @@ endfunction
 
 let projectDir = Find_git_root()
 
-if ! filereadable(system('echo -n "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim"'))
-	echo "Downloading junegunn/vim-plug to manage plugins..."
-	silent !mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/
-	silent !curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" > ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim
-	autocmd VimEnter * PlugInstall
+" Auto install plugins on 1st launch, new version must test on linux and android
+let s:config_home = empty($XDG_CONFIG_HOME) ? $HOME . '/.config' : $XDG_CONFIG_HOME
+let s:plug_path = s:config_home . '/nvim/autoload/plug.vim'
+
+if ! filereadable(s:plug_path)
+    echo "Downloading junegunn/vim-plug to manage plugins..."
+    silent !mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/
+    silent !curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" > ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim
+    autocmd VimEnter * PlugInstall
 endif
+
+" Old way to detect works on linux has problem on wsl
+" if ! filereadable(trim(system('echo -n "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim"')))
+" 	echo "Downloading junegunn/vim-plug to manage plugins..."
+" 	silent !mkdir -p ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/
+" 	silent !curl "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" > ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim
+" 	autocmd VimEnter * PlugInstall
+" endif
 
 " vim-plug conditional activation
 function! Cond(cond, ...)
