@@ -218,7 +218,6 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'windwp/nvim-spectre'
   Plug 'kdheepak/lazygit.nvim'
   Plug 'nvim-lua/plenary.nvim'
-  Plug './plugged/linenumbers'
   Plug 'kyazdani42/nvim-tree.lua'
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
