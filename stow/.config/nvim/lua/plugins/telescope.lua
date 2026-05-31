@@ -6,12 +6,13 @@ return {
         dependencies = {
             'nvim-lua/plenary.nvim',
             -- optional but recommended
-            { 'nvim-telescope/telescope-fzf-native.nvim',                  build = 'make' },
+            -- { 'nvim-telescope/telescope-fzf-native.nvim',                  build = 'make' },
+            { 'nvim-telescope/telescope-fzf-native.nvim',                  build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release --target install' },
             { 'https://github.com/tom-anders/telescope-vim-bookmarks.nvim' },
             { 'https://github.com/debugloop/telescope-undo.nvim' },
         },
         opts = function()
-            require('telescope').load_extension('fzf')
+            require("telescope").load_extension("fzf")
             require("telescope").load_extension("undo")
             return {
                 defaults = {
