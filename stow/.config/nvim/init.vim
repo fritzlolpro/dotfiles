@@ -128,7 +128,7 @@ let g:coc_global_extensions = [
   \ 'coc-lua',
   \ 'coc-prettier',
   \ 'coc-tsserver',
-  \ 'coc-rust-analizer',
+  \ 'coc-rust-analyzer',
   \ ]
 
 let g:airline#extensions#default#section_truncate_width = {
