@@ -1,0 +1,11 @@
+return function()
+    vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {desc = "goto def"})
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, {desc="todo"})
+    vim.keymap.set("n", "<leader>gi", vim.lsp.buf.implementation, {desc="todo"})
+    vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, {desc="todo"})
+    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, {desc="todo"})
+    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {desc="todo"})
+    vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, {desc="todo"})
+    vim.keymap.set("n", "]d", vim.diagnostic.goto_next, {desc="todo"})
+    vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, {desc="todo"})
+end
