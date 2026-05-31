@@ -8,30 +8,15 @@ return {
     },
     {
         "neovim/nvim-lspconfig",
-        dependencies = { "mason-org/mason.nvim" },
+        dependencies = { "mason-org/mason.nvim", "https://github.com/VonHeikemen/lsp-zero.nvim" },
 
         opts = {},
         config = function(_, opts)
-            vim.lsp.enable('lua_ls')
-            local lua_ls_config = {
-                capabilities = capabilities,
-                on_attach = on_attach,
-                settings = {
-                    Lua = {
-                        format = {
-                            enable = true, -- включаем встроенный форматтер (значение по умолчанию)
-                            -- Можно указать параметры форматирования (необязательно)
-                            defaultConfig = {
-                                -- Например, отступ = 4 пробела, не использовать табуляцию
-                                indent_style = "space",
-                                indent_size = "2",
+            local lsp_zero = require('lsp-zero')
 
-                            }
-                        }
-                    }
-                }
-            }
-            vim.lsp.config('lua_ls', lua_ls_config)
+            lsp_zero.on_attach(function(client, bufnr)
+                lsp_zero.default_keymaps({ buffer = bufnr })
+            end)
         end
     },
     {
@@ -48,37 +33,16 @@ return {
                 "gopls",   -- для Go
                 "jsonls",  -- для JSON
                 "yamlls",  -- для YAML
-                -- НЕ включаем "rust_analyzer" – он будет через rustaceanvim
             },
             automatic_installation = true,
         },
         config = function(_, opts)
-            vim.lsp.enable('lua_ls')
             local capabilities = vim.lsp.protocol.make_client_capabilities()
             local has_cmp, cmp_lsp = pcall(require, "cmp_nvim_lsp")
             if has_cmp then
                 capabilities = cmp_lsp.default_capabilities(capabilities)
             end
 
-            -- Обработчик для всех LSP серверов (единая логика при подключении)
-            local on_attach = function(client, bufnr)
-                -- Здесь можно настроить горячие клавиши для LSP
-                print("LSP attached: " .. client.name)
-            end
-            -- Настройка каждого сервера индивидуально (или общая)
-            require("mason-lspconfig").setup({
-                ensure_installed = opts.ensure_installed,
-                automatic_installation = opts.automatic_installation,
-                -- Этот обработчик вызывается для каждого сервера
-                handlers = {
-                    function(server_name)
-                        require("lspconfig")[server_name].setup({
-                            capabilities = capabilities,
-                            on_attach = on_attach,
-                        })
-                    end,
-                }
-            })
             require("mason").setup()
             require("mason-lspconfig").setup(opts)
         end,
