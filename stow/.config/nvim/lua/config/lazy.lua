@@ -53,21 +53,11 @@ require("lazy").setup({
         }
     },
     { "folke/which-key.nvim", lazy = fase},
-    -- {
-    --     "Wansmer/treesj",
-    --     keys = { { "J", "<cmd>TSJToggle<cr>", desc = "Join Toggle" } },
-    --     opts = { use_default_keymaps = false, max_join_length = 500 },
-    -- },
     {
       "monaqa/dial.nvim",
-      -- lazy-load on keys
-      -- mode is `n` by default. For more advanced options, check the section on key mappings
       keys = { "<C-a>", { "<C-x>", mode = "n" } },
     },
     },
-    -- Configure any other settings here. See the documentation for more details.
-    -- colorscheme that will be used when installing plugins.
     install = { colorscheme = { "gruvbox" } },
-    -- automatically check for plugin updates
     checker = { enabled = true },
 })

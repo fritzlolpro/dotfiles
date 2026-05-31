@@ -8,4 +8,5 @@ return function()
     vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, {desc="todo"})
     vim.keymap.set("n", "]d", vim.diagnostic.goto_next, {desc="todo"})
     vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, {desc="todo"})
+    vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "Format buffer (LSP)" })
 end

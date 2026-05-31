@@ -1,4 +1,3 @@
-vim.keymap.set("n", "<Space>", "<Nop>", { silent = true, remap = false })
 vim.g.mapleader = " "
 -- Поиск с учетом регистра (игнорирование при вводе только строчных букв)
 vim.opt.ignorecase = true
@@ -80,6 +79,48 @@ vim.opt.shortmess:append('c')
 vim.opt.colorcolumn = '120'
 -- Вертикальное отображение diff'а
 vim.opt.diffopt:append('vertical')
+
+-- The function bellow had an important update I started using vim.keymap.set
+-- which uses lua functions directly instead of vim.api.nvim_set_keymap
+-- vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+local function map(mode, lhs, rhs, opts)
+		local options = { noremap = true, silent = true }
+		if opts then
+				options = vim.tbl_extend('force', options, opts)
+		end
+		vim.keymap.set(mode, lhs, rhs, options)
+end
+
+local function vim_opt_toggle(opt, on, off, name)
+		local message = name
+		if vim.opt[opt]:get() == off then
+				vim.opt[opt] = on
+				message = message .. " Enabled" else
+				vim.opt[opt] = off
+				message = message .. " Disabled"
+		end
+				vim.notify(message)
+end
+
+map({'n', 'i'}, '<leader>l', function() vim_opt_toggle("list", true, false, "List") end, { desc = "Toggle list hidden chars"})
+map({'n', 'i'}, '<F2>', function() vim_opt_toggle("paste", true, false, "Paste") end, { desc = "Toggle paste mode"})
+
+-- AUTOCOMMANDS
+
+-- Восстановление позиции курсора после открытия файла
+vim.api.nvim_create_autocmd("BufReadPost", {
+  pattern = "*",
+  callback = function()
+    local mark = vim.api.nvim_buf_get_mark(0, '"')
+    local lnum = mark[1]
+    local col = mark[2]
+    if lnum > 1 and lnum <= vim.api.nvim_buf_line_count(0) then
+      vim.api.nvim_win_set_cursor(0, { lnum, col })
+    end
+  end,
+})
+
+
 require("config.lazy")
 require("config.keymap")()
 print("After require")
