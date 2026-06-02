@@ -8,12 +8,13 @@ vim.opt.lazyredraw = true
 vim.opt.backspace = 'indent,eol,start'
 -- -- Всегда показывать строку статуса
 vim.opt.laststatus = 2
-vim.opt.statusline = '[%n]\\ %<%f%h%m'  -- \\ для экранирования обратного слеша в Lua
+vim.opt.statusline = '[%n]\\ %<%f%h%m' -- \\ для экранирования обратного слеша в Lua
 -- -- Включить подсветку синтаксиса
 vim.opt.syntax = "on"
 -- vim.cmd('syntax on')
 -- -- Русская раскладка в нормальном режиме (langmap)
-vim.opt.langmap = [[!№\%?*ёйцукенгшщзхъфывапролджэячсмитьбюЁЙЦУКЕHГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;!#%&*`qwertyuiop[]asdfghjkl\;'zxcvbnm\,.~QWERTYUIOP{}ASDFGHJKL:\"ZXCVBNM<>]]
+vim.opt.langmap =
+[[!№\%?*ёйцукенгшщзхъфывапролджэячсмитьбюЁЙЦУКЕHГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ;!#%&*`qwertyuiop[]asdfghjkl\;'zxcvbnm\,.~QWERTYUIOP{}ASDFGHJKL:\"ZXCVBNM<>]]
 -- -- Отключить проверку орфографии
 vim.opt.spell = false
 -- -- Файл с пользовательскими словами (если нужен)
@@ -37,12 +38,13 @@ vim.opt.errorbells = false
 -- -- Настройки табуляции и отступов
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
-vim.opt.shiftwidth = 4
+vim.opt.shiftwidth = 0
 vim.opt.autoindent = true
 vim.opt.copyindent = true
 vim.opt.expandtab = true
 vim.opt.smartindent = true
 vim.opt.smarttab = true
+vim.g.editorconfig = false
 -- Перенос строк с учётом ширины текста
 vim.opt.wrapmargin = 0
 vim.opt.textwidth = 120
@@ -85,33 +87,35 @@ vim.opt.diffopt:append('vertical')
 -- which uses lua functions directly instead of vim.api.nvim_set_keymap
 -- vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 local function map(mode, lhs, rhs, opts)
-		local options = { noremap = true, silent = true }
-		if opts then
-				options = vim.tbl_extend('force', options, opts)
-		end
-		vim.keymap.set(mode, lhs, rhs, options)
+  local options = { noremap = true, silent = true }
+  if opts then
+    options = vim.tbl_extend('force', options, opts)
+  end
+  vim.keymap.set(mode, lhs, rhs, options)
 end
 
 local function vim_opt_toggle(opt, on, off, name)
-		local message = name
-		if vim.opt[opt]:get() == off then
-				vim.opt[opt] = on
-				message = message .. " Enabled" else
-				vim.opt[opt] = off
-				message = message .. " Disabled"
-		end
-				vim.notify(message)
+  local message = name
+  if vim.opt[opt]:get() == off then
+    vim.opt[opt] = on
+    message = message .. " Enabled"
+  else
+    vim.opt[opt] = off
+    message = message .. " Disabled"
+  end
+  vim.notify(message)
 end
 
-map({'n', 'i'}, '<leader>l', function() vim_opt_toggle("list", true, false, "List") end, { desc = "Toggle list hidden chars"})
-map({'n', 'i'}, '<F2>', function() vim_opt_toggle("paste", true, false, "Paste") end, { desc = "Toggle paste mode"})
+map({ 'n', 'i' }, '<leader>l', function () vim_opt_toggle("list", true, false, "List") end,
+  { desc = "Toggle list hidden chars" })
+map({ 'n', 'i' }, '<F2>', function () vim_opt_toggle("paste", true, false, "Paste") end, { desc = "Toggle paste mode" })
 
 -- AUTOCOMMANDS
 -- Сохраняем историю, маркеры, поиск и другие данные между сессиями
-vim.opt.shada = "!,'1000,<50,s10,h"  -- '1000 = сохранять позиции для 1000 последних файлов
+vim.opt.shada = "!,'1000,<50,s10,h" -- '1000 = сохранять позиции для 1000 последних файлов
 vim.api.nvim_create_autocmd("BufReadPost", {
   pattern = "*",
-  callback = function()
+  callback = function ()
     local mark = vim.api.nvim_buf_get_mark(0, '"')
     local lnum, col = mark[1], mark[2]
     if lnum > 1 and lnum <= vim.api.nvim_buf_line_count(0) then
@@ -123,5 +127,5 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 })
 require("config.lazy")
 require("config.keymap")()
---vim.o.background = "light" 
+--vim.o.background = "light"
 vim.cmd([[colorscheme gruvbox]])
