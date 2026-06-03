@@ -106,8 +106,8 @@ local function vim_opt_toggle(opt, on, off, name)
   vim.notify(message)
 end
 
-map({ 'n', 'i' }, '<leader>l', function () vim_opt_toggle("list", true, false, "List") end,
-  { desc = "Toggle list hidden chars" })
+-- map({ 'n', 'i' }, '<leader>l', function () vim_opt_toggle("list", true, false, "List") end,
+--   { desc = "Toggle list hidden chars" })
 map({ 'n', 'i' }, '<F2>', function () vim_opt_toggle("paste", true, false, "Paste") end, { desc = "Toggle paste mode" })
 
 -- AUTOCOMMANDS

@@ -1,4 +1,5 @@
 return function ()
+  -- LSP
   vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, { desc = "goto def" })
   vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "hover code_action" })
   vim.keymap.set("n", "<leader>gi", vim.lsp.buf.implementation, { desc = "goto implementation" })
@@ -43,12 +44,17 @@ return function ()
   end, { desc = "Telescope: help tags" })
 
   -- Telescope: главное меню
-  vim.keymap.set("n", "<leader>to", "<cmd>Telescope<cr>", { desc = "Telescope: open picker" })
+  vim.keymap.set("n", "<leader>tt", "<cmd>Telescope<cr>", { desc = "Telescope: open picker" })
 
   -- Telescope: список команд Neovim
   vim.keymap.set("n", "<leader>tc", function ()
     require('telescope.builtin').commands()
   end, { desc = "Telescope: list commands" })
+
+  -- Telescope: project / git files
+  vim.keymap.set("n", "<leader>tp", function ()
+    require('telescope.builtin').git_files()
+  end, { desc = "Telescope: project files" })
 
   -- Telescope: file history / old files
   vim.keymap.set("n", "<leader>to", function ()
@@ -59,4 +65,18 @@ return function ()
   vim.keymap.set("n", "<leader>tm", function ()
     require('telescope').extensions.vim_bookmarks.current_file()
   end, { desc = "Telescope: bookmarks in current file" })
+
+
+  -- Move move lines
+  -- Перемещение строки под курсором (Normal mode)
+  vim.keymap.set('n', '<A-Up>', ':m-2<CR>', { desc = 'Move current line up' })
+  vim.keymap.set('n', '<A-Down>', ':m+<CR>', { desc = 'Move current line down' })
+
+  -- Перемещение выделенных строк (Visual mode)
+  vim.keymap.set('v', '<A-Up>', ":m-2<CR>gv", { desc = 'Move selected lines up' })
+  vim.keymap.set('v', '<A-Down>', ":m+<CR>gv", { desc = 'Move selected lines down' })
+
+  -- Перемещение строки в Insert mode (выход из режима, перемещение, возврат)
+  vim.keymap.set('i', '<A-Up>', '<Esc>:m-2<CR>a', { desc = 'Move current line up in insert' })
+  vim.keymap.set('i', '<A-Down>', '<Esc>:m+<CR>a', { desc = 'Move current line down in insert' })
 end
