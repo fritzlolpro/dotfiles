@@ -82,6 +82,8 @@ vim.opt.shortmess:append('c')
 vim.opt.colorcolumn = '120'
 -- Вертикальное отображение diff'а
 vim.opt.diffopt:append('vertical')
+-- reset vim bookmarks default I will rebind them
+vim.g.bookmark_no_default_key_mappings = 1
 --
 -- The function bellow had an important update I started using vim.keymap.set
 -- which uses lua functions directly instead of vim.api.nvim_set_keymap
@@ -125,6 +127,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     end
   end,
 })
+
 require("config.lazy")
 require("config.keymap")()
 --vim.o.background = "light"

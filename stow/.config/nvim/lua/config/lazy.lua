@@ -58,6 +58,11 @@ require("lazy").setup({
       "folke/which-key.nvim",
       lazy = false,
       opts = {
+        triggers = {
+          { "<auto>",   mode = "nixsotc" },
+          { "<leader>", mode = { "n", "v" } },
+          { "m",        mode = { "n", "v" } },
+        },
         win = {
           no_overlap = false
         }

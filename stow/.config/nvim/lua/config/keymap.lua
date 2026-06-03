@@ -29,7 +29,7 @@ return function ()
   end, { desc = "Telescope: grep" })
 
   -- Telescope: список буферов
-  vim.keymap.set("n", "<leader>tb", function ()
+  vim.keymap.set("n", "<leader>tbb", function ()
     require('telescope.builtin').buffers()
   end, { desc = "Telescope: list buffers" })
 
@@ -67,10 +67,14 @@ return function ()
   end, { desc = "Telescope: sessions" })
 
   -- Telescope: закладки (vim_bookmarks) в текущем файле
-  vim.keymap.set("n", "<leader>tm", function ()
+  vim.keymap.set("n", "<leader>tbf", function ()
     require('telescope').extensions.vim_bookmarks.current_file()
   end, { desc = "Telescope: bookmarks in current file" })
 
+  -- Telescope: закладки (vim_bookmarks) везде
+  vim.keymap.set("n", "<leader>tba", function ()
+    require('telescope').extensions.vim_bookmarks.all()
+  end, { desc = "Telescope: bookmarks everywhere" })
 
   -- Move move lines
   -- Перемещение строки под курсором (Normal mode)
@@ -90,4 +94,15 @@ return function ()
   vim.keymap.set("n", "<leader>sl", ":SLoad ", { desc = "Session load" })
   vim.keymap.set("n", "<leader>sa", ":SList<CR>", { desc = "Session avaliable list" })
   vim.keymap.set("n", "<leader>sd", ":SDelete ", { desc = "Session delete" })
+
+
+  -- vim bookmarks remap to have wichkey tips
+  vim.g.bookmark_no_default_key_mappings = 1
+  vim.keymap.set('n', 'mm', '<cmd>BookmarkToggle<CR>', { desc = 'Toggle bookmark' })
+  vim.keymap.set('n', 'mi', '<cmd>BookmarkAnnotate<CR>', { desc = 'Add/edit annotation' })
+  vim.keymap.set('n', 'mn', '<cmd>BookmarkNext<CR>', { desc = 'Next bookmark' })
+  vim.keymap.set('n', 'mp', '<cmd>BookmarkPrev<CR>', { desc = 'Previous bookmark' })
+  vim.keymap.set('n', 'ma', '<cmd>BookmarkShowAll<CR>', { desc = 'Show all bookmarks (toggle)' })
+  vim.keymap.set('n', 'mc', '<cmd>BookmarkClear<CR>', { desc = 'Clear bookmarks in current buffer' })
+  vim.keymap.set('n', 'mx', '<cmd>BookmarkClearAll<CR>', { desc = 'Clear bookmarks in all buffers' })
 end
