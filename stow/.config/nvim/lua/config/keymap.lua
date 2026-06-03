@@ -61,6 +61,11 @@ return function ()
     require('telescope.builtin').oldfiles()
   end, { desc = "Telescope: oldfiles" })
 
+  -- Telescope: sessions
+  vim.keymap.set("n", "<leader>ts", function ()
+    require('telescope').extensions.possession.list()
+  end, { desc = "Telescope: sessions" })
+
   -- Telescope: закладки (vim_bookmarks) в текущем файле
   vim.keymap.set("n", "<leader>tm", function ()
     require('telescope').extensions.vim_bookmarks.current_file()
@@ -79,4 +84,10 @@ return function ()
   -- Перемещение строки в Insert mode (выход из режима, перемещение, возврат)
   vim.keymap.set('i', '<A-Up>', '<Esc>:m-2<CR>a', { desc = 'Move current line up in insert' })
   vim.keymap.set('i', '<A-Down>', '<Esc>:m+<CR>a', { desc = 'Move current line down in insert' })
+
+  -- sessions
+  vim.keymap.set("n", "<leader>ss", ":SSave<CR>", { desc = "Session save" })
+  vim.keymap.set("n", "<leader>sl", ":SLoad ", { desc = "Session load" })
+  vim.keymap.set("n", "<leader>sa", ":SList<CR>", { desc = "Session avaliable list" })
+  vim.keymap.set("n", "<leader>sd", ":SDelete ", { desc = "Session delete" })
 end

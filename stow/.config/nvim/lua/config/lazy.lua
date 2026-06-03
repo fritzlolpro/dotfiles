@@ -31,7 +31,7 @@ require("lazy").setup({
       priority = 1000,
       config = true,
       opts = {
-        terminal_colors = true,         -- add neovim terminal colors
+        terminal_colors = true, -- add neovim terminal colors
         undercurl = true,
         underline = true,
         bold = true,
@@ -46,15 +46,23 @@ require("lazy").setup({
         invert_selection = false,
         invert_signs = false,
         invert_tabline = false,
-        inverse = true,            -- invert background for search, diffs, statuslines and errors
-        contrast = "hard",         -- can be "hard", "soft" or empty string
+        inverse = true,    -- invert background for search, diffs, statuslines and errors
+        contrast = "hard", -- can be "hard", "soft" or empty string
         palette_overrides = {},
         overrides = {},
         dim_inactive = false,
         transparent_mode = false,
       }
     },
-    { "folke/which-key.nvim", lazy = fase },
+    {
+      "folke/which-key.nvim",
+      lazy = false,
+      opts = {
+        win = {
+          no_overlap = false
+        }
+      }
+    },
     {
       "ibhagwan/fzf-lua",
       dependencies = { "nvim-mini/mini.icons" },
@@ -73,8 +81,8 @@ require("lazy").setup({
         outermost = true,
         enable_cache = true,
         project_non_root = '', -- this can be '', 'home' or 'current'
-        enable_logger = true, -- enable runtime log via logger.nvim
-        command = 'cd', -- cd, tcd or lcd
+        enable_logger = true,  -- enable runtime log via logger.nvim
+        command = 'cd',        -- cd, tcd or lcd
       }
     },
     {
