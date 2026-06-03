@@ -10,7 +10,8 @@ return {
       -- { 'nvim-telescope/telescope-fzf-native.nvim',                  build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release --target install' },
       { 'https://github.com/tom-anders/telescope-vim-bookmarks.nvim' },
       { 'https://github.com/debugloop/telescope-undo.nvim' },
-      {'https://github.com/MattesGroeger/vim-bookmarks'}
+      { 'https://github.com/MattesGroeger/vim-bookmarks' },
+      { 'nvim-treesitter/nvim-treesitter-context' }
     },
     opts = function ()
       local root_patterns = { ".git", "deps.edn" }
@@ -18,6 +19,23 @@ return {
       require("telescope").load_extension("fzf")
       require('telescope').load_extension('vim_bookmarks')
       require("telescope").load_extension("undo")
+      require 'treesitter-context'.setup {
+        enable = true,     -- Enable this plugin (Can be enabled/disabled later via commands)
+        max_lines = 3,     -- How many lines the window should span. Values <= 0 mean no limit.
+        trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+        patterns = {       -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
+          default = {
+            'class',
+            'function',
+            'method',
+            'for',   -- These won't appear in the context
+            'while',
+            'if',
+            'switch',
+            'case',
+          },
+        },
+      }
       return {
         defaults = {
           vimgrep_arguments = {
