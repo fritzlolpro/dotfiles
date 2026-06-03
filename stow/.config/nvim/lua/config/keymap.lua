@@ -17,10 +17,13 @@ return function ()
     require('telescope').extensions.ctags_outline.outline({ buf = 'all' })
   end, { desc = "Telescope: ctags outline (all buffers)" })
 
-  -- Telescope: поиск строки в корне git-репозитория (требуется функция Find_git_root)
+  -- vim.keymap.set("n", "<leader>tgs", function ()
+  --   require('telescope.builtin').grep_string({ cwd = vim.fn['Find_git_root']() })
+  -- end, { desc = "Telescope: grep string in git root" })
+
   vim.keymap.set("n", "<leader>tgs", function ()
-    require('telescope.builtin').grep_string({ cwd = vim.fn['Find_git_root']() })
-  end, { desc = "Telescope: grep string in git root" })
+    require('telescope.builtin').live_grep()
+  end, { desc = "Telescope: grep" })
 
   -- Telescope: список буферов
   vim.keymap.set("n", "<leader>tbb", function ()

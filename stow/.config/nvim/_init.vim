@@ -161,11 +161,6 @@ let g:Lf_RgConfig = [
 "autocmd VimEnter * call AirlineInit()
 
 
-" function! Find_git_root()
-"   return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
-" endfunction
-
-" let projectDir = Find_git_root()
 
 " Auto install plugins on 1st launch, new version must test on linux and android
 let s:config_home = empty($XDG_CONFIG_HOME) ? $HOME . '/.config' : $XDG_CONFIG_HOME
@@ -545,15 +540,20 @@ endif
 "autocmd vimenter * ++nested colorscheme sublimemonokai
 " }}}
 
+ function! Find_git_root()
+   return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+ endfunction
+
+ let projectDir = Find_git_root()
 
 
 " define a command which runs ripgrep in the root directory
 " as determined by rooter
-" command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --glob '!node_modules/*' --no-heading --color=always --smart-case " . shellescape(<q-args>), 1,    fzf#vim#with_preview({"dir": FindRootDirectory(), 'options': '--delimiter : --nth 4..'}))
+ command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --glob '!node_modules/*' --no-heading --color=always --smart-case " . shellescape(<q-args>), 1,    fzf#vim#with_preview({"dir": FindRootDirectory(), 'options': '--delimiter : --nth 4..'}))
 
-" command! -bang -nargs=? -complete=dir GitFiles call fzf#vim#gitfiles(shellescape(<q-args>), fzf#vim#with_preview({'options': '-i'}), <bang>0)
+ command! -bang -nargs=? -complete=dir GitFiles call fzf#vim#gitfiles(shellescape(<q-args>), fzf#vim#with_preview({'options': '-i'}), <bang>0)
 
-" command! ProjectFiles execute 'GitFiles' s:find_git_root()
+ command! ProjectFiles execute 'GitFiles' s:find_git_root()
 
 " if executable('rg')
 "     let g:rg_derive_root='true'
