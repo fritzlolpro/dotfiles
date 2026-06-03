@@ -9,47 +9,54 @@ return function ()
   vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "diagnostic goto_next" })
   vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "diagnostic open_float" })
   vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "Format buffer (LSP)" })
+
+  -- Telescope
   -- Telescope: работа с undo историей
-  vim.keymap.set("n", "<leader>tut", "<cmd>Telescope undo<cr>", { desc = "Telescope: undo history" })
+  vim.keymap.set("n", "<leader>tu", "<cmd>Telescope undo<cr>", { desc = "Telescope: undo history" })
 
   -- Telescope: outline на основе ctags для всех буферов
-  vim.keymap.set("n", "<leader>tct", function ()
-    require('telescope').extensions.ctags_outline.outline({ buf = 'all' })
-  end, { desc = "Telescope: ctags outline (all buffers)" })
+  -- vim.keymap.set("n", "<leader>tct", function ()
+  --   require('telescope').extensions.ctags_outline.outline({ buf = 'all' })
+  -- end, { desc = "Telescope: ctags outline (all buffers)" })
 
   -- vim.keymap.set("n", "<leader>tgs", function ()
   --   require('telescope.builtin').grep_string({ cwd = vim.fn['Find_git_root']() })
   -- end, { desc = "Telescope: grep string in git root" })
 
-  vim.keymap.set("n", "<leader>tgs", function ()
+  vim.keymap.set("n", "<leader>tg", function ()
     require('telescope.builtin').live_grep()
   end, { desc = "Telescope: grep" })
 
   -- Telescope: список буферов
-  vim.keymap.set("n", "<leader>tbb", function ()
+  vim.keymap.set("n", "<leader>tb", function ()
     require('telescope.builtin').buffers()
   end, { desc = "Telescope: list buffers" })
 
   -- Telescope: список меток (marks)
-  vim.keymap.set("n", "<leader>tmm", function ()
+  vim.keymap.set("n", "<leader>tm", function ()
     require('telescope.builtin').marks()
   end, { desc = "Telescope: list marks" })
 
   -- Telescope: поиск по справке (help tags)
-  vim.keymap.set("n", "<leader>thh", function ()
+  vim.keymap.set("n", "<leader>th", function ()
     require('telescope.builtin').help_tags()
   end, { desc = "Telescope: help tags" })
 
   -- Telescope: главное меню
-  vim.keymap.set("n", "<leader>ttt", "<cmd>Telescope<cr>", { desc = "Telescope: open picker" })
+  vim.keymap.set("n", "<leader>to", "<cmd>Telescope<cr>", { desc = "Telescope: open picker" })
 
   -- Telescope: список команд Neovim
-  vim.keymap.set("n", "<leader>tcc", function ()
+  vim.keymap.set("n", "<leader>tc", function ()
     require('telescope.builtin').commands()
   end, { desc = "Telescope: list commands" })
 
+  -- Telescope: file history / old files
+  vim.keymap.set("n", "<leader>to", function ()
+    require('telescope.builtin').oldfiles()
+  end, { desc = "Telescope: oldfiles" })
+
   -- Telescope: закладки (vim_bookmarks) в текущем файле
-  vim.keymap.set("n", "<leader>tmf", function ()
+  vim.keymap.set("n", "<leader>tm", function ()
     require('telescope').extensions.vim_bookmarks.current_file()
   end, { desc = "Telescope: bookmarks in current file" })
 end

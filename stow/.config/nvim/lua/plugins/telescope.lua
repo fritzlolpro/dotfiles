@@ -10,11 +10,13 @@ return {
       -- { 'nvim-telescope/telescope-fzf-native.nvim',                  build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release --target install' },
       { 'https://github.com/tom-anders/telescope-vim-bookmarks.nvim' },
       { 'https://github.com/debugloop/telescope-undo.nvim' },
+      {'https://github.com/MattesGroeger/vim-bookmarks'}
     },
     opts = function ()
       local root_patterns = { ".git", "deps.edn" }
       local root_dir = vim.fs.dirname(vim.fs.find(root_patterns, { upward = true })[1])
       require("telescope").load_extension("fzf")
+      require('telescope').load_extension('vim_bookmarks')
       require("telescope").load_extension("undo")
       return {
         defaults = {
