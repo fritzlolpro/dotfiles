@@ -85,6 +85,9 @@ vim.opt.diffopt:append('vertical')
 -- reset vim bookmarks default I will rebind them
 vim.g.bookmark_no_default_key_mappings = 1
 --
+--use rg for grep
+vim.opt.grepprg = "rg --vimgrep"
+vim.opt.grepformat = "%f:%l:%c:%m"
 -- The function bellow had an important update I started using vim.keymap.set
 -- which uses lua functions directly instead of vim.api.nvim_set_keymap
 -- vim.api.nvim_set_keymap(mode, lhs, rhs, options)
