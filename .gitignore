@@ -2,3 +2,5 @@
 **/undodir
 
 stow/.config/nvim/plugged
+stow/.config/shell/zshnameddirrc
+stow/.config/shell/shortcutrc
