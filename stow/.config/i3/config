@@ -41,7 +41,8 @@ exec redshift -l $(curl -s "https://location.services.mozilla.com/v1/geolocate?k
 exec flameshot
 #
 # nextcloud cloud storage
-exec nextcloud
+# exec nextcloud
+exec --no-startup-id "~/Downloads/./Sync-in-Desktop-2.2.1-x86_64.AppImage"
 #
 # Mod1 === alt
 bindsym Control+Mod1+x exec flameshot gui
@@ -74,7 +75,7 @@ exec_always xrdb -merge ~/.Xdefaults
 
 # konsole with tmux on launch
 #exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id konsole --hold -e tmux new'
-exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id st -e sh -c tmux -u new'
+exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id wezterm -e sh -c tmux -u new'
 #exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id st'
 
 # telegram client
@@ -82,13 +83,14 @@ exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id st -e sh -c tmux 
 #exec --no-startup-id i3-msg 'workspace 10'; exec --no-startup-id kotatogram-desktop
 exec --no-startup-id i3-msg 'exec Telegram'
 # v2rayn proxy
-exec --no-startup-id i3-msg 'exec v2rayn'
+# exec --no-startup-id i3-msg 'exec v2rayn'
 
 # nekoray proxy
-exec --no-startup-id i3-msg 'exec nekoray'
+# exec --no-startup-id i3-msg 'exec nekoray'
 
+exec --no-startup-id i3-msg 'exec hiddify'
 # synthing-tray for synthing service
-exec --no-startup-id i3-msg 'exec syncthingtray-qt6'
+exec --no-startup-id i3-msg 'exec syncthingtray-qt6 --wait'
 
 #set screen resolution
 exec_always --no-startup-id arrangeDisplay
