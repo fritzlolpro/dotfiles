@@ -47,6 +47,7 @@ exec flameshot
 #
 # nextcloud cloud storage
 # exec nextcloud
+exec --no-startup-id "~/Downloads/./Sync-in-Desktop-2.2.1-x86_64.AppImage"
 #
 # Mod1 === alt
 bindsym Control+Mod1+x exec flameshot gui
@@ -71,6 +72,8 @@ font pango:hack 8
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
+# polkit
+exec --no-startup-id /usr/lib/polkit-kde-authentication-agent-1
 
 #source Xresources
 exec_always xrdb -merge ~/.Xdefaults
@@ -92,7 +95,7 @@ exec --no-startup-id i3-msg 'exec hiddify'
 exec --no-startup-id i3-msg 'exec nekoray'
 
 # synthing-tray for synthing service
-exec --no-startup-id i3-msg 'exec syncthingtray-qt6'
+exec --no-startup-id i3-msg 'exec syncthingtray-qt6 --wait'
 
 #set screen resolution
 exec_always --no-startup-id arrangeDisplay

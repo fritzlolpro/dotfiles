@@ -1,1 +1,0 @@
-/home/fedor/.config/shell/profile
