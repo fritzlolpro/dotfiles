@@ -12,6 +12,10 @@
 
 set $mod Mod4
 
+# polkit
+exec --no-startup-id /usr/lib/polkit-kde-authentication-agent-1
+exec --no-startup-id /usr/lib/pam_kwallet_init
+exec --no-startup-id kwalletd6
 # fix sitty tray icons https://bbs.archlinux.org/viewtopic.php?id=253693
 exec snixembed --fork
 
@@ -20,7 +24,8 @@ exec_always "setxkbmap -model pc101 -layout us,ru -variant ,, -option grp:alt_sh
 # exec_always "setxkbmap -model pc101 -layout us,ru -variant colemak,, -option grp:alt_shift_toggle"
 
 # POLYBAR
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+# exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+exec --no-startup-id polybar master
 
 # notifications
 exec_always dunst
@@ -41,7 +46,7 @@ exec redshift -l $(curl -s "https://location.services.mozilla.com/v1/geolocate?k
 exec flameshot
 #
 # nextcloud cloud storage
-exec nextcloud
+# exec nextcloud
 #
 # Mod1 === alt
 bindsym Control+Mod1+x exec flameshot gui
@@ -66,15 +71,13 @@ font pango:hack 8
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
-# polkit
-exec --no-startup-id /usr/lib/polkit-kde-authentication-agent-1
 
 #source Xresources
 exec_always xrdb -merge ~/.Xdefaults
 
 # konsole with tmux on launch
 #exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id konsole --hold -e tmux new'
-exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id st -e sh -c tmux -u new'
+exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id wezterm -e sh -c tmux -u new'
 #exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id st'
 
 # telegram client
@@ -83,6 +86,7 @@ exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id st -e sh -c tmux 
 exec --no-startup-id i3-msg 'exec Telegram'
 # v2rayn proxy
 exec --no-startup-id i3-msg 'exec v2rayn'
+exec --no-startup-id i3-msg 'exec hiddify'
 
 # nekoray proxy
 exec --no-startup-id i3-msg 'exec nekoray'
