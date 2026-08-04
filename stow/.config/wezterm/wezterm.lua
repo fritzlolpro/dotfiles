@@ -12,7 +12,7 @@ config.initial_rows = 28
 config.cursor_blink_rate = 0
 
 -- or, changing the font size and color scheme.
-config.font_size = 10
+config.font_size = 14
 config.color_scheme = 'GruvboxDarkHard'
 
 config.enable_tab_bar = false
