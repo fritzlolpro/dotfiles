@@ -42,7 +42,7 @@ exec flameshot
 #
 # nextcloud cloud storage
 # exec nextcloud
-exec --no-startup-id "~/Downloads/./Sync-in-Desktop-2.2.1-x86_64.AppImage"
+exec --no-startup-id "~/Applications/./Sync-in-Desktop-*.*.*-x86_64.AppImage"
 #
 # Mod1 === alt
 bindsym Control+Mod1+x exec flameshot gui
@@ -518,7 +518,7 @@ exec_always "xscreensaver --no-splash"
 # better do via syscli
 # cp /usr/share/xscreensaver/xscreensaver.service ~/.config/systemd/user/
 # systemctl --user enable xscreensaver
-
+exec_always --no-startup-id xss-lock --transfer-sleep-lock -- /usr/bin/xscreensaver-command -lock
 
 mode "lock" {
         bindsym $mod+mod1+l exec "xscreensaver-command -lock"; mode "default"
