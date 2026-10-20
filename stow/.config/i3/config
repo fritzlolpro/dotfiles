@@ -12,6 +12,10 @@
 
 set $mod Mod4
 
+# polkit
+exec --no-startup-id /usr/lib/polkit-kde-authentication-agent-1
+exec --no-startup-id /usr/lib/pam_kwallet_init
+exec --no-startup-id kwalletd6
 # fix sitty tray icons https://bbs.archlinux.org/viewtopic.php?id=253693
 exec snixembed --fork
 
@@ -20,7 +24,8 @@ exec_always "setxkbmap -model pc101 -layout us,ru -variant ,, -option grp:alt_sh
 # exec_always "setxkbmap -model pc101 -layout us,ru -variant colemak,, -option grp:alt_shift_toggle"
 
 # POLYBAR
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+# exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+exec --no-startup-id polybar master
 
 # notifications
 exec_always dunst
@@ -83,12 +88,12 @@ exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id wezterm -e sh -c 
 #exec --no-startup-id i3-msg 'workspace 10'; exec --no-startup-id kotatogram-desktop
 exec --no-startup-id i3-msg 'exec Telegram'
 # v2rayn proxy
-# exec --no-startup-id i3-msg 'exec v2rayn'
+exec --no-startup-id i3-msg 'exec v2rayn'
+exec --no-startup-id i3-msg 'exec hiddify'
 
 # nekoray proxy
-# exec --no-startup-id i3-msg 'exec nekoray'
+exec --no-startup-id i3-msg 'exec nekoray'
 
-exec --no-startup-id i3-msg 'exec hiddify'
 # synthing-tray for synthing service
 exec --no-startup-id i3-msg 'exec syncthingtray-qt6 --wait'
 
