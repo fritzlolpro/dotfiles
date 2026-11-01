@@ -2,3 +2,9 @@
 on   = "<Enter>"
 run  = "plugin smart-enter"
 desc = "Enter the child directory, or open the file"
+
+[mgr]
+append_keymap = [
+  # Custom shortcut: go to projects with gp
+  { on = [ "g", "D" ], run = "cd ~/Documents", desc = "Go ~/Documents" },
+]

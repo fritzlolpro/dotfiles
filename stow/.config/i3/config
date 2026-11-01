@@ -90,7 +90,7 @@ exec --no-startup-id i3-msg 'exec Telegram'
 
 exec --no-startup-id i3-msg 'exec hiddify'
 # synthing-tray for synthing service
-exec --no-startup-id i3-msg 'exec syncthingtray-qt6 --wait'
+exec --no-startup-id i3-msg 'exec syncthingtray --wait'
 
 #set screen resolution
 exec_always --no-startup-id arrangeDisplay
