@@ -3,6 +3,11 @@ use = "llanosrocas/yaziline"
 rev = "cc0314c"
 hash = "b937c5c8e2d9fa314d4532489176814e"
 
+[[plugin.deps]]
+use = "yazi-rs/plugins:smart-enter"
+rev = "25d992d"
+hash = "187cc58ba7ac3befd49c342129e6f1b6"
+
 [[flavor.deps]]
 use = "dangooddd/kanagawa"
 rev = "04985d1"
