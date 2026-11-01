@@ -1,0 +1,24 @@
+[[plugin.deps]]
+use = "llanosrocas/yaziline"
+rev = "cc0314c"
+hash = "b937c5c8e2d9fa314d4532489176814e"
+
+[[flavor.deps]]
+use = "dangooddd/kanagawa"
+rev = "04985d1"
+hash = "c69a63981e254a3a06a11c2bf0e6af1d"
+
+[[flavor.deps]]
+use = "matt-dong-123/base16"
+rev = "ed79352"
+hash = "94659ef90cd557d05dbda7076fbbb3f4"
+
+[[flavor.deps]]
+use = "identityapproved/lain"
+rev = "f2fe379"
+hash = "8e584e7222223282f3555b7989082526"
+
+[[flavor.deps]]
+use = "bennyyip/gruvbox-dark"
+rev = "619fdc5"
+hash = "d4c7003ec6dc4efd5d3a050d5c2f2575"
