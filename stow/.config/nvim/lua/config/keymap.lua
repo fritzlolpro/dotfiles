@@ -1,4 +1,5 @@
 return function ()
+  vim.keymap.set("n", "<leader>x", ":Explore<CR>", {desc = "Explore"})
   -- LSP
   vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, { desc = "goto def" })
   vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "hover code_action" })

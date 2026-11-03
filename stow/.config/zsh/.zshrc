@@ -177,6 +177,6 @@ _gg() {
 # bind-git-helper f b t r h s
 # unset -f bind-git-helper
 #source ~/Documents/gitstatus/gitstatus.prompt.zsh
-
+eval "$(zoxide init zsh)"
 # Load syntax highlighting; should be last.
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
