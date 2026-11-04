@@ -15,12 +15,13 @@ return {
     opts = function ()
       local opts = {
         ensure_installed = {
-          "lua_ls",            -- для Lua
-          "pyright",           -- для Python (можно заменить на basedpyright)
-          "ts_ls",             -- для TypeScript/JavaScript (ранее tsserver)
-          "gopls",             -- для Go
-          "jsonls",            -- для JSON
-          "yamlls",            -- для YAML
+          "lua_ls",
+          "pyright",
+          "ruff",
+          "ts_ls",
+          "gopls",
+          "jsonls",
+          "yamlls",
         },
         automatic_installation = true,
       }

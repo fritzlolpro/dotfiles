@@ -97,6 +97,18 @@ require("lazy").setup({
       -- mode is `n` by default. For more advanced options, check the section on key mappings
       keys = { "<C-a>", { "<C-x>", mode = "n" } },
     },
+    {
+      "kylechui/nvim-surround",
+      version = "^4.0.0", -- Use for stability; omit to use `main` branch for the latest features
+      event = "VeryLazy",
+      -- Optional: See `:h nvim-surround.configuration` and `:h nvim-surround.setup` for details
+      -- config = function()
+      --     require("nvim-surround").setup({
+      --         -- Put your configuration here
+      --     })
+      -- end
+    },
+    { 'adamcik/python-lspconfig.nvim', opts = {} }
   },
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.

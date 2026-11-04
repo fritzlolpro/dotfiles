@@ -8,3 +8,8 @@ append_keymap = [
   # Custom shortcut: go to projects with gp
   { on = [ "g", "D" ], run = "cd ~/Documents", desc = "Go ~/Documents" },
 ]
+
+[[mgr.prepend_keymap]]
+on   = [ ".", "s" ]
+run  = "plugin what-size -- '--clipboard'"
+desc = "Calc size of sel/cwd + paste to clipboard"

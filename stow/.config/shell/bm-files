@@ -21,6 +21,7 @@ cfw	${XDG_CONFIG_HOME:-$HOME/.config}/wezterm/wezterm.lua		# wezterm config
 # cfmc	${XDG_CONFIG_HOME:-$HOME/.config}/ncmpcpp/config	# ncmpcpp (music player) config
 cfpb	${XDG_CONFIG_HOME:-$HOME/.config}/polybar/config.ini	# polybar config
 cfr	${XDG_CONFIG_HOME:-$HOME/.config}/ranger/rc.conf		# ranger (file browser) config
+cfy	${XDG_CONFIG_HOME:-$HOME/.config}/yazi/init.lua # yazi file manager
 # cfL	${XDG_CONFIG_HOME:-$HOME/.config}/lf/scope		# lf's scope/preview file
 # cfX	${XDG_CONFIG_HOME:-$HOME/.config}/sxiv/exec/key-handler	# sxiv (image viewer) key/script handler
 
