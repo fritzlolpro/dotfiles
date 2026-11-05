@@ -56,7 +56,8 @@ font pango:hack 8
 #font pango:DejaVu Sans Mono 8
 
 # 6.16. Window title icon
-for_window [all] title_window_icon on
+# too noisy
+# for_window [all] title_window_icon on
 
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
