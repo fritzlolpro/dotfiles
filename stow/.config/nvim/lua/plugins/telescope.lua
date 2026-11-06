@@ -12,7 +12,7 @@ return {
       { 'https://github.com/debugloop/telescope-undo.nvim' },
       { 'https://github.com/MattesGroeger/vim-bookmarks' },
       { 'nvim-treesitter/nvim-treesitter-context' },
-      {'https://github.com/jedrzejboczar/possession.nvim'}
+      {'https://github.com/jedrzejboczar/possession.nvim'},
     },
     opts = function ()
       local root_patterns = { ".git", "deps.edn" }

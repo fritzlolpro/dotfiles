@@ -66,7 +66,7 @@ require("lazy").setup({
         },
         win = {
           no_overlap = false
-        }
+        },
       }
     },
     {
@@ -108,7 +108,9 @@ require("lazy").setup({
       --     })
       -- end
     },
-    { 'adamcik/python-lspconfig.nvim', opts = {} }
+    { 'adamcik/python-lspconfig.nvim', opts = {} },
+    { "nvim-tree/nvim-web-devicons" },
+
   },
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.

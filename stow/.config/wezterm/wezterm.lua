@@ -19,7 +19,7 @@ config.enable_tab_bar = false
 
 config.hide_tab_bar_if_only_one_tab = true
 
-config.font = wezterm.font 'Hack'
+config.font = wezterm.font 'Hack Nerd Font'
 
 config.keys = {
 
