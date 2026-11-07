@@ -1,0 +1,32 @@
+[init]
+	defaultBranch = master
+
+[alias]
+    st = status
+    ci = commit
+    br = branch
+    sw = switch
+
+    df = diff
+    dfs = diff --staged
+
+    save = stash push -m
+    pop = stash pop
+
+    last = log -1 HEAD
+    unstage = reset HEAD --
+    amend = commit --amend --no-edit
+
+[merge]
+    tool = "nvim"
+
+[mergetool]
+    keepBackup = false
+    prompt = false
+
+[mergetool "nvim"]
+    cmd = "~/.local/bin/nvim-linux64/bin/nvim -d -O \"+wincmd l\" \"+wincmd l\" \"+wincmd l\" \"+wincmd J\" \"$LOCAL\" \"$BASE\" \"$REMOTE\" \"$MERGED\""
+
+[include]
+  # Put all user / project specific info here
+  path = ~/.gitconfig.local
