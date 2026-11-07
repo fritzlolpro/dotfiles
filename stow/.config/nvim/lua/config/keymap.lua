@@ -1,5 +1,5 @@
 return function ()
-  vim.keymap.set("n", "<leader>x", ":Explore<CR>", {desc = "Explore"})
+  vim.keymap.set("n", "<leader>x", ":Explore<CR>", { desc = "Explore" })
   -- LSP
   vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, { desc = "goto def" })
   vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "hover code_action" })
@@ -106,4 +106,11 @@ return function ()
   vim.keymap.set('n', 'ma', '<cmd>BookmarkShowAll<CR>', { desc = 'Show all bookmarks (toggle)' })
   vim.keymap.set('n', 'mc', '<cmd>BookmarkClear<CR>', { desc = 'Clear bookmarks in current buffer' })
   vim.keymap.set('n', 'mx', '<cmd>BookmarkClearAll<CR>', { desc = 'Clear bookmarks in all buffers' })
+
+  -- tabs
+  vim.keymap.set('n', "<leader>]", ":tabnext<CR>", { desc = 'next tab' })
+  vim.keymap.set('n', "<leader>[", ":tabprev<CR>", { desc = 'prev tab' })
+
+  -- terminal
+  vim.keymap.set('t', '<A-n>', [[<C-\><C-n>]], {  noremap = true, desc = 'normal mode' })
 end
