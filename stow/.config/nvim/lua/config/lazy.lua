@@ -67,6 +67,11 @@ require("lazy").setup({
         win = {
           no_overlap = false
         },
+        icons = {
+          rules = {
+            { plugin = "telescope.nvim", pattern = "telescope", icon = "", color = "blue" },
+          }
+        }
       }
     },
     {
