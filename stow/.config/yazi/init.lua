@@ -1,8 +1,8 @@
 require("yaziline"):setup()
 require("what-size"):setup({
-    priority = 400,
-    LEFT = "",
-    RIGHT = " ",
+  priority = 400,
+  LEFT = "",
+  RIGHT = " ",
 })
 
 function Linemode:size_and_mtime()

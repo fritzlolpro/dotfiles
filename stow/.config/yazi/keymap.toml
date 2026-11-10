@@ -7,6 +7,7 @@ desc = "Enter the child directory, or open the file"
 append_keymap = [
   # Custom shortcut: go to projects with gp
   { on = [ "g", "D" ], run = "cd ~/Documents", desc = "Go ~/Documents" },
+  { on = [ "m", "t" ], run = "linemode size_and_mtime", desc = "Linemode: size and mtime" }, 
 ]
 
 [[mgr.prepend_keymap]]
