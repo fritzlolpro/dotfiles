@@ -20,7 +20,7 @@ exec_always "setxkbmap -model pc101 -layout us,ru -variant ,, -option grp:alt_sh
 # exec_always "setxkbmap -model pc101 -layout us,ru -variant colemak,, -option grp:alt_shift_toggle"
 
 # POLYBAR
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh --wait
 
 # notifications
 exec_always dunst
@@ -32,7 +32,7 @@ exec_always dunst
 exec_always --no-startup-id xset dpms 0 0 900
 
 # mouse settings
-exec --no-startup-id "solaar --window=hide --restart-on-wake-up"
+exec --no-startup-id "solaar --window=hide --restart-on-wake-up" 
 
 # run eye saver
 exec redshift -l $(curl -s "https://location.services.mozilla.com/v1/geolocate?key=geoclue" | awk 'OFS=":" {print $3,$5}' | tr -d ',}')
@@ -111,16 +111,17 @@ exec --no-startup-id "xsetwacom --set 11 MapToOutput HEAD-0"
 exec --no-startup-id "xsetwacom --set 12 MapToOutput HEAD-0"
 #
 # Assign applications to workspaces
-assign [class="brave-browser"] 2
-#assign [class="kotatogram-desktop"] 10
+assign [class="firefox*"] 2
+assign [class="brave-browser-nightly"] 3
+assign [class="Telegram*"] 10
 #for_window [class="kotatogram-desktop"] move scratchpad
-for_window [class="kotatogram-desktop" title="Telegram*" window_type="normal"] floating enable, border none, move absolute position center, resize set 1000px 800px, move scratchpad
+# for_window [class="telegram" title="Telegram*" window_type="normal"] floating enable, border none, move absolute position center, resize set 1000px 800px, move scratchpad
 # Telegram picture viewer
-for_window [class="kotatogram-desktop" title="Media viewer"] floating enable, border pixel 5
+for_window [class="Telegram" title="media viewer"] floating enable, border pixel 5
 # Telegram PiP window
-for_window [class="kotatogram-desktop" window_type="utility"] floating enable, border pixel 5, sticky enable
+for_window [class="Telegram" window_type="utility"] floating enable, border pixel 5, sticky enable
 
-bindsym $super+o [class=kotatogram-desktop] scratchpad show; mode "default"
+# bindsym $super+o [class=telegram] scratchpad show; mode "default"
 # Use pactl to adjust volume in PulseAudio.
 #set $refresh_i3status killall -SIGUSR1 i3status
 #bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
@@ -367,6 +368,9 @@ mode "restore" {
 }
 
 bindsym $mod+Control+r mode "restore"
+# Restore workspaces on startup
+exec --no-startup-id i3-resurrect-restore
+
 
 exec_always "xscreensaver --no-splash"
 # better do via syscli
